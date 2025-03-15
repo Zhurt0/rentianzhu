@@ -183,6 +183,22 @@ nav ul li a:hover {
     border: 5px solid var(--light-text);
 }
 
+.cv-link-container {
+    margin-top: 30px;
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.cv-link-container .btn {
+    display: inline-flex;
+    align-items: center;
+}
+
+.cv-link-container .btn i {
+    margin-right: 8px;
+}
+
 /* Projects Section */
 .projects-grid {
     display: grid;
@@ -525,4 +541,140 @@ nav ul li a.active {
 .research-link:hover {
     color: var(--primary-color);
     border-bottom: 1px solid var(--primary-color);
+}
+
+/* CV Page Styles */
+.cv-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 30px;
+}
+
+.cv-download, .cv-preview, .cv-summary {
+    background-color: var(--background-color);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+}
+
+.cv-download {
+    text-align: center;
+}
+
+.cv-download h3 {
+    color: var(--primary-color);
+    margin-bottom: 15px;
+}
+
+.cv-download p {
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+}
+
+.cv-btn {
+    padding: 15px 30px;
+    font-size: 1.1rem;
+}
+
+.cv-btn i {
+    margin-right: 10px;
+}
+
+.pdf-container {
+    width: 100%;
+    height: 600px;
+    overflow: hidden;
+    border-radius: 5px;
+    border: 1px solid var(--border-color);
+}
+
+.pdf-viewer {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.cv-preview h3, .cv-summary h3 {
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--accent-color);
+}
+
+.cv-section {
+    margin-bottom: 30px;
+}
+
+.cv-section h4 {
+    color: var(--secondary-color);
+    margin-bottom: 15px;
+    font-size: 1.3rem;
+}
+
+.cv-section h4 i {
+    margin-right: 10px;
+    color: var(--accent-color);
+}
+
+.cv-item {
+    display: flex;
+    margin-bottom: 20px;
+    padding-left: 15px;
+    border-left: 3px solid var(--accent-color);
+}
+
+.cv-year {
+    min-width: 120px;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.cv-content {
+    flex: 1;
+}
+
+.cv-content strong {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 1.1rem;
+}
+
+.cv-content p {
+    color: var(--text-color);
+    margin-bottom: 5px;
+}
+
+@media (min-width: 992px) {
+    .cv-container {
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas:
+            "download download"
+            "preview summary";
+    }
+    
+    .cv-download {
+        grid-area: download;
+    }
+    
+    .cv-preview {
+        grid-area: preview;
+    }
+    
+    .cv-summary {
+        grid-area: summary;
+    }
+}
+
+@media (max-width: 768px) {
+    .cv-item {
+        flex-direction: column;
+    }
+    
+    .cv-year {
+        margin-bottom: 5px;
+    }
+    
+    .pdf-container {
+        height: 400px;
+    }
 } 
