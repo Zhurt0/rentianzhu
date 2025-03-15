@@ -18,7 +18,7 @@
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Baskerville', serif;
     line-height: 1.6;
     color: var(--text-color);
     background-color: var(--background-color);
@@ -475,7 +475,11 @@ footer {
     }
 }
 
-/* Research Page Styles */
+/* Research Content Styles */
+.research-content {
+    margin-bottom: 50px;
+}
+
 .research-section {
     margin-bottom: 40px;
     background-color: var(--background-color);
@@ -494,18 +498,21 @@ footer {
 }
 
 .research-item {
-    margin-bottom: 20px;
+    margin-bottom: 25px;
     padding-left: 15px;
     border-left: 3px solid var(--accent-color);
+}
+
+.research-item h4 {
+    color: var(--secondary-color);
+    margin-bottom: 10px;
+    font-size: 1.2rem;
 }
 
 .research-item p {
     font-size: 1.1rem;
     line-height: 1.6;
-}
-
-.research-item a {
-    font-weight: 500;
+    margin-bottom: 5px;
 }
 
 .research-interests {
@@ -513,6 +520,7 @@ footer {
     display: flex;
     flex-wrap: wrap;
     gap: 15px;
+    padding-left: 15px;
 }
 
 .research-interests li {
@@ -522,6 +530,13 @@ footer {
     border-radius: 20px;
     font-size: 1rem;
     display: inline-block;
+}
+
+.projects-title {
+    text-align: center;
+    color: var(--primary-color);
+    margin-bottom: 30px;
+    font-size: 1.8rem;
 }
 
 /* Active Navigation Link */
