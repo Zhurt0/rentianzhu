@@ -1,100 +1,92 @@
-# Personal Website
+# Rentian Zhu - Academic Personal Website
 
-A clean, responsive personal portfolio website built with HTML, CSS, and JavaScript.
+A professional academic portfolio website for Rentian Zhu, PhD Fellow of Economics at Copenhagen Business School.
 
 ## Features
 
-- Responsive design that works on all devices
-- Modern and clean UI with smooth animations
-- Sections for About, Projects, Skills, and Contact
-- Contact form with validation
-- Smooth scrolling navigation
-- Social media links
+- Elegant, responsive design optimized for academic presentation
+- Modern UI with subtle animations and transitions
+- Sections for About, Research, News, and Contact
+- Comprehensive research presentation with categorized sections
+- Contact form for professional inquiries
+- Smooth scrolling navigation with active state indicators
+- Social media and academic profile links
+- Mobile-friendly layout
 
-## Preview
+## Website Sections
 
-![Website Preview](images/preview.jpg)
+### About
+Presents Rentian's academic background, education, and research focus, along with a professional photo and CV download option.
 
-## Getting Started
+### Research
+Showcases Rentian's research work, including:
+- Works in Progress
+- PhD Thesis information
+- Research Stay details
+- Research Interests
 
-### Prerequisites
+### News
+Highlights recent achievements and updates, including:
+- Grant information
+- Research use cases
+- Academic recognitions
 
-- A web browser
-- A code editor (VS Code, Sublime Text, etc.)
-- Basic knowledge of HTML, CSS, and JavaScript (for customization)
+### Contact
+Provides multiple ways to connect with Rentian, including:
+- Academic email addresses
+- Social media profiles
+- Institution information
+- Office location
+- Contact form for direct messages
 
-### Installation
+## Technologies Used
 
-1. Clone this repository:
-   ```
-   git clone https://github.com/yourusername/personal-website.git
-   ```
-
-2. Navigate to the project directory:
-   ```
-   cd personal-website
-   ```
-
-3. Open `index.html` in your browser to view the website.
+- HTML5 for structure
+- CSS3 for styling with modern features like:
+  - CSS Variables
+  - Flexbox and Grid layouts
+  - Animations and transitions
+- JavaScript for interactive elements
+- Font Awesome for icons
+- Google Fonts for typography (Baskerville)
+- Responsive design principles
 
 ## Customization
 
-### Personal Information
+The website uses a clean, academic color scheme with:
+- Primary color: #2c3e50 (Dark blue)
+- Secondary color: #34495e (Slate blue)
+- Accent color: #3498db (Bright blue)
 
-Edit the `index.html` file to update:
-- Your name and title in the header section
-- About Me content
-- Projects information
-- Skills
-- Contact details
-
-### Styling
-
-Modify the `css/styles.css` file to change:
-- Color scheme (update the CSS variables at the top)
-- Fonts
-- Spacing
-- Layout
-
-### Images
-
-Replace the placeholder images in the `images` folder with your own:
-- `profile.jpg` - Your profile picture
-- `project1.jpg`, `project2.jpg`, etc. - Project screenshots
+Typography uses Baskerville for an elegant, academic appearance.
 
 ## Deployment
 
-### GitHub Pages
+The website is deployed using GitHub Pages and is accessible at:
+https://zhurt0.github.io/rentianzhu/
 
-1. Create a GitHub repository for your website.
-2. Push your code to the repository:
+## Maintenance
+
+To update the website:
+
+1. Clone the repository:
    ```
-   git init
+   git clone https://github.com/Zhurt0/rentianzhu.git
+   ```
+
+2. Make changes to the HTML, CSS, or content as needed
+
+3. Commit and push changes:
+   ```
    git add .
-   git commit -m "Initial commit"
-   git branch -M main
-   git remote add origin https://github.com/yourusername/yourusername.github.io.git
-   git push -u origin main
+   git commit -m "Description of changes"
+   git push
    ```
-3. Go to your repository settings on GitHub.
-4. Scroll down to the GitHub Pages section.
-5. Select the `main` branch as the source.
-6. Your website will be published at `https://yourusername.github.io`.
 
-### Other Hosting Options
+4. Changes will automatically be reflected on the live site
 
-You can also deploy this website to:
-- Netlify
-- Vercel
-- Firebase Hosting
-- Any web hosting service that supports static websites
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## Acknowledgments
+## Credits
 
 - Font Awesome for the icons
-- Google Fonts for the typography
-- Unsplash for placeholder images 
+- Google Fonts for the Baskerville typography
+- Jakob Boserup for the profile photo 
