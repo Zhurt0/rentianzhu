@@ -6,7 +6,8 @@
     <title>Rentian Zhu - PhD Fellow of Economics</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Baskerville&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Baskerville&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <meta name="description" content="Rentian Zhu - PhD Fellow of Economics at Copenhagen Business School, specializing in Labor Economics and Innovation.">
 </head>
 <body>
     <header>
@@ -20,7 +21,7 @@
     <nav>
         <div class="container">
             <ul>
-                <li><a href="#about">About</a></li>
+                <li><a href="#about" class="active">About</a></li>
                 <li><a href="#research">Research</a></li>
                 <li><a href="#news">News</a></li>
                 <li><a href="#contact">Contact</a></li>
@@ -42,6 +43,7 @@
                 </div>
                 <div class="about-image">
                     <img src="images/Rentian copy.jpg" alt="Rentian Zhu" class="profile-img">
+                    <p class="photo-credit-inline">Photo by Jakob Boserup</p>
                 </div>
             </div>
         </div>
@@ -50,6 +52,9 @@
     <section id="research" class="section">
         <div class="container">
             <h2>My Research</h2>
+            <div class="section-intro">
+                <p>My research focuses on the intersection of labor economics, innovation, and technological change, with a particular emphasis on how these factors shape labor markets and skill demands.</p>
+            </div>
             <div class="research-content">
                 <div class="research-section">
                     <h3>Working in Progress</h3>
@@ -101,6 +106,9 @@
     <section id="news" class="section">
         <div class="container">
             <h2>News</h2>
+            <div class="section-intro">
+                <p>Recent updates about my research activities, grants, and academic achievements.</p>
+            </div>
             <div class="news-grid">
                 <div class="news-item">
                     <h3>Deic Grant</h3>
@@ -124,6 +132,9 @@
     <section id="contact" class="section">
         <div class="container">
             <h2>Contact Me</h2>
+            <div class="section-intro">
+                <p>Feel free to reach out for research collaborations, academic inquiries, or other professional matters.</p>
+            </div>
             <div class="contact-content">
                 <div class="contact-info">
                     <p><i class="fas fa-envelope"></i> Email: <a href="mailto:rz.eco@cbs.dk">rz.eco@cbs.dk</a></p>
@@ -167,5 +178,31 @@
     </footer>
 
     <script src="js/main.js"></script>
+    <script>
+        // Add active class to current navigation item
+        document.addEventListener('DOMContentLoaded', function() {
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('nav ul li a');
+            
+            window.addEventListener('scroll', function() {
+                let current = '';
+                
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    if(pageYOffset >= (sectionTop - 300)) {
+                        current = section.getAttribute('id');
+                    }
+                });
+                
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if(link.getAttribute('href').substring(1) === current) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html> 
