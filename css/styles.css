@@ -2,7 +2,7 @@
 :root {
     --primary-color: #333;
     --secondary-color: #555;
-    --accent-color: #1e5f8a;
+    --accent-color: #0066cc;
     --text-color: #333;
     --light-text: #f4f4f4;
     --background-color: #fff;
@@ -36,12 +36,12 @@ body {
 
 a {
     text-decoration: none;
-    color: var(--accent-color);
+    color: #0066cc;
     transition: color 0.3s ease;
 }
 
 a:hover {
-    color: var(--primary-color);
+    color: #004080;
 }
 
 .btn {
