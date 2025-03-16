@@ -2,7 +2,7 @@
 :root {
     --primary-color: #333;
     --secondary-color: #555;
-    --accent-color: #4a8;
+    --accent-color: #1e5f8a;
     --text-color: #333;
     --light-text: #f4f4f4;
     --background-color: #fff;
@@ -207,7 +207,7 @@ nav ul li a:hover::after {
 /* Two Column Layout */
 .two-column {
     display: flex;
-    gap: 50px;
+    gap: 30px;
     margin-bottom: 60px;
 }
 
