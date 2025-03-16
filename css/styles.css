@@ -355,13 +355,13 @@ nav ul li a:hover::after {
 /* Contact Section */
 .contact-content {
     display: flex;
-    justify-content: center;
+    gap: 40px;
     margin: 0 auto;
-    max-width: 800px;
+    max-width: 1000px;
 }
 
 .contact-info {
-    width: 100%;
+    flex: 1;
 }
 
 .contact-info p {
