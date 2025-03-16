@@ -354,18 +354,16 @@ nav ul li a:hover::after {
 
 /* Contact Section */
 .contact-content {
-    display: flex;
-    gap: 40px;
     margin: 0 auto;
-    max-width: 1000px;
+    max-width: 600px;
 }
 
 .contact-info {
-    flex: 1;
     background-color: var(--section-bg);
     padding: 30px;
     border-radius: 8px;
     box-shadow: var(--shadow);
+    width: 100%;
 }
 
 .contact-info p {
@@ -388,41 +386,6 @@ nav ul li a:hover::after {
     margin-right: 8px;
     min-width: 80px;
     display: inline-block;
-}
-
-.contact-form {
-    flex: 1;
-    background-color: var(--section-bg);
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: var(--shadow);
-}
-
-.form-group {
-    margin-bottom: 20px;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 500;
-}
-
-.form-group input,
-.form-group textarea {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid var(--border-color);
-    border-radius: 3px;
-    font-family: inherit;
-    font-size: 1rem;
-    transition: border-color 0.3s ease;
-}
-
-.form-group input:focus,
-.form-group textarea:focus {
-    outline: none;
-    border-color: var(--accent-color);
 }
 
 /* Footer Styles */
