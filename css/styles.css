@@ -362,6 +362,10 @@ nav ul li a:hover::after {
 
 .contact-info {
     flex: 1;
+    background-color: var(--section-bg);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
 }
 
 .contact-info p {
@@ -379,8 +383,19 @@ nav ul li a:hover::after {
     text-align: center;
 }
 
+.contact-label {
+    font-weight: 600;
+    margin-right: 8px;
+    min-width: 80px;
+    display: inline-block;
+}
+
 .contact-form {
     flex: 1;
+    background-color: var(--section-bg);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
 }
 
 .form-group {
