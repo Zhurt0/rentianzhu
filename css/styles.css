@@ -529,3 +529,25 @@ nav ul li a.active::after {
     margin: 40px 0;
     opacity: 0.3;
 } 
+/* Updates list in biography */
+.updates-title {
+    color: var(--primary-color);
+    font-size: 1.3rem;
+    margin-top: 30px;
+    margin-bottom: 12px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 8px;
+}
+
+.updates-list {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.updates-list li {
+    padding-left: 15px;
+    border-left: 2px solid var(--accent-color);
+    margin-bottom: 12px;
+    font-size: 1rem;
+    line-height: 1.6;
+}
