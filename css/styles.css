@@ -551,3 +551,83 @@ nav ul li a.active::after {
     font-size: 1rem;
     line-height: 1.6;
 }
+
+/* Figure 1 / Table 1 summary block */
+.summary-section {
+    padding: 10px 0 0;
+}
+
+.summary-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+    gap: 50px;
+    align-items: start;
+}
+
+.summary-figure {
+    margin: 0;
+    min-width: 0;
+}
+
+.summary-figure figcaption,
+.table-caption {
+    font-size: 1.05rem;
+    margin-bottom: 14px;
+    color: var(--text-color);
+}
+
+.sc {
+    font-variant: small-caps;
+    letter-spacing: 0.06em;
+    font-weight: 700;
+}
+
+.fig-svg {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.fig-notes {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: var(--secondary-color);
+    margin-top: 12px;
+}
+
+.summary-table table {
+    width: 100%;
+    border-collapse: collapse;
+    border-top: 1.5px solid var(--primary-color);
+    border-bottom: 1.5px solid var(--primary-color);
+}
+
+.summary-table th {
+    text-align: left;
+    padding: 8px 10px 8px 0;
+    border-bottom: 1px solid var(--primary-color);
+    font-weight: 700;
+}
+
+.summary-table td {
+    padding: 9px 10px 9px 0;
+    vertical-align: top;
+    font-size: 1rem;
+}
+
+.summary-table code {
+    font-family: "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace;
+    font-size: 0.85rem;
+    color: var(--secondary-color);
+}
+
+.summary-table sup, .summary-table sub {
+    font-size: 0.7em;
+}
+
+@media (max-width: 900px) {
+    .summary-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+}
