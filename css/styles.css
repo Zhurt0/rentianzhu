@@ -555,30 +555,39 @@ nav ul li a.active::after {
 
 .updates-box {
     position: relative;
-    max-height: 150px;
-    overflow-y: auto;
-    padding-right: 10px;
+    max-height: 170px;
+    overflow-y: scroll;
+    padding: 12px 14px 4px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background-color: var(--section-bg);
     scrollbar-width: thin;
-    scrollbar-color: var(--border-color) transparent;
+    scrollbar-color: #b0b0b0 #ececec;
     transition: max-height 0.35s ease;
-    /* fade out the bottom edge to hint that there is more */
-    -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 28px), transparent);
-    mask-image: linear-gradient(to bottom, #000 calc(100% - 28px), transparent);
 }
 
 .updates-box.expanded {
     max-height: 1000px;
-    -webkit-mask-image: none;
-    mask-image: none;
+    overflow-y: auto;
 }
 
+/* Always-visible scrollbar (overrides macOS overlay scrollbars in WebKit/Blink) */
 .updates-box::-webkit-scrollbar {
-    width: 6px;
+    width: 8px;
+}
+
+.updates-box::-webkit-scrollbar-track {
+    background: #ececec;
+    border-radius: 4px;
 }
 
 .updates-box::-webkit-scrollbar-thumb {
-    background: var(--border-color);
-    border-radius: 3px;
+    background: #b0b0b0;
+    border-radius: 4px;
+}
+
+.updates-box::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-color);
 }
 
 .updates-list {
