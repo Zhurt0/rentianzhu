@@ -622,18 +622,29 @@ nav ul li a.active::after {
 }
 
 .updates-toggle {
-    margin-top: 8px;
-    background: none;
-    border: none;
-    padding: 4px 0;
+    -webkit-appearance: none;
+    appearance: none;
+    display: inline-block;
+    margin-top: 10px;
+    background: transparent;
+    border: 0;
+    outline: 0;
+    box-shadow: none;
+    border-radius: 0;
+    padding: 0;
     font-family: inherit;
     font-size: 0.9rem;
     color: var(--accent-color);
     cursor: pointer;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: color 0.3s ease, border-color 0.3s ease;
 }
 
-.updates-toggle:hover {
+.updates-toggle:hover,
+.updates-toggle:focus-visible {
     color: #800000;
+    border-bottom-color: #800000;
 }
 
 .updates-toggle i {
