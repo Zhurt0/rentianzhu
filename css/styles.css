@@ -529,19 +529,62 @@ nav ul li a.active::after {
     margin: 40px 0;
     opacity: 0.3;
 } 
-/* Updates list in biography */
-.updates-title {
-    color: var(--primary-color);
-    font-size: 1.3rem;
+/* Updates feed in biography */
+.updates-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
     margin-top: 30px;
     margin-bottom: 12px;
     border-bottom: 1px solid var(--border-color);
     padding-bottom: 8px;
 }
 
+.updates-title {
+    color: var(--primary-color);
+    font-size: 1.3rem;
+    margin: 0;
+}
+
+.updates-stamp {
+    font-size: 0.85rem;
+    color: var(--secondary-color);
+    white-space: nowrap;
+}
+
+.updates-box {
+    position: relative;
+    max-height: 150px;
+    overflow-y: auto;
+    padding-right: 10px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-color) transparent;
+    transition: max-height 0.35s ease;
+    /* fade out the bottom edge to hint that there is more */
+    -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 28px), transparent);
+    mask-image: linear-gradient(to bottom, #000 calc(100% - 28px), transparent);
+}
+
+.updates-box.expanded {
+    max-height: 1000px;
+    -webkit-mask-image: none;
+    mask-image: none;
+}
+
+.updates-box::-webkit-scrollbar {
+    width: 6px;
+}
+
+.updates-box::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 3px;
+}
+
 .updates-list {
     list-style-type: none;
     padding-left: 0;
+    margin: 0;
 }
 
 .updates-list li {
@@ -550,6 +593,43 @@ nav ul li a.active::after {
     margin-bottom: 12px;
     font-size: 1rem;
     line-height: 1.6;
+}
+
+.updates-list li:last-child {
+    margin-bottom: 4px;
+}
+
+.update-date {
+    display: inline-block;
+    font-family: "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace;
+    font-size: 0.75rem;
+    color: var(--secondary-color);
+    background-color: var(--section-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 3px;
+    padding: 1px 6px;
+    margin-right: 8px;
+    vertical-align: 1px;
+}
+
+.updates-toggle {
+    margin-top: 8px;
+    background: none;
+    border: none;
+    padding: 4px 0;
+    font-family: inherit;
+    font-size: 0.9rem;
+    color: var(--accent-color);
+    cursor: pointer;
+}
+
+.updates-toggle:hover {
+    color: #800000;
+}
+
+.updates-toggle i {
+    font-size: 0.75rem;
+    margin-left: 4px;
 }
 
 /* Figure 1 / Table 1 summary block */

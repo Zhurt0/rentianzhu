@@ -44,13 +44,21 @@
             <p class="biography-text">I hold an <a href="https://www.cbs.dk/en/study/graduate/msc-in-economics-and-finance-advanced-economics-and-finance-candoecon" target="_blank">MSc in Advanced Economics and Finance</a> from Copenhagen Business School, and a Bachelor's degree in Global Supply Chain and Logistics Management from The Chinese University of Hong Kong.</p>
             <p class="biography-text">Email: <a href="mailto:rz.eco@cbs.dk">rz.eco@cbs.dk</a></p>
 
-            <h3 class="updates-title">Updates (June 18)</h3>
-            <ul class="updates-list">
-                <li>I will be visiting <a href="https://www.college-de-france.fr/en" target="_blank">Coll&egrave;ge de France</a> from April 6, hosted by <a href="https://www.philippeaghion.com/" target="_blank">Philippe Aghion</a> and Antonin Bergeaud.</li>
-                <li>I will be presenting our paper <em>The Role of Employment and Employers in Mental Health</em> at SOLE 2026 in Denver from May 1&ndash;2!</li>
-                <li>I will be attending the <a href="https://econincubator.uchicago.edu/events/ai-in-the-workplace-conference/" target="_blank">AI in the Workplace Conference</a> at UChicago from May 27&ndash;30. Let me know if you'll be around and would like to grab a coffee!</li>
-                <li>I will be presenting our paper <em>The Role of Employment and Employers in Mental Health</em> at EEA 2026 in Dublin.</li>
-            </ul>
+            <div class="updates-header">
+                <h3 class="updates-title">Updates</h3>
+                <span class="updates-stamp">Last updated June 18</span>
+            </div>
+            <div class="updates-box" id="updates-box">
+                <ul class="updates-list">
+                    <li><span class="update-date">Aug 2026</span>I will be presenting our paper <em>The Role of Employment and Employers in Mental Health</em> at EEA 2026 in Dublin.</li>
+                    <li><span class="update-date">May 2026</span>I will be attending the <a href="https://econincubator.uchicago.edu/events/ai-in-the-workplace-conference/" target="_blank">AI in the Workplace Conference</a> at UChicago from May 27&ndash;30. Let me know if you'll be around and would like to grab a coffee!</li>
+                    <li><span class="update-date">May 2026</span>I will be presenting our paper <em>The Role of Employment and Employers in Mental Health</em> at SOLE 2026 in Denver from May 1&ndash;2!</li>
+                    <li><span class="update-date">Apr 2026</span>I will be visiting <a href="https://www.college-de-france.fr/en" target="_blank">Coll&egrave;ge de France</a> from April 6, hosted by <a href="https://www.philippeaghion.com/" target="_blank">Philippe Aghion</a> and Antonin Bergeaud.</li>
+                </ul>
+            </div>
+            <button type="button" class="updates-toggle" id="updates-toggle" aria-expanded="false" aria-controls="updates-box">
+                Show all updates <i class="fas fa-chevron-down"></i>
+            </button>
         </div>
     </section>
 
@@ -289,6 +297,19 @@
     <script>
         // Add active class to current navigation item
         document.addEventListener('DOMContentLoaded', function() {
+            // Expand / collapse the updates feed
+            const updatesBox = document.getElementById('updates-box');
+            const updatesToggle = document.getElementById('updates-toggle');
+            if (updatesBox && updatesToggle) {
+                updatesToggle.addEventListener('click', function() {
+                    const expanded = updatesBox.classList.toggle('expanded');
+                    updatesToggle.setAttribute('aria-expanded', expanded);
+                    updatesToggle.innerHTML = expanded
+                        ? 'Show fewer updates <i class="fas fa-chevron-up"></i>'
+                        : 'Show all updates <i class="fas fa-chevron-down"></i>';
+                });
+            }
+
             const sections = document.querySelectorAll('section');
             const navLinks = document.querySelectorAll('nav ul li a');
             
