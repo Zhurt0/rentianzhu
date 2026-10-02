@@ -5,11 +5,19 @@ document.addEventListener('DOMContentLoaded', function() {
     
     navLinks.forEach(link => {
         link.addEventListener('click', function(e) {
+            const href = this.getAttribute('href');
+            
+            // Only intercept same-page anchor links; let page links navigate normally
+            if (!href || !href.startsWith('#')) {
+                return;
+            }
+            
+            const targetSection = document.querySelector(href);
+            if (!targetSection) {
+                return;
+            }
+            
             e.preventDefault();
-            
-            const targetId = this.getAttribute('href');
-            const targetSection = document.querySelector(targetId);
-            
             window.scrollTo({
                 top: targetSection.offsetTop - 70, // Offset for the sticky navbar
                 behavior: 'smooth'
