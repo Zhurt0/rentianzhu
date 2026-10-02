@@ -731,3 +731,8 @@ nav ul li a.active::after {
         gap: 30px;
     }
 }
+
+/* CV link on the About Me page */
+.cv-line {
+    margin: -8px 0 28px;
+}

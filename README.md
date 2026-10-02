@@ -6,7 +6,7 @@ A professional academic portfolio website for Rentian Zhu, PhD Fellow of Economi
 
 - Elegant, responsive design optimized for academic presentation
 - Modern UI with subtle animations and transitions
-- Sections for About, Research, and Contact, plus Teaching, Talks and CV sub-pages
+- Sections for About, Research, and Contact, plus About Me, Teaching and Talks sub-pages
 - Comprehensive research presentation with categorized sections
 - Contact form for professional inquiries
 - Smooth scrolling navigation with active state indicators
