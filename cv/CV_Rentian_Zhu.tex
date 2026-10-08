@@ -1,0 +1,276 @@
+%-------------------------
+% Resume in Latex
+% Author : Sidratul Muntaha Ahmed
+% License : MIT
+%------------------------
+
+\documentclass[letterpaper,11pt]{article}
+
+\usepackage{latexsym}
+\usepackage[empty]{fullpage}
+\usepackage{titlesec}
+\usepackage{marvosym}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{verbatim}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+\usepackage[english]{babel}
+\usepackage{tabularx}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\input{glyphtounicode}
+
+\pagestyle{fancy}
+\fancyhf{} % clear all header and footer fields
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% Adjust margins
+\addtolength{\oddsidemargin}{-0.5in}
+\addtolength{\evensidemargin}{-0.5in}
+\addtolength{\textwidth}{1in}
+\addtolength{\topmargin}{-.5in}
+\addtolength{\textheight}{1.0in}
+
+\urlstyle{same}
+
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+% Sections formatting
+\titleformat{\section}{
+  \vspace{-4pt}\scshape\raggedright\large
+}{}{0em}{}[\color{black}\titlerule \vspace{-5pt}]
+
+% Ensure that generate pdf is machine readable/ATS parsable
+\pdfgentounicode=1
+
+%-------------------------
+% Custom commands
+\newcommand{\resumeItem}[1]{
+  \item\small{
+    {#1 \vspace{-2pt}}
+  }
+}
+
+\newcommand{\resumeSubheading}[4]{
+  \vspace{-2pt}\item
+    \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & #2 \\
+      \textit{\small#3} & \textit{\small #4} \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeSubSubheading}[2]{
+    \item
+    \begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
+      \textit{\small#1} & \textit{\small #2} \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeProjectHeading}[2]{
+    \item
+    \begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
+      \small#1 & #2 \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeSubItem}[1]{\resumeItem{#1}\vspace{-4pt}}
+
+\renewcommand\labelitemii{$\vcenter{\hbox{\tiny$\bullet$}}$}
+
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.15in, label={}]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+\newcommand{\resumeItemListStart}{\begin{itemize}}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}
+
+\begin{document}
+
+%----------HEADING----------
+\begin{center}
+    \textbf{\Huge \scshape Rentian Zhu} \\ \vspace{1pt}
+    \small +45 5032-3163 $|$ \href{mailto:rz.eco@cbs.dk}{\underline{rz.eco@cbs.dk}} $|$
+    \href{https://zhurt0.github.io/rentianzhu/}{\underline{zhurt0.github.io/rentianzhu}} $|$
+    \href{https://www.linkedin.com/in/rentian-z-452a141aa/}{\underline{LinkedIn}}
+\end{center}
+
+%-----------EDUCATION-----------
+\section{Education}
+\renewcommand\labelitemii{$\vcenter{\hbox{$*$}}$}
+  \resumeSubHeadingListStart
+   \resumeSubheading
+      {Copenhagen Business School}{Copenhagen, Denmark}
+      {PhD in Economics}{Sept 2024 -- 2028 (expected)}
+      \resumeItemListStart
+          \resumeItem{Thesis: \emph{Essays on the Future of Work: AI, Innovation, and Worker Wellbeing Using Large Language Models and Microdata}}
+          \resumeItem{Primary Supervisor: Moira K. Daly; Secondary Supervisor: Dolores Romero Morales}
+      \resumeItemListEnd
+   \resumeSubheading
+      {Copenhagen Business School}{Copenhagen, Denmark}
+      {MSc Advanced Economics and Finance}{Sept 2022 -- June 2024}
+      \resumeItemListStart
+            \resumeItem{GPA: 11.3/12. CBS Scholarship (2022 -- 2024), Global Student Office at CBS}
+            \resumeItem{Thesis: Analyzing Skill Requirements in the Danish Labor Market Using Large Language Models: A Text-to-Data Approach (12/12)}
+          \resumeItemListEnd
+    \resumeSubheading
+      {The Chinese University of Hong Kong, Shenzhen}{Shenzhen, China}
+      {Bachelor of Business Administration, Global Supply Chain and Logistics Management}{Sept 2018 -- June 2022}
+          \resumeItemListStart
+            \resumeItem{GPA: 3.83/4.00 (Top 5\%). Undergraduate Research Award (2021); Scholarship for Academic Performance (2020); Dean's List (2018, 2019, 2021)}
+            \resumeItem{Exchange: University of British Columbia (Jan -- May 2021, GPA 4.1/4.3); Copenhagen Business School (Sept -- Dec 2020, GPA 11.2/12)}
+          \resumeItemListEnd
+  \resumeSubHeadingListEnd
+
+%-----------AFFILIATIONS AND RESEARCH VISITS-----------
+\section{Affiliations and Research Visits}
+  \resumeSubHeadingListStart
+    \resumeSubheading
+      {Pioneer Centre for AI, University of Copenhagen}{Copenhagen, Denmark}
+      {Affiliated Researcher}{2026 -- Present}
+    \resumeSubheading
+      {University of Chicago}{Chicago, USA}
+      {Visiting Researcher, hosted by Anders Humlum}{May 2026}
+    \resumeSubheading
+      {Coll\`ege de France}{Paris, France}
+      {Visiting Researcher, hosted by Philippe Aghion and Antonin Bergeaud}{April 2026}
+    \resumeSubheading
+      {University of Oxford}{Oxford, United Kingdom}
+      {Visiting Researcher, hosted by Barbara Petrongolo and Mathias Fj\ae llegaard Jensen}{March 2026}
+    \resumeSubheading
+      {University of Oxford}{Oxford, United Kingdom}
+      {Visiting Recognised Student, hosted by Barbara Petrongolo and Mathias Fj\ae llegaard Jensen}{April -- June 2025}
+  \resumeSubHeadingListEnd
+
+%-----------RESEARCH-----------
+\section{Working Papers and Work in Progress}
+  \resumeSubHeadingListStart
+    \resumeProjectHeading
+      {\textbf{LLMs as Economic Measurement Tools: Skill Demand and Workplace Flexibility in Job Postings}}{}
+      \resumeItemListStart
+        \resumeItem{Working paper, with Daniel Hardt. Rockwool Foundation working paper series.}
+      \resumeItemListEnd
+    \resumeProjectHeading
+      {\textbf{Making AI Productive: Evidence from the Danish Economy}}{In progress}
+      \resumeItemListStart
+        \resumeItem{with Anders Humlum, Evan K. Rose and Emilie Vestergaard}
+      \resumeItemListEnd
+    \resumeProjectHeading
+      {\textbf{The Age Bias of Innovation}}{In progress}
+      \resumeItemListStart
+        \resumeItem{with Kai Arvai, Antonin Bergeaud and Katja Mann}
+      \resumeItemListEnd
+    \resumeProjectHeading
+      {\textbf{The Role of Work and Workplaces on Mental Health}}{In progress}
+      \resumeItemListStart
+        \resumeItem{with Barbara Petrongolo, Marco Manacorda and Mathias Fj\ae llegaard Jensen}
+      \resumeItemListEnd
+  \resumeSubHeadingListEnd
+
+%-----------PRESENTATIONS-----------
+\section{Presentations}
+  \resumeSubHeadingListStart
+    \resumeProjectHeading
+      {European Economic Association Annual Congress (EEA 2026), Dublin}{2026}
+      \resumeItemListStart
+        \resumeItem{\emph{The Role of Employment and Employers in Mental Health}}
+      \resumeItemListEnd
+    \resumeProjectHeading
+      {Society of Labor Economists Annual Meeting (SOLE 2026), Denver}{May 2026}
+      \resumeItemListStart
+        \resumeItem{\emph{The Role of Employment and Employers in Mental Health}}
+      \resumeItemListEnd
+    \resumeProjectHeading
+      {Economics and Innovation of AI Workshop}{}
+      \resumeItemListStart
+        \resumeItem{\emph{LLMs as Economic Measurement Tools: A Framework for Multi-Label Job Posting Classification}}
+      \resumeItemListEnd
+    \resumeProjectHeading
+      {Economics and Innovation of AI Network Workshop, Methods Fair}{}
+      \resumeItemListStart
+        \resumeItem{Lightning pitch \emph{Claude Code Use Cases}: documenting replication packages, scraping conference papers, and NLP for patent analysis}
+      \resumeItemListEnd
+    \resumeProjectHeading
+      {Danish Digitalization, Data Science and AI 2024 (D3A)}{2024}
+      \resumeItemListStart
+        \resumeItem{Participant; inaugural national conference hosted by DIREC, the Pioneer Centre for AI and DDSA}
+      \resumeItemListEnd
+    \resumeProjectHeading
+      {DGPE: Danish Graduate Programme in Economics}{2023}
+      \resumeItemListStart
+        \resumeItem{PhD courses and annual two-day workshop}
+      \resumeItemListEnd
+  \resumeSubHeadingListEnd
+
+%-----------GRANTS-----------
+\section{Grants and Awards}
+  \resumeSubHeadingListStart
+    \resumeProjectHeading
+      {\textbf{Deic (Danish e-Infrastructure Consortium) compute grant}, Principal Investigator}{2024}
+      \resumeItemListStart
+        \resumeItem{Project \emph{LLM4Skill-Flexibility}: multi-label classification of skills and workplace flexibility in job postings using open-source LLMs on Deic Interactive HPC}
+      \resumeItemListEnd
+    \resumeProjectHeading
+      {\textbf{DDSA -- Danish Data Science Academy Mentoring Programme}, Mentee}{2023 -- Present}
+      \resumeItemListStart
+        \resumeItem{Supervised by Prof. Daniel Hain}
+      \resumeItemListEnd
+  \resumeSubHeadingListEnd
+
+%-----------TEACHING-----------
+\section{Teaching}
+  \resumeSubHeadingListStart
+    \resumeSubheading
+      {Copenhagen Business School}{Copenhagen, Denmark}
+      {Teaching Assistant, \O konometri (BMECV1031U) and Microeconomics (BINBO1320U)}{Fall 2024}
+    \resumeSubheading
+      {The Chinese University of Hong Kong, Shenzhen}{Shenzhen, China}
+      {Teaching Assistant, Microeconomics, School of Management and Economics}{May -- July 2021}
+  \resumeSubHeadingListEnd
+
+%-----------EXPERIENCE-----------
+\section{Professional Experience}
+\renewcommand\labelitemi{$\vcenter{\hbox{\tiny$\bullet$}}$}
+  \resumeSubHeadingListStart
+   \resumeSubheading
+      {Research Assistant}{Sept 2022 -- Aug 2024}
+      {Department of Economics, Copenhagen Business School}{Copenhagen, Denmark}
+    \resumeItemListStart
+      \resumeItem{Patent data analysis: examined US patent data after 2000 and linked it to firm-level attributes on UCloud to study industrial innovation.}
+      \resumeItem{NLP: fine-tuned a BERT model on job postings to classify skills against a predefined taxonomy; built a RAG pipeline and fine-tuned an LLM to streamline skill extraction.}
+    \resumeItemListEnd
+   \resumeSubheading
+      {Data Science Intern}{June -- Aug 2023}
+      {Data Science Lab, Danmarks Statistik}{Copenhagen, Denmark}
+      \resumeItemListStart
+            \resumeItem{Fine-tuned a pretrained Danish BERT model on grocery shopping data from Salling Group for a hierarchical classification task in PyTorch.}
+        \resumeItemListEnd
+    \resumeSubheading
+      {Research Assistant}{May -- July 2021}
+      {School of Management and Economics, The Chinese University of Hong Kong, Shenzhen}{Shenzhen, China}
+      \resumeItemListStart
+            \resumeItem{Analyzed Chinese political and demographic data from four provinces over five years in Python, tracking inter-province movements of young cohorts.}
+      \resumeItemListEnd
+    \resumeSubHeadingListEnd
+
+%-----------TECHNICAL SKILLS-----------
+\section{Technical Skills}
+ \begin{itemize}[leftmargin=0.15in, label={}]
+    \small{\item{
+     \textbf{Languages}{: Mandarin (native), English (fluent)} \\
+     \textbf{Tools}{: Python, R, Stata, LangChain, Claude Code, UCloud / Deic HPC, \LaTeX, EViews, Tableau}\\
+    }}
+ \end{itemize}
+
+%-----------REFERENCES-----------
+\section{References}
+ \begin{itemize}[leftmargin=0.15in, label={}]
+    \small{\item{
+    \textbf{Prof. Moira Daly}{, Associate Professor, Copenhagen Business School} -- \href{mailto:moda.eco@cbs.dk}{\underline{moda.eco@cbs.dk}} \\
+    \textbf{Prof. C\'edric Schneider}{, Associate Professor, Copenhagen Business School} -- \href{mailto:csc.eco@cbs.dk}{\underline{csc.eco@cbs.dk}}
+    }}
+ \end{itemize}
+
+\end{document}
