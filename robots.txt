@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://zhurt0.github.io/rentianzhu/sitemap.xml
