@@ -791,3 +791,40 @@ nav ul li a.active::after {
     border-radius: 3px;
     padding: 2px 9px;
 }
+
+/* On my name */
+.name-note {
+    max-width: 760px;
+}
+
+.name-note p {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    margin-bottom: 14px;
+}
+
+.name-note blockquote {
+    margin: 14px 0 14px 0;
+    padding: 10px 18px;
+    border-left: 3px solid var(--accent-color);
+    background-color: var(--section-bg);
+    font-size: 1.05rem;
+    line-height: 1.8;
+}
+
+.name-note blockquote[lang="zh"] {
+    font-family: "Songti SC", "Noto Serif CJK SC", "Source Han Serif SC", "SimSun", serif;
+    font-size: 1.15rem;
+}
+
+.name-note cite {
+    display: block;
+    font-style: normal;
+    font-size: 0.9rem;
+    color: var(--secondary-color);
+    margin-top: 6px;
+}
+
+[lang="zh"] {
+    font-family: "Songti SC", "Noto Serif CJK SC", "Source Han Serif SC", "SimSun", serif;
+}
