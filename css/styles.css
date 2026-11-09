@@ -18,7 +18,7 @@
 }
 
 body {
-    font-family: 'Baskerville', serif;
+    font-family: 'Lora', Georgia, 'Times New Roman', serif;
     line-height: 1.6;
     color: var(--text-color);
     background-color: var(--background-color);
@@ -157,13 +157,13 @@ nav ul li a:hover::after {
 }
 
 .profile-title {
-    font-size: 1.1rem;
+    font-size: 1.02rem;
     color: var(--secondary-color);
     margin-bottom: 5px;
 }
 
 .profile-institution {
-    font-size: 1.1rem;
+    font-size: 1.02rem;
     color: var(--secondary-color);
     margin-bottom: 20px;
 }
@@ -827,4 +827,13 @@ nav ul li a.active::after {
 
 [lang="zh"] {
     font-family: "Songti SC", "Noto Serif CJK SC", "Source Han Serif SC", "SimSun", serif;
+}
+
+/* Lora: semibold headings read better than full bold */
+h1, h2, h3, h4 {
+    font-weight: 600;
+}
+
+.nowrap {
+    white-space: nowrap;
 }
