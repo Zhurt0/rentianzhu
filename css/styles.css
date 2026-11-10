@@ -1004,7 +1004,7 @@ header {
     }
 }
 
-/* Home page: card and right column share top and bottom edges */
+/* Home page: photo card on the left, everything else in one right column */
 .biography-title {
     margin-top: 0;
     line-height: 1.2;
@@ -1015,42 +1015,50 @@ header {
     margin-bottom: 18px;
 }
 
-@media (min-width: 993px) {
-    .profile-section {
-        align-items: stretch;
-    }
+.home-layout {
+    display: flex;
+    align-items: flex-start;
+    gap: 50px;
+    margin-bottom: 60px;
+}
 
-    .profile-content {
-        display: flex;
-        flex-direction: column;
-        padding-top: 6px;
-    }
+.home-main {
+    flex: 1;
+    min-width: 0;
+}
 
-    .updates-box:not(.expanded) {
-        flex: 1 1 112px;
-        min-height: 112px;
-        max-height: none;
-    }
+.home-main .profile-content {
+    padding-top: 6px;
+    margin-bottom: 56px;
+}
 
-    /* the photo absorbs any spare height so the card has no empty band */
+.home-main #research .section-title {
+    font-size: 2rem;
+    line-height: 1.2;
+}
+
+/* the card follows the reader down the page on screens tall enough to show it whole */
+@media (min-width: 993px) and (min-height: 720px) {
     .profile-card {
-        display: flex;
+        position: sticky;
+        top: 24px;
+    }
+}
+
+@media (max-width: 992px) {
+    .home-layout {
         flex-direction: column;
         align-items: center;
+        gap: 36px;
     }
 
-    .profile-card .profile-img {
-        flex: 1 1 290px;
-        min-height: 290px;
-        max-height: 370px;
+    .home-main {
+        width: 100%;
     }
 
-    /* when the feed is expanded, let the card keep its natural height */
-    .profile-section:has(.updates-box.expanded) .profile-card {
-        align-self: flex-start;
-    }
-
-    .updates-toggle {
-        align-self: flex-start;
+    .profile-card {
+        flex: 0 0 auto;
+        width: 344px;
+        max-width: 100%;
     }
 }
