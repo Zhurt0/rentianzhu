@@ -1069,3 +1069,13 @@ header {
 .home-main #research .section-title {
     color: var(--cerulean);
 }
+
+/* Large section titles in capitals */
+.biography-title,
+.section-title,
+.home-main #research .section-title {
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    font-size: 1.55rem;
+    line-height: 1.3;
+}
