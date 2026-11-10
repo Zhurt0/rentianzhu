@@ -1062,3 +1062,10 @@ header {
         max-width: 100%;
     }
 }
+
+/* Large section titles in Cerulean */
+.biography-title,
+.section-title,
+.home-main #research .section-title {
+    color: var(--cerulean);
+}
