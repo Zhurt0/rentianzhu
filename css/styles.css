@@ -954,3 +954,103 @@ nav ul li a {
         margin: 0 9px;
     }
 }
+
+/* CBS logo in the top-left corner of every page */
+header {
+    position: relative;
+}
+
+.site-logo {
+    position: absolute;
+    top: 26px;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+    color: var(--secondary-color);
+}
+
+.site-logo img {
+    display: block;
+    width: 180px;
+    height: auto;
+}
+
+.site-logo span {
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.site-logo:hover {
+    color: var(--accent-color);
+}
+
+@media (max-width: 860px) {
+    .site-logo {
+        position: static;
+        align-items: center;
+        margin: 0 auto 22px;
+        width: fit-content;
+    }
+
+    .site-logo img {
+        width: 150px;
+    }
+
+    header {
+        padding-top: 28px;
+    }
+}
+
+/* Home page: card and right column share top and bottom edges */
+.biography-title {
+    margin-top: 0;
+    line-height: 1.2;
+}
+
+.profile-card .profile-affiliation {
+    font-size: 0.92rem;
+    margin-bottom: 18px;
+}
+
+@media (min-width: 993px) {
+    .profile-section {
+        align-items: stretch;
+    }
+
+    .profile-content {
+        display: flex;
+        flex-direction: column;
+        padding-top: 6px;
+    }
+
+    .updates-box:not(.expanded) {
+        flex: 1 1 112px;
+        min-height: 112px;
+        max-height: none;
+    }
+
+    /* the photo absorbs any spare height so the card has no empty band */
+    .profile-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .profile-card .profile-img {
+        flex: 1 1 290px;
+        min-height: 290px;
+        max-height: 370px;
+    }
+
+    /* when the feed is expanded, let the card keep its natural height */
+    .profile-section:has(.updates-box.expanded) .profile-card {
+        align-self: flex-start;
+    }
+
+    .updates-toggle {
+        align-self: flex-start;
+    }
+}
