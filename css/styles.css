@@ -1132,3 +1132,76 @@ header {
         width: 200px;
     }
 }
+
+/* ---------- Language switch (top right of the header) ---------- */
+.lang-switch {
+    position: absolute;
+    top: 30px;
+    right: 0;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    padding: 3px;
+    border: 1px solid var(--border-color);
+    border-radius: 999px;
+    background: #fff;
+    font-size: 0.8rem;
+    line-height: 1;
+    letter-spacing: 0.04em;
+}
+
+.lang-switch a,
+.lang-switch .lang-current {
+    padding: 6px 12px;
+    border-radius: 999px;
+    text-decoration: none;
+}
+
+.lang-switch a {
+    color: var(--secondary-color);
+}
+
+.lang-switch a:hover {
+    color: var(--accent-color);
+    background: var(--section-bg);
+}
+
+.lang-switch .lang-current {
+    color: #fff;
+    background: var(--accent-color);
+}
+
+@media (max-width: 860px) {
+    .lang-switch {
+        position: static;
+        width: fit-content;
+        margin: 0 auto 18px;
+    }
+}
+
+/* ---------- Chinese pages (zh/) ---------- */
+html[lang^="zh"] body,
+.lang-switch [lang^="zh"] {
+    font-family: 'Lora', "Songti SC", "STSong", "Source Han Serif SC", "Noto Serif CJK SC", "Noto Serif SC", "SimSun", serif;
+}
+
+html[lang^="zh"] body {
+    line-height: 1.85;
+}
+
+html[lang^="zh"] .biography-title,
+html[lang^="zh"] .section-title {
+    letter-spacing: 0.2em;
+}
+
+html[lang^="zh"] .profile-name .profile-latin {
+    display: block;
+    margin-top: 2px;
+    font-size: 0.72em;
+    font-weight: 500;
+    color: var(--secondary-color);
+}
+
+html[lang^="zh"] .name-note blockquote {
+    font-style: normal;
+}
