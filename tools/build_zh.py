@@ -18,7 +18,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 BASE = "https://zhurt0.github.io/rentianzhu/"
-PAGES = ["index.html", "about.html", "teaching.html", "talks.html", "links.html"]
+PAGES = ["index.html", "about.html", "teaching.html", "links.html"]
 
 META = {
     "index.html": ("朱任天 Rentian Zhu | 哥本哈根商学院经济学博士研究生",
@@ -27,8 +27,6 @@ META = {
                    "朱任天的个人简历、教育背景、家乡，以及在牛津大学、法兰西公学院和芝加哥大学的学术访问经历。"),
     "teaching.html": ("教学 | 朱任天",
                       "朱任天在哥本哈根商学院和香港中文大学（深圳）担任助教的课程，包括计量经济学与微观经济学。"),
-    "talks.html": ("报告与幻灯片 | 朱任天",
-                   "朱任天的学术报告与幻灯片：将大语言模型用作经济学测量工具，以及 Claude Code 在经济学研究中的应用。"),
     "links.html": ("实用链接 | 朱任天",
                    "朱任天整理的实用链接：Beautiful Danish Data（基于丹麦登记数据的经济学论文指南）与常用 Stata 命令。"),
 }
@@ -46,7 +44,6 @@ COMMON = [
     (">Home</a>", ">首页</a>"),
     (">Research</a>", ">研究</a>"),
     (">Teaching</a>", ">教学</a>"),
-    (">Talks</a>", ">报告</a>"),
     (">Links</a>", ">链接</a>"),
     (">About Me</a>", ">关于我</a>"),
     ("<p>&copy; 2026 Rentian Zhu. All rights reserved.</p>", "<p>&copy; 2026 朱任天 版权所有</p>"),
@@ -149,9 +146,13 @@ PER_PAGE = {
         ('<p>Undergraduate Teaching Assistant</p>', '<p>本科生助教</p>'),
         ('<p>Teaching Assistant</p>', '<p>助教</p>'),
     ],
-    "talks.html": [
-        ('<h2 class="section-title">Talks &amp; Slides</h2>', '<h2 class="section-title">报告与幻灯片</h2>'),
-        ('<h3>Presentations</h3>', '<h3>学术报告</h3>'),
+    "links.html": [
+        ('<h2 class="section-title">Useful Links</h2>', '<h2 class="section-title">实用链接</h2>'),
+        ('<h3>Data</h3>', '<h3>数据</h3>'),
+        ('<p>A field guide to economics published with Danish administrative data: summaries of Top 5, AEJ, <em>Review of Economics and Statistics</em>, <em>Economic Journal</em>, <em>Journal of Labor Economics</em> and <em>Journal of Public Economics</em> papers built on Danish registers, the same papers grouped by theme, and a variable map of the registers at the individual and firm level.</p>',
+         '<p>一份面向经济学研究者的丹麦行政登记数据指南：汇总了发表在五大顶刊、AEJ、<em>Review of Economics and Statistics</em>、<em>Economic Journal</em>、<em>Journal of Labor Economics</em> 和 <em>Journal of Public Economics</em> 上、基于丹麦登记数据的论文，并按主题分类，另附个人层面与企业层面登记数据的变量地图（网站为英文）。</p>'),
+        ('<h4>Search your do-files for a string</h4>', '<h4>在 do 文件中搜索字符串</h4>'),
+        ('<h3>Talks and Slides</h3>', '<h3>报告与幻灯片</h3>'),
         ('<p>This presentation was delivered at the Economics and Innovation of AI Network Workshop, as part of the "Applying LLMs and GenAI in Innovation Economics" Methods Fair.</p>',
          '<p>本报告发表于 Economics and Innovation of AI Network Workshop，属于“Applying LLMs and GenAI in Innovation Economics”方法展示环节（Methods Fair）。</p>'),
         ('<p>This lightning pitch demonstrates three practical applications for Claude Code: (1) automated documentation and exploration of GitHub replication packages, (2) large-scale conference paper scraping and organization, and (3) transformer-based NLP implementations for patent analysis.</p>',
@@ -159,13 +160,6 @@ PER_PAGE = {
         ('<p>This presentation was delivered at the Economics and Innovation of AI Workshop.</p>',
          '<p>本报告发表于 Economics and Innovation of AI Workshop。</p>'),
         ('<i class="fas fa-file-pdf"></i> Slides (PDF)</a>', '<i class="fas fa-file-pdf"></i> 幻灯片（PDF，英文）</a>'),
-    ],
-    "links.html": [
-        ('<h2 class="section-title">Useful Links</h2>', '<h2 class="section-title">实用链接</h2>'),
-        ('<h3>Data</h3>', '<h3>数据</h3>'),
-        ('<p>A field guide to economics published with Danish administrative data: summaries of Top 5, AEJ, <em>Review of Economics and Statistics</em>, <em>Economic Journal</em>, <em>Journal of Labor Economics</em> and <em>Journal of Public Economics</em> papers built on Danish registers, the same papers grouped by theme, and a variable map of the registers at the individual and firm level.</p>',
-         '<p>一份面向经济学研究者的丹麦行政登记数据指南：汇总了发表在五大顶刊、AEJ、<em>Review of Economics and Statistics</em>、<em>Economic Journal</em>、<em>Journal of Labor Economics</em> 和 <em>Journal of Public Economics</em> 上、基于丹麦登记数据的论文，并按主题分类，另附个人层面与企业层面登记数据的变量地图（网站为英文）。</p>'),
-        ('<h4>Search your do-files for a string</h4>', '<h4>在 do 文件中搜索字符串</h4>'),
         ('<p>Lists every <code>.do</code> file in the working directory that contains the given string and shows the matching lines.</p>',
          '<p>列出当前工作目录下所有包含指定字符串的 <code>.do</code> 文件，并显示匹配的行。</p>'),
     ],
