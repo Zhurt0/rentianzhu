@@ -1112,3 +1112,23 @@ header {
     box-shadow: var(--shadow);
     background: #fdeee4;
 }
+
+/* Sharper logo and portrait on standard-resolution screens */
+.site-logo img {
+    width: 240px;
+}
+
+.site-logo span {
+    font-size: 0.8rem;
+}
+
+.profile-card .profile-img {
+    width: 264px;
+    height: 319px;
+}
+
+@media (max-width: 860px) {
+    .site-logo img {
+        width: 200px;
+    }
+}
