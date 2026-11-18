@@ -35,6 +35,7 @@ PAPER = "<em>The Role of Employment and Employers in Mental Health</em>"
 
 # (English fragment, Chinese fragment). Applied to every page that contains it.
 COMMON = [
+    ('<span class="draft-note">(draft coming soon)</span>', '<span class="draft-note">（初稿即将发布）</span>'),
     ("<span>Department of Economics</span>", "<span>经济学系</span>"),
     ("<h1>Rentian Zhu</h1>", "<h1>朱任天</h1>"),
     ("<p>PhD Student in Economics (2024&ndash;2028)</p>", "<p>经济学博士研究生（2024&ndash;2028）</p>"),

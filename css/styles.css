@@ -1207,6 +1207,9 @@ html[lang^="zh"] .name-note blockquote {
 }
 
 /* Collapsible abstract under a paper */
+/* note after a paper title, e.g. "(draft coming soon)" */
+.draft-note { font-size: 0.82em; font-weight: 400; font-style: italic; color: var(--text-color); opacity: 0.75; white-space: nowrap; }
+html[lang^="zh"] .draft-note { font-style: normal; }
 .paper-abstract { margin-top: 4px; }
 .paper-abstract summary { cursor: pointer; color: var(--accent-color); list-style: none; display: inline-block; }
 .paper-abstract summary::-webkit-details-marker { display: none; }
