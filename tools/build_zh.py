@@ -22,7 +22,7 @@ PAGES = ["index.html", "about.html", "teaching.html", "links.html"]
 
 META = {
     "index.html": ("朱任天 Rentian Zhu | 哥本哈根商学院经济学博士研究生",
-                   "朱任天（Rentian Zhu），哥本哈根商学院经济学博士研究生，哥本哈根大学 Pioneer Centre for AI 附属研究员。研究领域为人工智能、劳动经济学与创新，使用丹麦登记数据和大语言模型。"),
+                   "朱任天（Rentian Zhu），哥本哈根商学院经济学博士研究生，哥本哈根大学 Pioneer Centre for AI 附属研究员。研究领域为人工智能、劳动经济学与福祉，使用丹麦登记数据和大语言模型。"),
     "about.html": ("关于我 | 朱任天",
                    "朱任天的个人简历、教育背景、家乡，以及在牛津大学、法兰西公学院和芝加哥大学的学术访问经历。"),
     "teaching.html": ("教学 | 朱任天",
@@ -64,8 +64,8 @@ PER_PAGE = {
         ('<h2 class="biography-title">Biography</h2>', '<h2 class="biography-title">个人简介</h2>'),
         ('Hello! I am a PhD Student (2024&ndash;2028) in Economics at <a href="https://www.cbs.dk/en/research/departments-and-centres/department-of-economics" target="_blank">Copenhagen Business School</a>. After the PhD I will be a Postdoctoral Researcher at the <a href="https://www.economics.ku.dk/" target="_blank">Department of Economics, University of Copenhagen</a> (expected).',
          '你好！我是<a href="https://www.cbs.dk/en/research/departments-and-centres/department-of-economics" target="_blank">哥本哈根商学院</a>经济学博士研究生（2024&ndash;2028）。博士毕业后，我将在<a href="https://www.economics.ku.dk/" target="_blank">哥本哈根大学经济学系</a>从事博士后研究（预计）。'),
-        ('My research sits at the intersection of <strong>AI</strong>, <strong>labor</strong>, and <strong>innovation</strong>. I ask how people live and how they can live better: how work shapes wellbeing, and how technological change&mdash;from patents to large language models&mdash;reshapes the opportunities workers have. I answer these questions by combining Danish register microdata with survey, experimental and unstructured data, such as job postings and patent applications, and by using large language models as measurement tools.',
-         '我的研究处于<strong>人工智能</strong>、<strong>劳动经济学</strong>与<strong>创新</strong>的交叉领域。我关心人们如何生活，以及如何生活得更好：工作如何影响人的幸福感，技术变革（从专利到大语言模型）又如何重塑劳动者的机会。为回答这些问题，我将丹麦登记微观数据与调查数据、实验数据，以及招聘广告、专利申请等非结构化数据结合起来，并把大语言模型用作测量工具。'),
+        ('My research sits at the intersection of <strong>AI</strong>, <strong>labor</strong>, and <strong>wellbeing</strong>. I ask how people live and how they can live better: how work shapes wellbeing, and how technological change&mdash;from patents to large language models&mdash;reshapes the opportunities workers have. I answer these questions by combining Danish register microdata with survey, experimental and unstructured data, such as job postings and patent applications, and by using large language models as measurement tools.',
+         '我的研究处于<strong>人工智能</strong>、<strong>劳动经济学</strong>与<strong>福祉</strong>的交叉领域。我关心人们如何生活，以及如何生活得更好：工作如何影响人的幸福感，技术变革（从专利到大语言模型）又如何重塑劳动者的机会。为回答这些问题，我将丹麦登记微观数据与调查数据、实验数据，以及招聘广告、专利申请等非结构化数据结合起来，并把大语言模型用作测量工具。'),
         ('<p class="biography-text">Email: ', '<p class="biography-text">邮箱：'),
         ('<h3 class="updates-title">Updates</h3>', '<h3 class="updates-title">近况</h3>'),
         ('<span class="updates-stamp">Last updated November 2</span>', '<span class="updates-stamp">最近更新：11月2日</span>'),
