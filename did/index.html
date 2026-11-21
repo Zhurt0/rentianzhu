@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Difference-in-Differences: The Story of the Economists' Workhorse</title>
+<meta name="description" content="A collection on difference-in-differences: what it is, its modern variants, the Stata command for each, and the papers behind them.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#1a2340; --navy-2:#243056; --ink:#1f2937; --muted:#5b6475; --line:#e2e5ec;
+  --bg:#faf9f6; --card:#ffffff; --accent:#b4552d; --accent-soft:#f6ece6; --link:#1f4e9c;
+  --code-bg:#f3f4f8; --cream:#f5f1e6; --sub:#c3cde6;
+}
+@media (prefers-color-scheme: dark){
+  :root{ --ink:#e6e8ee; --muted:#a2abbd; --line:#2c3550; --bg:#121829; --card:#1a2238;
+    --accent:#e89a72; --accent-soft:#2a2433; --link:#8fb4f5; --code-bg:#0f1424; }
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Lora,Georgia,"Times New Roman",serif;font-size:17px;line-height:1.65}
+a{color:var(--link)}
+header.hero{background:var(--navy);color:var(--cream);padding:56px 0 44px}
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+.hero h1{font-size:clamp(2rem,6vw,3.4rem);margin:0 0 10px;font-weight:700;letter-spacing:.2px;line-height:1.15}
+.hero p.sub{font-size:clamp(1.05rem,2.6vw,1.45rem);margin:0;color:var(--sub)}
+.hero p.by{margin:22px 0 0;font-size:.95rem;color:var(--sub);opacity:.85}
+.hero p.by a{color:var(--cream)}
+nav.toc{background:var(--navy-2);position:sticky;top:0;z-index:5}
+nav.toc .wrap{display:flex;gap:4px 20px;flex-wrap:wrap;padding-top:10px;padding-bottom:10px}
+nav.toc a{color:var(--cream);text-decoration:none;font-size:.92rem;opacity:.9}
+nav.toc a:hover{opacity:1;text-decoration:underline}
+section{padding:42px 0 6px;scroll-margin-top:56px}
+h2{font-size:1.75rem;margin:0 0 6px;line-height:1.25}
+h2 + p.lead{color:var(--muted);margin-top:0}
+h3{font-size:1.18rem;margin:0 0 4px}
+.eq{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--accent);padding:14px 18px;margin:16px 0;font-style:italic;overflow-x:auto;white-space:nowrap}
+.eq span.n{font-style:normal;color:var(--muted);font-size:.9rem;margin-left:14px}
+code,pre{font-family:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;font-size:.82rem}
+code{background:var(--code-bg);padding:1px 5px;border-radius:3px}
+pre{background:var(--code-bg);border:1px solid var(--line);border-radius:6px;padding:12px 14px;overflow-x:auto;margin:10px 0 0;line-height:1.5}
+pre code{background:none;padding:0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:16px;margin-top:18px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:18px 20px;min-width:0}
+.card p{margin:6px 0}
+.tag{display:inline-block;font-size:.72rem;font-family:"JetBrains Mono",monospace;background:var(--accent-soft);color:var(--accent);padding:2px 8px;border-radius:99px;margin:0 4px 6px 0}
+.ref{font-size:.88rem;color:var(--muted)}
+.tl{list-style:none;padding:0;margin:20px 0 0;border-left:2px solid var(--line)}
+.tl li{position:relative;padding:0 0 16px 22px}
+.tl li::before{content:"";position:absolute;left:-6px;top:9px;width:10px;height:10px;border-radius:50%;background:var(--accent)}
+.tl b.y{font-family:"JetBrains Mono",monospace;font-size:.85rem;color:var(--accent);margin-right:8px}
+.tablewrap{overflow-x:auto;margin-top:16px;border:1px solid var(--line);border-radius:8px;background:var(--card)}
+table{border-collapse:collapse;width:100%;font-size:.9rem;min-width:760px}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:var(--navy);color:var(--cream);font-weight:600;position:sticky;top:0}
+tr:last-child td{border-bottom:none}
+ol.refs{padding-left:22px;font-size:.93rem}
+ol.refs li{margin-bottom:7px}
+.note{background:var(--accent-soft);border-radius:8px;padding:12px 16px;font-size:.93rem;margin-top:16px}
+footer{margin-top:50px;padding:26px 0;border-top:1px solid var(--line);color:var(--muted);font-size:.88rem}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <h1>Difference-in-Differences</h1>
+    <p class="sub">The Story of the Economists&rsquo; Workhorse</p>
+    <p class="by">What it is &middot; every major version &middot; the Stata command for each &middot; the papers behind them</p>
+    <p class="by">Compiled by <a href="https://zhurt0.github.io/rentianzhu/">Rentian Zhu</a> &middot; <a href="https://github.com/Zhurt0/rentianzhu/tree/main/did">Source on GitHub</a></p>
+  </div>
+</header>
+
+<nav class="toc"><div class="wrap">
+  <a href="#what">What it is</a>
+  <a href="#story">The story</a>
+  <a href="#problem">The TWFE problem</a>
+  <a href="#versions">Versions</a>
+  <a href="#stata">Stata cheat sheet</a>
+  <a href="#workflow">Workflow</a>
+  <a href="#refs">References</a>
+</div></nav>
+
+<main class="wrap">
+
+<!-- ====================== WHAT ====================== -->
+<section id="what">
+  <h2>1. What is difference-in-differences?</h2>
+  <p class="lead">Compare the change over time in a treated group with the change over time in an untreated group. The second difference removes whatever both groups share.</p>
+
+  <p>In the canonical 2&times;2 design there are two groups (treated, control) and two periods (before, after). The estimator is</p>
+  <div class="eq">&delta;<sub>DiD</sub> = ( Y&#772;<sub>treated, post</sub> &minus; Y&#772;<sub>treated, pre</sub> ) &minus; ( Y&#772;<sub>control, post</sub> &minus; Y&#772;<sub>control, pre</sub> )</div>
+  <p>which is numerically the coefficient on the interaction in</p>
+  <div class="eq">Y<sub>it</sub> = &alpha; + &beta;&middot;Treat<sub>i</sub> + &gamma;&middot;Post<sub>t</sub> + &delta;&middot;(Treat<sub>i</sub> &times; Post<sub>t</sub>) + &epsilon;<sub>it</sub></div>
+  <p>and identifies the <b>average treatment effect on the treated (ATT)</b> under three assumptions:</p>
+  <div class="grid">
+    <div class="card"><h3>Parallel trends</h3><p>Absent treatment, the treated group&rsquo;s average outcome would have moved in parallel with the control group&rsquo;s. Untestable for the post period; pre-trends are only suggestive evidence.</p></div>
+    <div class="card"><h3>No anticipation</h3><p>Units do not respond to the treatment before it starts, so pre-period outcomes are untreated potential outcomes.</p></div>
+    <div class="card"><h3>SUTVA / no spillovers</h3><p>One unit&rsquo;s treatment does not change another unit&rsquo;s outcome, and the composition of the groups is stable.</p></div>
+  </div>
+  <p>With many units and periods, the 2&times;2 regression generalises to <b>two-way fixed effects (TWFE)</b> and its dynamic sibling, the <b>event study</b>:</p>
+  <div class="eq">Y<sub>it</sub> = &alpha;<sub>i</sub> + &lambda;<sub>t</sub> + &delta;&middot;D<sub>it</sub> + &epsilon;<sub>it</sub><span class="n">static TWFE</span></div>
+  <div class="eq">Y<sub>it</sub> = &alpha;<sub>i</sub> + &lambda;<sub>t</sub> + &Sigma;<sub>k&ne;&minus;1</sub> &beta;<sub>k</sub>&middot;1{t &minus; G<sub>i</sub> = k} + &epsilon;<sub>it</sub><span class="n">event study, G<sub>i</sub> = first treated period</span></div>
+</section>
+
+<!-- ====================== STORY ====================== -->
+<section id="story">
+  <h2>2. The story</h2>
+  <p class="lead">From a London water pump to the &ldquo;credibility revolution&rdquo; and the post-2018 rewrite of the textbook.</p>
+  <ul class="tl">
+    <li><b class="y">1855</b>John Snow compares cholera deaths across London households served by two water companies before and after one moved its intake upstream &mdash; DiD logic before the name existed.</li>
+    <li><b class="y">1915</b>Obenauer and von der Nienburg study Oregon&rsquo;s minimum wage for women by comparing affected and unaffected groups before and after, an early use in labour economics.</li>
+    <li><b class="y">1978&ndash;85</b>Ashenfelter, then Ashenfelter &amp; Card, evaluate training programmes with before/after comparisons against a comparison group, and find the &ldquo;Ashenfelter dip&rdquo;.</li>
+    <li><b class="y">1990&ndash;94</b>Card&rsquo;s Mariel boatlift study and Card &amp; Krueger&rsquo;s New Jersey&ndash;Pennsylvania minimum-wage study make DiD the signature design of the credibility revolution. Gruber (1994) adds the triple difference.</li>
+    <li><b class="y">2004</b>Bertrand, Duflo &amp; Mullainathan show serial correlation makes conventional DiD standard errors far too small; clustering at the treatment level becomes standard.</li>
+    <li><b class="y">2005&ndash;06</b>Abadie&rsquo;s semiparametric DiD (conditional parallel trends) and Athey &amp; Imbens&rsquo; changes-in-changes extend DiD beyond the linear model.</li>
+    <li><b class="y">2018&ndash;21</b>The staggered-adoption literature: Goodman-Bacon, de Chaisemartin &amp; D&rsquo;Haultf&oelig;uille, Callaway &amp; Sant&rsquo;Anna, Sun &amp; Abraham and Borusyak, Jaravel &amp; Spiess show that TWFE can mislead when effects are heterogeneous, and propose replacements.</li>
+    <li><b class="y">2022&ndash;</b>Attention shifts to the credibility of parallel trends itself (Roth; Rambachan &amp; Roth), continuous and non-absorbing treatments, and hybrids with synthetic control.</li>
+  </ul>
+</section>
+
+<!-- ====================== PROBLEM ====================== -->
+<section id="problem">
+  <h2>3. Why the textbook estimator broke</h2>
+  <p>When units adopt treatment at different dates, the static TWFE coefficient is a weighted average of every possible 2&times;2 comparison in the data (Goodman-Bacon 2021). Some of those comparisons use <b>already-treated units as controls</b>. If treatment effects grow or differ across cohorts, those &ldquo;forbidden comparisons&rdquo; subtract earlier effects from later ones; the weights can be negative, and the TWFE estimate can even have the opposite sign to every underlying effect (de Chaisemartin &amp; D&rsquo;Haultf&oelig;uille 2020). Event-study leads and lags are contaminated in the same way (Sun &amp; Abraham 2021), so flat pre-trends from a TWFE event study are not reliable evidence.</p>
+  <p>TWFE is still fine when there is a single treatment date, or when effects are homogeneous across cohorts and time. Otherwise, use one of the heterogeneity-robust estimators below. They all share one idea: <b>only compare treated units to not-yet-treated or never-treated units</b>, then aggregate with sensible weights.</p>
+</section>
+
+<!-- ====================== VERSIONS ====================== -->
+<section id="versions">
+  <h2>4. The versions</h2>
+  <p class="lead">Grouped by the problem each one solves. Commands marked <span class="tag">built-in</span> ship with Stata 17+; the rest are community-contributed.</p>
+
+  <h3 style="margin-top:22px">A. Classic designs</h3>
+  <div class="grid">
+    <div class="card">
+      <span class="tag">built-in</span><span class="tag">2&times;2</span>
+      <h3>Canonical DiD</h3>
+      <p>Two groups, two periods, or a single treatment date.</p>
+      <pre><code>didregress (y x) (D), group(state) time(year)
+xtdidregress (y x) (D), group(state) time(year)
+estat ptrends
+estat trendplots
+estat granger</code></pre>
+      <p class="ref">Card &amp; Krueger (1994); Angrist &amp; Pischke (2009)</p>
+    </div>
+    <div class="card">
+      <span class="tag">reghdfe</span><span class="tag">TWFE</span>
+      <h3>Two-way fixed effects &amp; event study</h3>
+      <p>The traditional workhorse. Safe with one treatment date or homogeneous effects.</p>
+      <pre><code>reghdfe y D, absorb(id year) vce(cluster id)
+* event study, t = -1 omitted
+reghdfe y lead5-lead2 lag0-lag5, ///
+    absorb(id year) vce(cluster id)</code></pre>
+      <p class="ref">Correia (2017); Miller (2023); plotting: <code>eventdd</code> (Clarke &amp; Tapia-Schythe 2021), <code>xtevent</code> (Freyaldenhoven et al. 2019)</p>
+    </div>
+    <div class="card">
+      <span class="tag">built-in</span><span class="tag">DDD</span>
+      <h3>Triple differences</h3>
+      <p>Adds a within-group unaffected subgroup to difference out group-specific shocks. Needs only that the <i>gap</i> in trends is parallel.</p>
+      <pre><code>didregress (y) (D), group(state agegrp) time(year)
+* or by hand
+reghdfe y D, absorb(state#year state#agegrp ///
+    agegrp#year) vce(cluster state)</code></pre>
+      <p class="ref">Gruber (1994); Olden &amp; M&oslash;en (2022); Ortiz-Villavicencio &amp; Sant&rsquo;Anna (2025)</p>
+    </div>
+    <div class="card">
+      <span class="tag">drdid</span><span class="tag">covariates</span>
+      <h3>Conditional parallel trends</h3>
+      <p>Parallel trends holds only after conditioning on covariates. Outcome regression, inverse-probability weighting, or doubly robust combinations.</p>
+      <pre><code>drdid y x1 x2, ivar(id) time(year) tr(treat) all</code></pre>
+      <p class="ref">Heckman, Ichimura &amp; Todd (1997); Abadie (2005); Sant&rsquo;Anna &amp; Zhao (2020)</p>
+    </div>
+  </div>
+
+  <h3 style="margin-top:30px">B. Diagnosing TWFE</h3>
+  <div class="grid">
+    <div class="card">
+      <span class="tag">bacondecomp</span>
+      <h3>Goodman-Bacon decomposition</h3>
+      <p>Splits the TWFE coefficient into all 2&times;2 comparisons and their weights; shows how much comes from &ldquo;later vs. already treated&rdquo;.</p>
+      <pre><code>xtset id year
+bacondecomp y D, ddetail</code></pre>
+      <p class="ref">Goodman-Bacon (2021)</p>
+    </div>
+    <div class="card">
+      <span class="tag">twowayfeweights</span>
+      <h3>Negative-weights check</h3>
+      <p>Counts how many ATTs receive negative weight in the TWFE regression and how sensitive the estimate is to heterogeneity.</p>
+      <pre><code>twowayfeweights y id year D, type(feTR)</code></pre>
+      <p class="ref">de Chaisemartin &amp; D&rsquo;Haultf&oelig;uille (2020)</p>
+    </div>
+  </div>
+
+  <h3 style="margin-top:30px">C. Staggered adoption: heterogeneity-robust estimators</h3>
+  <div class="grid">
+    <div class="card">
+      <span class="tag">csdid</span><span class="tag">built-in: xthdidregress</span>
+      <h3>Callaway &amp; Sant&rsquo;Anna</h3>
+      <p>Estimates group-time ATT(g,t) for each cohort and period against never- or not-yet-treated units, then aggregates. Handles covariates (doubly robust).</p>
+      <pre><code>* gvar = first treated year, 0 if never treated
+csdid y x, ivar(id) time(year) gvar(g) method(dripw)
+estat simple
+estat event
+csdid_plot
+* Stata 18+
+xthdidregress aipw (y x) (D), group(id)
+estat aggregation, dynamic graph</code></pre>
+      <p class="ref">Callaway &amp; Sant&rsquo;Anna (2021)</p>
+    </div>
+    <div class="card">
+      <span class="tag">eventstudyinteract</span>
+      <h3>Sun &amp; Abraham</h3>
+      <p>Interaction-weighted event study: cohort-specific leads and lags, averaged with cohort-share weights. Closest to the familiar regression.</p>
+      <pre><code>eventstudyinteract y lead* lag*, ///
+    cohort(g) control_cohort(never) ///
+    absorb(i.id i.year) vce(cluster id)</code></pre>
+      <p class="ref">Sun &amp; Abraham (2021)</p>
+    </div>
+    <div class="card">
+      <span class="tag">did_imputation</span>
+      <h3>Imputation estimator</h3>
+      <p>Fit unit and time effects on untreated observations only, impute Y(0) for treated ones, average the differences. Efficient under homoskedasticity.</p>
+      <pre><code>* Ei = first treated year, missing if never
+did_imputation y id year Ei, ///
+    horizons(0/5) pretrends(4) autosample
+event_plot, default_look</code></pre>
+      <p class="ref">Borusyak, Jaravel &amp; Spiess (2024)</p>
+    </div>
+    <div class="card">
+      <span class="tag">did2s</span>
+      <h3>Two-stage DiD</h3>
+      <p>Same imputation idea in two regressions: residualise on fixed effects from untreated observations, then regress on treatment. GMM standard errors.</p>
+      <pre><code>did2s y, first_stage(i.id i.year) ///
+    second_stage(i.D) treatment(D) cluster(id)</code></pre>
+      <p class="ref">Gardner (2021); Butts &amp; Gardner (2022)</p>
+    </div>
+    <div class="card">
+      <span class="tag">jwdid</span>
+      <h3>Extended TWFE</h3>
+      <p>Wooldridge&rsquo;s point: TWFE is not the problem, the restrictive specification is. Saturate with cohort &times; time interactions; extends naturally to logit and Poisson.</p>
+      <pre><code>jwdid y, ivar(id) tvar(year) gvar(g)
+estat simple
+estat event
+* nonlinear
+jwdid y, ivar(id) tvar(year) gvar(g) method(poisson)</code></pre>
+      <p class="ref">Wooldridge (2021, 2023)</p>
+    </div>
+    <div class="card">
+      <span class="tag">stackedev</span>
+      <h3>Stacked DiD</h3>
+      <p>Build a clean 2&times;2 dataset for each adoption event (treated cohort plus clean controls), stack them, and run one regression with stack-specific fixed effects.</p>
+      <pre><code>stackedev y lead* lag*, cohort(g) time(year) ///
+    never_treat(never) unit_fe(id) clust_unit(id)</code></pre>
+      <p class="ref">Cengiz, Dube, Lindner &amp; Zipperer (2019); Wing, Freedman &amp; Hollingsworth (2024)</p>
+    </div>
+    <div class="card">
+      <span class="tag">lpdid</span>
+      <h3>Local-projections DiD</h3>
+      <p>Horizon-by-horizon long-difference regressions restricted to newly treated and clean control observations. Fast, flexible with covariates and non-absorbing treatment.</p>
+      <pre><code>lpdid y, unit(id) time(year) treat(D) pre(5) post(10)</code></pre>
+      <p class="ref">Dube, Girardi, Jord&agrave; &amp; Taylor (2023)</p>
+    </div>
+    <div class="card">
+      <span class="tag">staggered</span>
+      <h3>Efficient estimator under random timing</h3>
+      <p>If treatment timing is (quasi-)random, pre-period outcomes can be used like covariates in an experiment for a more precise estimate.</p>
+      <pre><code>staggered y, i(id) t(year) g(g) estimand(simple)</code></pre>
+      <p class="ref">Roth &amp; Sant&rsquo;Anna (2023b); Athey &amp; Imbens (2022)</p>
+    </div>
+  </div>
+
+  <h3 style="margin-top:30px">D. Treatments that are not binary and absorbing</h3>
+  <div class="grid">
+    <div class="card">
+      <span class="tag">did_multiplegt_dyn</span>
+      <h3>Switching on and off, any intensity</h3>
+      <p>Compares &ldquo;switchers&rdquo; to units with the same baseline treatment that have not switched yet. Works with binary, discrete or continuous, non-absorbing treatments.</p>
+      <pre><code>did_multiplegt_dyn y id year D, ///
+    effects(5) placebo(3) cluster(id)</code></pre>
+      <p class="ref">de Chaisemartin &amp; D&rsquo;Haultf&oelig;uille (2020, 2024)</p>
+    </div>
+    <div class="card">
+      <span class="tag">did_had</span><span class="tag">dose</span>
+      <h3>Continuous treatment / dose</h3>
+      <p>With a continuous dose, parallel trends alone does not identify a dose-response curve; a stronger assumption is needed. <code>did_had</code> covers designs where everyone gets some dose.</p>
+      <pre><code>did_had y id year D, effects(3) placebo(2)</code></pre>
+      <p class="ref">Callaway, Goodman-Bacon &amp; Sant&rsquo;Anna (2024); de Chaisemartin et al. (2024)</p>
+    </div>
+    <div class="card">
+      <span class="tag">fuzzydid</span>
+      <h3>Fuzzy DiD</h3>
+      <p>Treatment rate rises more in one group than the other, but no group is fully treated or untreated. Wald-DiD, time-corrected Wald, and changes-in-changes Wald.</p>
+      <pre><code>fuzzydid y G T D, did tc cic</code></pre>
+      <p class="ref">de Chaisemartin &amp; D&rsquo;Haultf&oelig;uille (2018)</p>
+    </div>
+    <div class="card">
+      <span class="tag">cic</span><span class="tag">distributional</span>
+      <h3>Changes-in-changes</h3>
+      <p>Nonlinear generalisation: identifies the whole counterfactual distribution (quantile effects), invariant to monotone transformations of the outcome.</p>
+      <pre><code>cic continuous y treat post, at(10(10)90)</code></pre>
+      <p class="ref">Athey &amp; Imbens (2006); Roth &amp; Sant&rsquo;Anna (2023a)</p>
+    </div>
+  </div>
+
+  <h3 style="margin-top:30px">E. When parallel trends is doubtful</h3>
+  <div class="grid">
+    <div class="card">
+      <span class="tag">honestdid</span>
+      <h3>Honest DiD (sensitivity)</h3>
+      <p>Reports confidence sets that stay valid if the post-period violation of parallel trends is at most M times the largest pre-period violation, or bounded in smoothness.</p>
+      <pre><code>* after an event-study regression
+honestdid, pre(1/5) post(6/10) mvec(0(0.5)2)</code></pre>
+      <p class="ref">Rambachan &amp; Roth (2023)</p>
+    </div>
+    <div class="card">
+      <span class="tag">pretrends</span>
+      <h3>Power of pre-trend tests</h3>
+      <p>Pre-tests have low power and conditioning on passing them distorts inference. Computes the trend your pre-test would detect with given power.</p>
+      <pre><code>pretrends power 0.5, pre(1/5) post(6/10)</code></pre>
+      <p class="ref">Roth (2022)</p>
+    </div>
+    <div class="card">
+      <span class="tag">sdid</span><span class="tag">synth</span>
+      <h3>Synthetic control &amp; synthetic DiD</h3>
+      <p>Re-weight control units (and, in SDID, pre-periods) so the comparison group matches the treated group&rsquo;s pre-trend, then difference.</p>
+      <pre><code>sdid y id year D, vce(bootstrap) graph
+synth y y(2000) y(2005) x1, trunit(3) trperiod(2006)</code></pre>
+      <p class="ref">Abadie, Diamond &amp; Hainmueller (2010); Arkhangelsky et al. (2021); Clarke et al. (2024)</p>
+    </div>
+    <div class="card">
+      <span class="tag">fect</span>
+      <h3>Factor models / matrix completion</h3>
+      <p>Replace additive unit and time effects with interactive fixed effects (latent factors) to allow unit-specific responses to common shocks.</p>
+      <pre><code>fect y, treat(D) unit(id) time(year) ///
+    method("ife") r(2) se</code></pre>
+      <p class="ref">Xu (2017); Athey et al. (2021); Liu, Wang &amp; Xu (2024)</p>
+    </div>
+  </div>
+
+  <h3 style="margin-top:30px">F. Inference</h3>
+  <div class="grid">
+    <div class="card">
+      <span class="tag">vce(cluster)</span>
+      <h3>Cluster at the level of treatment</h3>
+      <p>Outcomes are serially correlated within units, so cluster by the unit at which treatment is assigned (state, firm), not unit-year.</p>
+      <p class="ref">Bertrand, Duflo &amp; Mullainathan (2004); Abadie et al. (2023)</p>
+    </div>
+    <div class="card">
+      <span class="tag">boottest</span>
+      <h3>Few clusters</h3>
+      <p>With fewer than roughly 40 clusters, or very few treated clusters, use the wild cluster bootstrap or randomisation inference.</p>
+      <pre><code>reghdfe y D, absorb(id year) vce(cluster state)
+boottest D, cluster(state) reps(9999)</code></pre>
+      <p class="ref">Cameron, Gelbach &amp; Miller (2008); Conley &amp; Taber (2011); Roodman et al. (2019)</p>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== STATA ====================== -->
+<section id="stata">
+  <h2>5. Stata cheat sheet</h2>
+  <p class="lead">One row per command. A runnable simulation that calls most of them is in <a href="did_examples.do"><code>did_examples.do</code></a>.</p>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Command</th><th>Method</th><th>Use it when</th><th>Install</th><th>Paper</th></tr></thead>
+    <tbody>
+    <tr><td><code>didregress</code> / <code>xtdidregress</code></td><td>2&times;2, TWFE, DDD</td><td>Single treatment date</td><td>Stata 17+</td><td>&mdash;</td></tr>
+    <tr><td><code>hdidregress</code> / <code>xthdidregress</code></td><td>Group-time ATTs (RA, IPW, AIPW, TWFE)</td><td>Staggered, official command</td><td>Stata 18+</td><td>Callaway &amp; Sant&rsquo;Anna (2021); Wooldridge (2021)</td></tr>
+    <tr><td><code>reghdfe</code></td><td>TWFE with many fixed effects</td><td>Baseline and custom specifications</td><td><code>ssc install reghdfe</code></td><td>Correia (2017)</td></tr>
+    <tr><td><code>diff</code></td><td>2&times;2 with kernel matching, quantile DiD</td><td>Quick classic DiD</td><td><code>ssc install diff</code></td><td>Villa (2016)</td></tr>
+    <tr><td><code>drdid</code></td><td>Doubly robust 2&times;2</td><td>Covariate-conditional parallel trends</td><td><code>ssc install drdid</code></td><td>Sant&rsquo;Anna &amp; Zhao (2020)</td></tr>
+    <tr><td><code>bacondecomp</code></td><td>TWFE decomposition</td><td>Diagnose staggered TWFE</td><td><code>ssc install bacondecomp</code></td><td>Goodman-Bacon (2021)</td></tr>
+    <tr><td><code>twowayfeweights</code></td><td>TWFE weights</td><td>Check for negative weights</td><td><code>ssc install twowayfeweights</code></td><td>de Chaisemartin &amp; D&rsquo;Haultf&oelig;uille (2020)</td></tr>
+    <tr><td><code>csdid</code></td><td>Group-time ATT</td><td>Staggered, covariates, never/not-yet controls</td><td><code>ssc install csdid</code></td><td>Callaway &amp; Sant&rsquo;Anna (2021)</td></tr>
+    <tr><td><code>eventstudyinteract</code></td><td>Interaction-weighted event study</td><td>Staggered, regression-style</td><td><code>ssc install eventstudyinteract</code></td><td>Sun &amp; Abraham (2021)</td></tr>
+    <tr><td><code>did_imputation</code></td><td>Imputation</td><td>Staggered, efficiency, long panels</td><td><code>ssc install did_imputation</code></td><td>Borusyak, Jaravel &amp; Spiess (2024)</td></tr>
+    <tr><td><code>did2s</code></td><td>Two-stage DiD</td><td>Staggered, simple to explain</td><td><code>ssc install did2s</code></td><td>Gardner (2021)</td></tr>
+    <tr><td><code>jwdid</code></td><td>Extended TWFE</td><td>Staggered, nonlinear outcomes</td><td><code>ssc install jwdid</code></td><td>Wooldridge (2021, 2023)</td></tr>
+    <tr><td><code>stackedev</code></td><td>Stacked event study</td><td>Staggered with clean-control windows</td><td><code>ssc install stackedev</code></td><td>Cengiz et al. (2019)</td></tr>
+    <tr><td><code>lpdid</code></td><td>Local-projections DiD</td><td>Staggered, large data, non-absorbing</td><td><code>ssc install lpdid</code></td><td>Dube et al. (2023)</td></tr>
+    <tr><td><code>staggered</code></td><td>Efficient estimator</td><td>Random treatment timing</td><td>GitHub: mcaceresb/stata-staggered</td><td>Roth &amp; Sant&rsquo;Anna (2023b)</td></tr>
+    <tr><td><code>did_multiplegt_dyn</code></td><td>Switchers vs. not-yet-switchers</td><td>Non-binary or reversible treatment</td><td><code>ssc install did_multiplegt_dyn</code></td><td>de Chaisemartin &amp; D&rsquo;Haultf&oelig;uille (2024)</td></tr>
+    <tr><td><code>did_had</code></td><td>Heterogeneous adoption design</td><td>Everyone treated, varying dose</td><td><code>ssc install did_had</code></td><td>de Chaisemartin et al. (2024)</td></tr>
+    <tr><td><code>fuzzydid</code></td><td>Wald-DiD, Wald-TC, Wald-CiC</td><td>Fuzzy designs</td><td><code>ssc install fuzzydid</code></td><td>de Chaisemartin &amp; D&rsquo;Haultf&oelig;uille (2018)</td></tr>
+    <tr><td><code>cic</code></td><td>Changes-in-changes</td><td>Distributional effects</td><td><code>ssc install cic</code></td><td>Athey &amp; Imbens (2006)</td></tr>
+    <tr><td><code>eventdd</code>, <code>xtevent</code>, <code>event_plot</code></td><td>Event-study estimation and plots</td><td>Plotting, combining estimators</td><td><code>ssc install</code> each</td><td>Clarke &amp; Tapia-Schythe (2021); Freyaldenhoven et al. (2019)</td></tr>
+    <tr><td><code>honestdid</code></td><td>Sensitivity to parallel-trends violations</td><td>After any event study</td><td><code>ssc install honestdid</code></td><td>Rambachan &amp; Roth (2023)</td></tr>
+    <tr><td><code>pretrends</code></td><td>Power of pre-trend tests</td><td>Interpreting flat pre-trends</td><td>GitHub: mcaceresb/stata-pretrends</td><td>Roth (2022)</td></tr>
+    <tr><td><code>sdid</code>, <code>sdid_event</code></td><td>Synthetic DiD</td><td>Few treated units, poor pre-trend fit</td><td><code>ssc install sdid</code></td><td>Arkhangelsky et al. (2021)</td></tr>
+    <tr><td><code>synth</code>, <code>synth_runner</code></td><td>Synthetic control</td><td>One or few treated units</td><td><code>ssc install synth</code></td><td>Abadie et al. (2010)</td></tr>
+    <tr><td><code>fect</code></td><td>Interactive FE, matrix completion</td><td>Latent factors, treatment reversals</td><td>GitHub: xuyiqing/fect_stata</td><td>Liu, Wang &amp; Xu (2024)</td></tr>
+    <tr><td><code>boottest</code></td><td>Wild cluster bootstrap</td><td>Few clusters</td><td><code>ssc install boottest</code></td><td>Roodman et al. (2019)</td></tr>
+    </tbody>
+  </table></div>
+  <div class="note">Option names in community-contributed packages change between versions. Check <code>help &lt;command&gt;</code> after installing; coding of never-treated units in particular differs (0 for <code>csdid</code> and <code>jwdid</code>, missing for <code>did_imputation</code> and <code>eventstudyinteract</code>).</div>
+</section>
+
+<!-- ====================== WORKFLOW ====================== -->
+<section id="workflow">
+  <h2>6. A practical workflow</h2>
+  <ol>
+    <li><b>Describe the design.</b> One treatment date or staggered? Absorbing or reversible? Binary or continuous? Are there never-treated units? Plot the rollout (<code>panelview</code>).</li>
+    <li><b>Plot raw means</b> by cohort over time before running any regression.</li>
+    <li><b>Single date:</b> <code>didregress</code> or <code>reghdfe</code> with an event study is fine.</li>
+    <li><b>Staggered:</b> run TWFE as a baseline, diagnose it with <code>bacondecomp</code> / <code>twowayfeweights</code>, then report at least one robust estimator (<code>csdid</code>, <code>did_imputation</code>, <code>eventstudyinteract</code>, <code>jwdid</code>, <code>lpdid</code>). They usually agree; if they do not, find out which comparison drives the gap.</li>
+    <li><b>Choose the control group deliberately:</b> never-treated versus not-yet-treated changes the parallel-trends assumption you are making.</li>
+    <li><b>Assess parallel trends honestly:</b> show the event study, report <code>honestdid</code> bounds and <code>pretrends</code> power instead of relying on an insignificant pre-test.</li>
+    <li><b>Cluster</b> at the level of treatment assignment; use <code>boottest</code> with few clusters.</li>
+  </ol>
+</section>
+
+<!-- ====================== REFS ====================== -->
+<section id="refs">
+  <h2>7. References</h2>
+
+  <h3 style="margin-top:16px">Surveys and textbooks (start here)</h3>
+  <ol class="refs">
+    <li>Roth, J., Sant&rsquo;Anna, P. H. C., Bilinski, A., &amp; Poe, J. (2023). What&rsquo;s trending in difference-in-differences? A synthesis of the recent econometrics literature. <i>Journal of Econometrics</i>, 235(2), 2218&ndash;2244.</li>
+    <li>de Chaisemartin, C., &amp; D&rsquo;Haultf&oelig;uille, X. (2023). Two-way fixed effects and differences-in-differences with heterogeneous treatment effects: A survey. <i>Econometrics Journal</i>, 26(3), C1&ndash;C30.</li>
+    <li>Baker, A., Callaway, B., Cunningham, S., Goodman-Bacon, A., &amp; Sant&rsquo;Anna, P. H. C. (2025). Difference-in-differences designs: A practitioner&rsquo;s guide. Working paper, arXiv:2503.13323.</li>
+    <li>Baker, A. C., Larcker, D. F., &amp; Wang, C. C. Y. (2022). How much should we trust staggered difference-in-differences estimates? <i>Journal of Financial Economics</i>, 144(2), 370&ndash;395.</li>
+    <li>Miller, D. L. (2023). An introductory guide to event study models. <i>Journal of Economic Perspectives</i>, 37(2), 203&ndash;230.</li>
+    <li>Lechner, M. (2011). The estimation of causal effects by difference-in-difference methods. <i>Foundations and Trends in Econometrics</i>, 4(3), 165&ndash;224.</li>
+    <li>Angrist, J. D., &amp; Pischke, J.-S. (2009). <i>Mostly Harmless Econometrics</i>. Princeton University Press.</li>
+    <li>Cunningham, S. (2021). <i>Causal Inference: The Mixtape</i>. Yale University Press.</li>
+    <li>Huntington-Klein, N. (2021). <i>The Effect: An Introduction to Research Design and Causality</i>. Chapman &amp; Hall/CRC.</li>
+  </ol>
+
+  <h3>Origins and classics</h3>
+  <ol class="refs">
+    <li>Snow, J. (1855). <i>On the Mode of Communication of Cholera</i> (2nd ed.). John Churchill.</li>
+    <li>Obenauer, M. L., &amp; von der Nienburg, B. (1915). <i>Effect of Minimum-Wage Determinations in Oregon</i>. Bulletin of the U.S. Bureau of Labor Statistics, No. 176.</li>
+    <li>Ashenfelter, O. (1978). Estimating the effect of training programs on earnings. <i>Review of Economics and Statistics</i>, 60(1), 47&ndash;57.</li>
+    <li>Ashenfelter, O., &amp; Card, D. (1985). Using the longitudinal structure of earnings to estimate the effect of training programs. <i>Review of Economics and Statistics</i>, 67(4), 648&ndash;660.</li>
+    <li>Card, D. (1990). The impact of the Mariel boatlift on the Miami labor market. <i>ILR Review</i>, 43(2), 245&ndash;257.</li>
+    <li>Card, D., &amp; Krueger, A. B. (1994). Minimum wages and employment: A case study of the fast-food industry in New Jersey and Pennsylvania. <i>American Economic Review</i>, 84(4), 772&ndash;793.</li>
+    <li>Gruber, J. (1994). The incidence of mandated maternity benefits. <i>American Economic Review</i>, 84(3), 622&ndash;641.</li>
+    <li>Meyer, B. D. (1995). Natural and quasi-experiments in economics. <i>Journal of Business &amp; Economic Statistics</i>, 13(2), 151&ndash;161.</li>
+    <li>Heckman, J. J., Ichimura, H., &amp; Todd, P. E. (1997). Matching as an econometric evaluation estimator: Evidence from evaluating a job training programme. <i>Review of Economic Studies</i>, 64(4), 605&ndash;654.</li>
+  </ol>
+
+  <h3>Covariates, nonlinear and fuzzy designs</h3>
+  <ol class="refs">
+    <li>Abadie, A. (2005). Semiparametric difference-in-differences estimators. <i>Review of Economic Studies</i>, 72(1), 1&ndash;19.</li>
+    <li>Athey, S., &amp; Imbens, G. W. (2006). Identification and inference in nonlinear difference-in-differences models. <i>Econometrica</i>, 74(2), 431&ndash;497.</li>
+    <li>Sant&rsquo;Anna, P. H. C., &amp; Zhao, J. (2020). Doubly robust difference-in-differences estimators. <i>Journal of Econometrics</i>, 219(1), 101&ndash;122.</li>
+    <li>de Chaisemartin, C., &amp; D&rsquo;Haultf&oelig;uille, X. (2018). Fuzzy differences-in-differences. <i>Review of Economic Studies</i>, 85(2), 999&ndash;1028.</li>
+    <li>Roth, J., &amp; Sant&rsquo;Anna, P. H. C. (2023a). When is parallel trends sensitive to functional form? <i>Econometrica</i>, 91(2), 737&ndash;747.</li>
+    <li>Wooldridge, J. M. (2023). Simple approaches to nonlinear difference-in-differences with panel data. <i>Econometrics Journal</i>, 26(3), C31&ndash;C66.</li>
+    <li>Olden, A., &amp; M&oslash;en, J. (2022). The triple difference estimator. <i>Econometrics Journal</i>, 25(3), 531&ndash;553.</li>
+    <li>Ortiz-Villavicencio, M., &amp; Sant&rsquo;Anna, P. H. C. (2025). Better understanding triple differences estimators. Working paper, arXiv:2505.09942.</li>
+  </ol>
+
+  <h3>Staggered adoption and heterogeneous effects</h3>
+  <ol class="refs">
+    <li>Goodman-Bacon, A. (2021). Difference-in-differences with variation in treatment timing. <i>Journal of Econometrics</i>, 225(2), 254&ndash;277.</li>
+    <li>de Chaisemartin, C., &amp; D&rsquo;Haultf&oelig;uille, X. (2020). Two-way fixed effects estimators with heterogeneous treatment effects. <i>American Economic Review</i>, 110(9), 2964&ndash;2996.</li>
+    <li>Callaway, B., &amp; Sant&rsquo;Anna, P. H. C. (2021). Difference-in-differences with multiple time periods. <i>Journal of Econometrics</i>, 225(2), 200&ndash;230.</li>
+    <li>Sun, L., &amp; Abraham, S. (2021). Estimating dynamic treatment effects in event studies with heterogeneous treatment effects. <i>Journal of Econometrics</i>, 225(2), 175&ndash;199.</li>
+    <li>Borusyak, K., Jaravel, X., &amp; Spiess, J. (2024). Revisiting event-study designs: Robust and efficient estimation. <i>Review of Economic Studies</i>, 91(6), 3253&ndash;3285.</li>
+    <li>Gardner, J. (2021). Two-stage differences in differences. Working paper, arXiv:2207.05943.</li>
+    <li>Butts, K., &amp; Gardner, J. (2022). did2s: Two-stage difference-in-differences. <i>The R Journal</i>, 14(3), 162&ndash;173.</li>
+    <li>Wooldridge, J. M. (2021). Two-way fixed effects, the two-way Mundlak regression, and difference-in-differences estimators. Working paper, SSRN 3906345.</li>
+    <li>Cengiz, D., Dube, A., Lindner, A., &amp; Zipperer, B. (2019). The effect of minimum wages on low-wage jobs. <i>Quarterly Journal of Economics</i>, 134(3), 1405&ndash;1454.</li>
+    <li>Wing, C., Freedman, S. M., &amp; Hollingsworth, A. (2024). Stacked difference-in-differences. NBER Working Paper 32054.</li>
+    <li>Dube, A., Girardi, D., Jord&agrave;, &Ograve;., &amp; Taylor, A. M. (2023). A local projections approach to difference-in-differences. NBER Working Paper 31184.</li>
+    <li>Athey, S., &amp; Imbens, G. W. (2022). Design-based analysis in difference-in-differences settings with staggered adoption. <i>Journal of Econometrics</i>, 226(1), 62&ndash;79.</li>
+    <li>Roth, J., &amp; Sant&rsquo;Anna, P. H. C. (2023b). Efficient estimation for staggered rollout designs. <i>Journal of Political Economy Microeconomics</i>, 1(4), 669&ndash;709.</li>
+    <li>de Chaisemartin, C., &amp; D&rsquo;Haultf&oelig;uille, X. (2024). Difference-in-differences estimators of intertemporal treatment effects. <i>Review of Economics and Statistics</i>, 1&ndash;45.</li>
+    <li>Callaway, B., Goodman-Bacon, A., &amp; Sant&rsquo;Anna, P. H. C. (2024). Difference-in-differences with a continuous treatment. NBER Working Paper 32117.</li>
+    <li>de Chaisemartin, C., Ciccia, D., D&rsquo;Haultf&oelig;uille, X., &amp; Knau, F. (2024). Two-way fixed effects and differences-in-differences estimators in heterogeneous adoption designs. Working paper, arXiv:2405.04465.</li>
+  </ol>
+
+  <h3>Pre-trends, sensitivity and synthetic methods</h3>
+  <ol class="refs">
+    <li>Roth, J. (2022). Pretest with caution: Event-study estimates after testing for parallel trends. <i>American Economic Review: Insights</i>, 4(3), 305&ndash;322.</li>
+    <li>Rambachan, A., &amp; Roth, J. (2023). A more credible approach to parallel trends. <i>Review of Economic Studies</i>, 90(5), 2555&ndash;2591.</li>
+    <li>Freyaldenhoven, S., Hansen, C., &amp; Shapiro, J. M. (2019). Pre-event trends in the panel event-study design. <i>American Economic Review</i>, 109(9), 3307&ndash;3338.</li>
+    <li>Abadie, A., Diamond, A., &amp; Hainmueller, J. (2010). Synthetic control methods for comparative case studies: Estimating the effect of California&rsquo;s tobacco control program. <i>Journal of the American Statistical Association</i>, 105(490), 493&ndash;505.</li>
+    <li>Arkhangelsky, D., Athey, S., Hirshberg, D. A., Imbens, G. W., &amp; Wager, S. (2021). Synthetic difference-in-differences. <i>American Economic Review</i>, 111(12), 4088&ndash;4118.</li>
+    <li>Xu, Y. (2017). Generalized synthetic control method: Causal inference with interactive fixed effects models. <i>Political Analysis</i>, 25(1), 57&ndash;76.</li>
+    <li>Athey, S., Bayati, M., Doudchenko, N., Imbens, G., &amp; Khosravi, K. (2021). Matrix completion methods for causal panel data models. <i>Journal of the American Statistical Association</i>, 116(536), 1716&ndash;1730.</li>
+    <li>Liu, L., Wang, Y., &amp; Xu, Y. (2024). A practical guide to counterfactual estimators for causal inference with time-series cross-sectional data. <i>American Journal of Political Science</i>, 68(1), 160&ndash;176.</li>
+  </ol>
+
+  <h3>Inference</h3>
+  <ol class="refs">
+    <li>Bertrand, M., Duflo, E., &amp; Mullainathan, S. (2004). How much should we trust differences-in-differences estimates? <i>Quarterly Journal of Economics</i>, 119(1), 249&ndash;275.</li>
+    <li>Cameron, A. C., Gelbach, J. B., &amp; Miller, D. L. (2008). Bootstrap-based improvements for inference with clustered errors. <i>Review of Economics and Statistics</i>, 90(3), 414&ndash;427.</li>
+    <li>Conley, T. G., &amp; Taber, C. R. (2011). Inference with &ldquo;difference in differences&rdquo; with a small number of policy changes. <i>Review of Economics and Statistics</i>, 93(1), 113&ndash;125.</li>
+    <li>Abadie, A., Athey, S., Imbens, G. W., &amp; Wooldridge, J. M. (2023). When should you adjust standard errors for clustering? <i>Quarterly Journal of Economics</i>, 138(1), 1&ndash;35.</li>
+  </ol>
+
+  <h3>Stata software papers</h3>
+  <ol class="refs">
+    <li>Correia, S. (2017). Linear models with high-dimensional fixed effects: An efficient and feasible estimator. Working paper (<code>reghdfe</code>).</li>
+    <li>Villa, J. M. (2016). diff: Simplifying the estimation of difference-in-differences treatment effects. <i>Stata Journal</i>, 16(1), 52&ndash;71.</li>
+    <li>Roodman, D., Nielsen, M. &Oslash;., MacKinnon, J. G., &amp; Webb, M. D. (2019). Fast and wild: Bootstrap inference in Stata using boottest. <i>Stata Journal</i>, 19(1), 4&ndash;60.</li>
+    <li>Clarke, D., &amp; Tapia-Schythe, K. (2021). Implementing the panel event study. <i>Stata Journal</i>, 21(4), 853&ndash;884.</li>
+    <li>Clarke, D., Paila&ntilde;ir, D., Athey, S., &amp; Imbens, G. (2024). On synthetic difference-in-differences and related estimation methods in Stata. <i>Stata Journal</i>, 24(4), 557&ndash;598.</li>
+    <li>Rios-Avila, F., Sant&rsquo;Anna, P. H. C., &amp; Callaway, B. (2021). csdid: Difference-in-differences with multiple time periods in Stata. Stata Conference presentation and SSC package.</li>
+  </ol>
+</section>
+
+<footer>
+  Compiled as a reading and coding companion. Corrections welcome via the repository&rsquo;s issue tracker.
+</footer>
+</main>
+</body>
+</html>
