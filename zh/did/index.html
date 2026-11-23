@@ -647,11 +647,11 @@ boottest D, cluster(state) reps(9999)</code></pre>
     <tr><td><code>cic</code></td><td>变化中的变化</td><td>分布效应</td><td><code>ssc install cic</code></td><td class="rpy">R <code>qte::CiC</code></td><td>Athey &amp; Imbens (2006)</td></tr>
     <tr><td><code>eventdd</code>, <code>xtevent</code>, <code>event_plot</code></td><td>事件研究估计与作图</td><td>作图，组合多个估计量</td><td>分别 <code>ssc install</code></td><td class="rpy">R <code>fixest::iplot</code></td><td>Clarke &amp; Tapia-Schythe (2021); Freyaldenhoven et al. (2019)</td></tr>
     <tr><td><code>honestdid</code></td><td>对平行趋势偏离的敏感性</td><td>任何事件研究之后</td><td><code>ssc install honestdid</code></td><td class="rpy">R <code>HonestDiD</code></td><td>Rambachan &amp; Roth (2023)</td></tr>
-    <tr><td><code>pretrends</code></td><td>预趋势检验的统计功效</td><td>解读平坦的处理前趋势</td><td>GitHub: mcaceresb/stata-pretrends</td><td class="rpy">R <code>pretrends</code></td><td>Roth (2022)</td></tr>
-    <tr><td><code>sdid</code>, <code>sdid_event</code></td><td>合成双重差分</td><td>处理个体少，处理前趋势拟合差</td><td><code>ssc install sdid</code></td><td class="rpy">R <code>synthdid</code></td><td>Arkhangelsky et al. (2021)</td></tr>
+    <tr><td><code>pretrends</code></td><td>预趋势检验的统计功效</td><td>解读平坦的处理前趋势</td><td>GitHub: mcaceresb/stata-pretrends</td><td class="rpy">R <code>pretrends</code> (GitHub)</td><td>Roth (2022)</td></tr>
+    <tr><td><code>sdid</code>, <code>sdid_event</code></td><td>合成双重差分</td><td>处理个体少，处理前趋势拟合差</td><td><code>ssc install sdid</code></td><td class="rpy">R <code>synthdid</code> (GitHub)</td><td>Arkhangelsky et al. (2021)</td></tr>
     <tr><td><code>synth</code>, <code>synth_runner</code></td><td>合成控制</td><td>一个或少数几个处理个体</td><td><code>ssc install synth</code></td><td class="rpy">R <code>Synth</code></td><td>Abadie et al. (2010)</td></tr>
     <tr><td><code>fect</code></td><td>交互固定效应，矩阵补全</td><td>潜在因子，处理可逆</td><td>GitHub: xuyiqing/fect_stata</td><td class="rpy">R <code>fect</code></td><td>Liu, Wang &amp; Xu (2024)</td></tr>
-    <tr><td><code>boottest</code></td><td>野聚类自助法</td><td>聚类数较少</td><td><code>ssc install boottest</code></td><td class="rpy">R <code>fwildclusterboot</code><br>Py <code>wildboottest</code></td><td>Roodman et al. (2019)</td></tr>
+    <tr><td><code>boottest</code></td><td>野聚类自助法</td><td>聚类数较少</td><td><code>ssc install boottest</code></td><td class="rpy">R <code>fwildclusterboot</code> (archived from CRAN)<br>Py <code>wildboottest</code></td><td>Roodman et al. (2019)</td></tr>
     </tbody>
   </table></div>
   <div class="note">R 和 Python 一栏列出实现同一方法的软件包或函数；短横线表示我们不知道有成熟的对应实现。用户编写命令的选项名称会随版本变化。安装后请查看 <code>help &lt;命令名&gt;</code>；尤其要注意从未处理个体的编码方式不同（<code>csdid</code> 和 <code>jwdid</code> 用 0，<code>did_imputation</code> 和 <code>eventstudyinteract</code> 用缺失值）。</div>
