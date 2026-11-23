@@ -45,6 +45,7 @@ MARKUP = [
     ('<div class="anim-player" data-mp4="videos/en/">', '<div class="anim-player" data-mp4="../../did/videos/zh/">'),
     ('<script src="anim/engine.js"></script>', '<script src="../../did/anim/engine.js"></script>'),
     ('<script src="anim/scenes.js"></script>', '<script src="../../did/anim/scenes.js"></script>'),
+    ('<script src="sim/sim.js"></script>', '<script src="../../did/sim/sim.js"></script>'),
     ('<span class="tag">built-in</span>', '<span class="tag">Stata 内置</span>'),
     ('<span class="tag">built-in: xthdidregress</span>', '<span class="tag">内置：xthdidregress</span>'),
     ('<span class="tag">covariates</span>', '<span class="tag">协变量</span>'),
@@ -72,7 +73,7 @@ TEXT = [
     ('References', '参考文献'),
 
     # 1
-    ('1. What is difference-in-differences?', '1. 什么是双重差分法？'),
+    ('What is difference-in-differences?', '什么是双重差分法？'),
     ('Compare the change over time in a treated group with the change over time in an untreated group. The second difference removes whatever both groups share.',
      '把处理组随时间的变化与未处理组随时间的变化相比较。第二次差分去掉了两组共同经历的一切。'),
     ('In the canonical 2&times;2 design there are two groups (treated, control) and two periods (before, after). The estimator is',
@@ -95,7 +96,7 @@ TEXT = [
     ('event study, G<sub>i</sub> = first treated period', '事件研究，G<sub>i</sub> = 首次接受处理的时期'),
 
     # 2
-    ('2. Animated guides', '2. 动画讲解'),
+    ('Animated guides', '动画讲解'),
     ('Thirteen short animations, one for each idea, built on simulated data. In the TWFE and Sun &amp; Abraham scenes the estimates come from actual regressions on the simulated panels, so the bias you see there is real.',
      '十三个短动画，每个讲一个方法，使用模拟数据。TWFE 和 Sun &amp; Abraham 两节中的估计值来自对模拟面板的真实回归，所以其中看到的偏误是真实存在的。'),
     ('The animations need JavaScript. You can watch them as videos instead: <a href="videos/en/all.mp4">all 13 in one MP4</a>.',
@@ -103,8 +104,17 @@ TEXT = [
     ('Prefer a file? Each animation has an MP4 link under the player, or download <a href="videos/en/all.mp4">all 13 as one video</a> (about 9 minutes).',
      '想下载视频？播放器下方有每个动画的 MP4 链接，也可以下载<a href="../../did/videos/zh/all.mp4">全部 13 个动画的合集</a>（约 9 分钟）。'),
 
+    # simulator
+    ('Simulator', '模拟器'),
+    ('Try it: a DiD simulator', '动手试试：双重差分模拟器'),
+    ('Choose when cohorts adopt and how effects behave. The panel has no noise and parallel trends hold exactly, so any gap between an estimate and the truth is pure bias.',
+     '选择各批次的处理时间和效应的变化方式。模拟面板没有噪声，平行趋势严格成立，所以估计值与真实值之间的任何差距都纯粹是偏误。'),
+    ('The simulator needs JavaScript.', '模拟器需要 JavaScript。'),
+    ('The weights follow de Chaisemartin &amp; D&rsquo;Haultf&oelig;uille (2020): static TWFE equals the weighted sum of the true effects in the cells above. Callaway &amp; Sant&rsquo;Anna uses not-yet-treated units (including the never treated) as controls.',
+     '权重的算法来自 de Chaisemartin &amp; D&rsquo;Haultf&oelig;uille（2020）：静态 TWFE 等于上面各格真实效应的加权和。Callaway &amp; Sant&rsquo;Anna 以尚未处理的个体（包括从未处理的个体）作为对照。'),
+
     # 3
-    ('3. The story', '3. 发展历程'),
+    ('The story', '发展历程'),
     ('From a London water pump to the &ldquo;credibility revolution&rdquo; and the post-2018 rewrite of the textbook.',
      '从伦敦的一台水泵，到“可信性革命”，再到 2018 年后教科书的改写。'),
     ('<b class="y">1855</b>John Snow compares cholera deaths across London households served by two water companies before and after one moved its intake upstream &mdash; DiD logic before the name existed.',
@@ -125,14 +135,14 @@ TEXT = [
      '<b class="y">2022&ndash;</b>研究重点转向平行趋势本身的可信度（Roth；Rambachan &amp; Roth）、连续和非吸收型处理，以及与合成控制法的结合。'),
 
     # 4
-    ('4. Why the textbook estimator broke', '4. 教科书估计量为何失灵'),
+    ('Why the textbook estimator broke', '教科书估计量为何失灵'),
     ('When units adopt treatment at different dates, the static TWFE coefficient is a weighted average of every possible 2&times;2 comparison in the data (Goodman-Bacon 2021). Some of those comparisons use <b>already-treated units as controls</b>. If treatment effects grow or differ across cohorts, those &ldquo;forbidden comparisons&rdquo; subtract earlier effects from later ones; the weights can be negative, and the TWFE estimate can even have the opposite sign to every underlying effect (de Chaisemartin &amp; D&rsquo;Haultf&oelig;uille 2020). Event-study leads and lags are contaminated in the same way (Sun &amp; Abraham 2021), so flat pre-trends from a TWFE event study are not reliable evidence.',
      '当个体在不同时间接受处理时，静态 TWFE 系数是数据中所有可能的 2&times;2 比较的加权平均（Goodman-Bacon 2021）。其中一些比较把<b>已经接受处理的个体当作对照</b>。如果处理效应随时间增长或在批次之间不同，这些“禁止的比较”会用后期效应减去早期效应；权重可能为负，TWFE 估计值甚至可能与每一个真实效应符号相反（de Chaisemartin &amp; D&rsquo;Haultf&oelig;uille 2020）。事件研究的前导项和滞后项也会以同样方式被污染（Sun &amp; Abraham 2021），因此 TWFE 事件研究中平坦的处理前趋势并不是可靠的证据。'),
     ('TWFE is still fine when there is a single treatment date, or when effects are homogeneous across cohorts and time. Otherwise, use one of the heterogeneity-robust estimators below. They all share one idea: <b>only compare treated units to not-yet-treated or never-treated units</b>, then aggregate with sensible weights.',
      '当只有一个处理时点，或效应在批次和时间上同质时，TWFE 仍然适用。否则应使用下面这些对异质性稳健的估计量。它们的共同思路是：<b>只把处理个体与尚未处理或从未处理的个体相比较</b>，再用合理的权重加总。'),
 
     # 5
-    ('5. The versions', '5. 各种版本'),
+    ('The versions', '各种版本'),
     # the tag inside was already translated by MARKUP
     ('Grouped by the problem each one solves. Commands marked <span class="tag">Stata 内置</span> ship with Stata 17+; the rest are community-contributed.',
      '按所解决的问题分类。标有<span class="tag">Stata 内置</span>的命令随 Stata 17 及以上版本提供，其余为用户编写的命令。'),
@@ -217,7 +227,7 @@ TEXT = [
      '当聚类数少于约 40 个，或处理组的聚类很少时，应使用野聚类自助法或随机化推断。'),
 
     # 6
-    ('6. Stata cheat sheet', '6. Stata 速查表'),
+    ('Stata cheat sheet', 'Stata 速查表'),
     ('One row per command. A runnable simulation that calls most of them is in <a href="did_examples.do"><code>did_examples.do</code></a>.',
      '每行一个命令。<a href="../../did/did_examples.do"><code>did_examples.do</code></a> 是一个可直接运行的模拟示例，调用了其中大部分命令。'),
     ('Command', '命令'),
@@ -275,7 +285,7 @@ TEXT = [
      '用户编写命令的选项名称会随版本变化。安装后请查看 <code>help &lt;命令名&gt;</code>；尤其要注意从未处理个体的编码方式不同（<code>csdid</code> 和 <code>jwdid</code> 用 0，<code>did_imputation</code> 和 <code>eventstudyinteract</code> 用缺失值）。'),
 
     # 7
-    ('7. A practical workflow', '7. 实证流程'),
+    ('A practical workflow', '实证流程'),
     ('<b>Describe the design.</b> One treatment date or staggered? Absorbing or reversible? Binary or continuous? Are there never-treated units? Plot the rollout (<code>panelview</code>).',
      '<b>描述研究设计。</b>单一处理时点还是交错处理？吸收型还是可逆？二元还是连续？是否有从未处理的个体？画出处理的推进过程（<code>panelview</code>）。'),
     ('<b>Plot raw means</b> by cohort over time before running any regression.', '在做任何回归之前，先<b>画出各批次随时间变化的原始均值</b>。'),
@@ -291,7 +301,7 @@ TEXT = [
      '在处理分配的层级<b>聚类</b>；聚类数较少时使用 <code>boottest</code>。'),
 
     # 8
-    ('8. References', '8. 参考文献'),
+    ('References', '参考文献'),
     ('Surveys and textbooks (start here)', '综述与教材（建议从这里开始）'),
     ('Origins and classics', '起源与经典'),
     ('Covariates, nonlinear and fuzzy designs', '协变量、非线性与模糊设计'),
@@ -317,8 +327,8 @@ def build():
         if old in seen:
             continue
         seen.add(old)
-        pat = re.compile(r'(?<=>)' + re.escape(old) + r'(?=<)')
-        s, n = pat.subn(lambda m: new, s)
+        pat = re.compile(r'(?<=>)(\d+\. )?' + re.escape(old) + r'(?=<)')
+        s, n = pat.subn(lambda m: (m.group(1) or '') + new, s)
         if n == 0:
             missing.append(old)
     if FOOTER[0] not in s:

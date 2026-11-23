@@ -18,11 +18,11 @@
 :root{
   --navy:#1a2340; --navy-2:#243056; --ink:#1f2937; --muted:#5b6475; --line:#e2e5ec;
   --bg:#faf9f6; --card:#ffffff; --accent:#b4552d; --accent-soft:#f6ece6; --link:#1f4e9c;
-  --code-bg:#f3f4f8; --cream:#f5f1e6; --sub:#c3cde6;
+  --code-bg:#f3f4f8; --cream:#f5f1e6; --sub:#c3cde6; --sim-gold:#c08a12; --good:#2f8a55; --bad:#c43c3c;
 }
 @media (prefers-color-scheme: dark){
   :root{ --ink:#e6e8ee; --muted:#a2abbd; --line:#2c3550; --bg:#121829; --card:#1a2238;
-    --accent:#e89a72; --accent-soft:#2a2433; --link:#8fb4f5; --code-bg:#0f1424; }
+    --accent:#e89a72; --accent-soft:#2a2433; --link:#8fb4f5; --code-bg:#0f1424; --sim-gold:#ffd166; --good:#7bd389; --bad:#ef6f6c; }
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -108,6 +108,47 @@ header.hero .wrap{position:relative}
 .anim-link{display:inline-flex;align-items:center;gap:7px;margin-top:10px;font-size:.88rem;font-weight:600;color:var(--accent);text-decoration:none}
 .anim-link:hover{text-decoration:underline}
 .anim-link::before{content:"";width:0;height:0;border-left:8px solid currentColor;border-top:5px solid transparent;border-bottom:5px solid transparent}
+.sim{display:grid;grid-template-columns:minmax(250px,310px) minmax(0,1fr);gap:20px;margin-top:18px;align-items:start}
+.sim-controls fieldset{border:1px solid var(--line);border-radius:8px;padding:10px 14px 12px;margin:0 0 12px;background:var(--card)}
+.sim-controls legend{font-weight:600;font-size:.95rem;padding:0 4px}
+.sim-row{display:grid;gap:2px;margin:6px 0 10px}
+.sim-check{display:flex;align-items:center;gap:8px;font-size:.92rem;cursor:pointer}
+.sim-never{margin-top:4px}
+.sim-sw{width:12px;height:12px;border-radius:3px;display:inline-block;flex:none}
+.sim-slide{display:grid;gap:2px;font-size:.84rem;color:var(--muted);margin:6px 0}
+.sim-slide b{color:var(--ink);font-family:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;font-weight:600}
+.sim input[type=range]{width:100%;accent-color:var(--accent)}
+.sim input[type=checkbox]{accent-color:var(--accent);width:16px;height:16px}
+.sim-presets{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:.84rem;color:var(--muted)}
+.sim-presets span{width:100%}
+.sim-presets button{font:inherit;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:999px;padding:5px 11px;cursor:pointer}
+.sim-presets button:hover{border-color:var(--accent);color:var(--accent)}
+.sim-out{min-width:0;display:grid;gap:14px}
+.sim-nums{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.sim-nums .sim-note{grid-column:1/-1;margin:0}
+.sim-num{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:10px 12px;display:grid;gap:2px;min-width:0}
+.sim-num span{font-size:.8rem;color:var(--muted)}
+.sim-num b{font-family:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;font-size:1.55rem;font-variant-numeric:tabular-nums}
+.sim-num small{font-size:.76rem;color:var(--muted);line-height:1.35}
+.sim-num.is-bad b{color:var(--bad)}
+.sim-num.is-ok b{color:var(--good)}
+.sim-num:first-child b{color:var(--sim-gold)}
+.sim-panel{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:12px 14px;min-width:0}
+.sim-panel h4{margin:0 0 6px;font-size:.95rem}
+.sim-svg{width:100%;height:auto;display:block}
+.sim-grid{stroke:var(--line)}
+.sim-axis{stroke:var(--muted);stroke-width:1}
+.sim-zero{stroke:var(--muted);stroke-dasharray:4 4}
+.sim-tick{fill:var(--muted);font:12px "JetBrains Mono",ui-monospace,Menlo,Consolas,monospace}
+.sim-lab{fill:var(--muted);font-size:12px;font-style:italic}
+.sim-cell-pre{fill:none;stroke:var(--line);stroke-dasharray:3 3}
+.sim-cell-txt{fill:var(--ink);font:11px "JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;pointer-events:none}
+.sim-legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:.82rem;color:var(--muted);margin-top:4px}
+.sim-legend i{display:inline-block;width:18px;height:4px;border-radius:2px;vertical-align:middle;margin-right:6px}
+.sim-legend i.o{width:9px;height:9px;border-radius:50%;border:2px solid;background:none}
+.sim-note{font-size:.84rem;color:var(--muted);margin:6px 0 0}
+@media (max-width:780px){.sim{grid-template-columns:1fr}}
+@media (max-width:480px){.sim-num b{font-size:1.2rem}}
 a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 @media (max-width:640px){.lang-switch{position:static;width:fit-content;margin:0 0 18px}.anim-time{display:none}nav.toc .wrap{flex-wrap:nowrap;overflow-x:auto;white-space:nowrap;scrollbar-width:none}nav.toc .wrap::-webkit-scrollbar{display:none}}
 </style>
@@ -128,6 +169,7 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(-
 <nav class="toc"><div class="wrap">
   <a href="#what">基本原理</a>
   <a href="#animations">动画讲解</a>
+  <a href="#simulator">模拟器</a>
   <a href="#story">发展历程</a>
   <a href="#problem">TWFE 的问题</a>
   <a href="#versions">各种版本</a>
@@ -168,9 +210,19 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(-
   <p class="anim-all">想下载视频？播放器下方有每个动画的 MP4 链接，也可以下载<a href="../../did/videos/zh/all.mp4">全部 13 个动画的合集</a>（约 9 分钟）。</p>
 </section>
 
+<!-- ====================== SIMULATOR ====================== -->
+<section id="simulator">
+  <h2>3. 动手试试：双重差分模拟器</h2>
+  <p class="lead">选择各批次的处理时间和效应的变化方式。模拟面板没有噪声，平行趋势严格成立，所以估计值与真实值之间的任何差距都纯粹是偏误。</p>
+  <div class="sim" id="did-sim">
+    <noscript><p>模拟器需要 JavaScript。</p></noscript>
+  </div>
+  <p class="sim-note">权重的算法来自 de Chaisemartin &amp; D&rsquo;Haultf&oelig;uille（2020）：静态 TWFE 等于上面各格真实效应的加权和。Callaway &amp; Sant&rsquo;Anna 以尚未处理的个体（包括从未处理的个体）作为对照。</p>
+</section>
+
 <!-- ====================== STORY ====================== -->
 <section id="story">
-  <h2>3. 发展历程</h2>
+  <h2>4. 发展历程</h2>
   <p class="lead">从伦敦的一台水泵，到“可信性革命”，再到 2018 年后教科书的改写。</p>
   <ul class="tl">
     <li><b class="y">1855</b>约翰·斯诺比较了伦敦由两家自来水公司供水的家庭在其中一家把取水口迁往上游前后的霍乱死亡人数。这名字出现之前，双重差分的思路就已经有了。</li>
@@ -186,14 +238,14 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(-
 
 <!-- ====================== PROBLEM ====================== -->
 <section id="problem">
-  <h2>4. 教科书估计量为何失灵</h2>
+  <h2>5. 教科书估计量为何失灵</h2>
   <p>当个体在不同时间接受处理时，静态 TWFE 系数是数据中所有可能的 2&times;2 比较的加权平均（Goodman-Bacon 2021）。其中一些比较把<b>已经接受处理的个体当作对照</b>。如果处理效应随时间增长或在批次之间不同，这些“禁止的比较”会用后期效应减去早期效应；权重可能为负，TWFE 估计值甚至可能与每一个真实效应符号相反（de Chaisemartin &amp; D&rsquo;Haultf&oelig;uille 2020）。事件研究的前导项和滞后项也会以同样方式被污染（Sun &amp; Abraham 2021），因此 TWFE 事件研究中平坦的处理前趋势并不是可靠的证据。</p>
   <p>当只有一个处理时点，或效应在批次和时间上同质时，TWFE 仍然适用。否则应使用下面这些对异质性稳健的估计量。它们的共同思路是：<b>只把处理个体与尚未处理或从未处理的个体相比较</b>，再用合理的权重加总。</p>
 </section>
 
 <!-- ====================== VERSIONS ====================== -->
 <section id="versions">
-  <h2>5. 各种版本</h2>
+  <h2>6. 各种版本</h2>
   <p class="lead">按所解决的问题分类。标有<span class="tag">Stata 内置</span>的命令随 Stata 17 及以上版本提供，其余为用户编写的命令。</p>
 
   <h3 style="margin-top:22px">A. 经典设计</h3>
@@ -442,7 +494,7 @@ boottest D, cluster(state) reps(9999)</code></pre>
 
 <!-- ====================== STATA ====================== -->
 <section id="stata">
-  <h2>6. Stata 速查表</h2>
+  <h2>7. Stata 速查表</h2>
   <p class="lead">每行一个命令。<a href="../../did/did_examples.do"><code>did_examples.do</code></a> 是一个可直接运行的模拟示例，调用了其中大部分命令。</p>
   <div class="tablewrap"><table>
     <thead><tr><th>命令</th><th>方法</th><th>适用情形</th><th>安装</th><th>文献</th></tr></thead>
@@ -480,7 +532,7 @@ boottest D, cluster(state) reps(9999)</code></pre>
 
 <!-- ====================== WORKFLOW ====================== -->
 <section id="workflow">
-  <h2>7. 实证流程</h2>
+  <h2>8. 实证流程</h2>
   <ol>
     <li><b>描述研究设计。</b>单一处理时点还是交错处理？吸收型还是可逆？二元还是连续？是否有从未处理的个体？画出处理的推进过程（<code>panelview</code>）。</li>
     <li>在做任何回归之前，先<b>画出各批次随时间变化的原始均值</b>。</li>
@@ -494,7 +546,7 @@ boottest D, cluster(state) reps(9999)</code></pre>
 
 <!-- ====================== REFS ====================== -->
 <section id="refs">
-  <h2>8. 参考文献</h2>
+  <h2>9. 参考文献</h2>
 
   <h3 style="margin-top:16px">综述与教材（建议从这里开始）</h3>
   <ol class="refs">
@@ -591,6 +643,7 @@ boottest D, cluster(state) reps(9999)</code></pre>
 </main>
 <script src="../../did/anim/engine.js"></script>
 <script src="../../did/anim/scenes.js"></script>
-<script>document.querySelectorAll('.anim-player').forEach(function (el) { DIDAnim.mount(el); });</script>
+<script src="../../did/sim/sim.js"></script>
+<script>document.querySelectorAll('.anim-player').forEach(function (el) { DIDAnim.mount(el); }); DIDSim.mount(document.getElementById('did-sim'));</script>
 </body>
 </html>
