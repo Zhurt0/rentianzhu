@@ -331,7 +331,7 @@ reghdfe l_homicide D, absorb(sid year) vce(cluster sid)
 csdid l_homicide, ivar(sid) time(year) gvar(g) long2
 estat simple
 estat event, window(-5 5)</code></pre>
-<p><a class="anim-link" href="#anim-castle">观看动画</a></p>
+<p>可完整运行的 Python 版本（基于 <code>pyfixest</code>）见 <a href="../../did/did_examples.py"><code>did_examples.py</code></a>：它复现了上述结果，并给出两阶段双重差分（+0.080）和局部投影双重差分（+0.093）的估计。<a class="anim-link" href="#anim-castle">观看动画</a></p>
 </section>
 
 <!-- ====================== STORY ====================== -->
