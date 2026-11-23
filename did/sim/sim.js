@@ -20,6 +20,7 @@
       never: 'Include a never-treated group', effects: 'Treatment effects', base: 'Effect in the first year',
       growth: 'Extra effect per year since adoption', het: 'Early cohorts gain more', presets: 'Try a preset',
       p1: 'Constant effect', p2: 'Growing effects', p3: 'No never-treated group', p4: 'Cohorts differ',
+      csv: 'Download this panel (CSV)', csvNote: '50 units per cohort, with unit effects; noise as set above. Columns: id, year, g (first treated year, 0 = never), D, y, tau (true effect).', stataCode: 'Run it in Stata',
       noise: 'Sampling noise (standard deviation)', mc: 'Sampling distribution over 200 simulated samples', mcNote: function (bt, bc, st, sc) { return 'Average estimate: TWFE ' + bt + ' (spread ' + st + '), Callaway & Sant\u2019Anna ' + bc + ' (spread ' + sc + '). The gold line is the true ATT.'; },
       truth: 'True ATT', twfe: 'Static TWFE', cs: 'Callaway & Sant’Anna', bias: 'bias',
       exact: 'matches the truth', csSub: function (v) { return 'exact: the true ATT over the cohort-years with a valid control is also ' + v; },
@@ -33,6 +34,7 @@
       never: '包含从未处理组', effects: '处理效应', base: '处理第一年的效应',
       growth: '此后每年增加的效应', het: '早处理批次效应更大', presets: '试试预设情形',
       p1: '效应不变', p2: '效应逐年增长', p3: '没有从未处理组', p4: '批次间效应不同',
+      csv: '下载该面板数据（CSV）', csvNote: '每个批次 50 个个体，含个体效应；噪声按上方设置。变量：id、year、g（首次处理年份，0 = 从未处理）、D、y、tau（真实效应）。', stataCode: '在 Stata 中运行',
       noise: '抽样噪声（标准差）', mc: '200 个模拟样本的抽样分布', mcNote: function (bt, bc, st, sc) { return '平均估计值：TWFE 为 ' + bt + '（标准差 ' + st + '），Callaway & Sant\u2019Anna 为 ' + bc + '（标准差 ' + sc + '）。金色线为真实 ATT。'; },
       truth: '真实 ATT', twfe: '静态 TWFE', cs: 'Callaway & Sant’Anna', bias: '偏误',
       exact: '与真实值一致', csSub: function (v) { return '准确：在有有效对照的批次-年份上，真实 ATT 也是 ' + v; },
@@ -261,13 +263,15 @@
         '<div class="sim-presets"><span>' + S.presets + '</span>' +
           ['p1', 'p2', 'p3', 'p4'].map(function (p) { return '<button type="button" data-p="' + p + '">' + S[p] + '</button>'; }).join('') +
         '</div>' +
+        '<div class="sim-export"><button type="button" class="sim-csv">' + S.csv + '</button><p class="sim-note">' + S.csvNote + '</p>' +
+          '<details><summary>' + S.stataCode + '</summary><pre tabindex="0"><code>import delimited did_sim.csv, clear\nxtset id year\nreghdfe y D, absorb(id year) vce(cluster id)\ncsdid y, ivar(id) time(year) gvar(g) notyet\nestat simple\ngen Ei = cond(g == 0, ., g)\ndid_imputation y id year Ei\nsum tau if D == 1   // true ATT</code></pre></details></div>' +
       '</div>' +
       '<div class="sim-out">' +
         '<div class="sim-nums" aria-live="polite"></div>' +
-        '<div class="sim-panel"><h4>' + S.weights + '</h4><div class="sim-heat"></div><p class="sim-note sim-negs"></p></div>' +
-        '<div class="sim-panel"><h4>' + S.es + '</h4><div class="sim-es"></div><div class="sim-legend sim-es-leg"></div><p class="sim-note sim-es-note"></p></div>' +
-        '<div class="sim-panel sim-mc" hidden><h4>' + S.mc + '</h4><div class="sim-mc-plot"></div><div class="sim-legend"><span><i style="background:var(--muted)"></i>' + S.twfe + '</span><span><i style="background:var(--accent)"></i>' + S.cs + '</span><span><i style="background:var(--sim-gold)"></i>' + S.truth + '</span></div><p class="sim-note sim-mc-note"></p></div>' +
-        '<div class="sim-panel"><h4>' + S.paths + '</h4><div class="sim-paths"></div></div>' +
+        '<div class="sim-panel"><h3>' + S.weights + '</h3><div class="sim-heat"></div><p class="sim-note sim-negs"></p></div>' +
+        '<div class="sim-panel"><h3>' + S.es + '</h3><div class="sim-es"></div><div class="sim-legend sim-es-leg"></div><p class="sim-note sim-es-note"></p></div>' +
+        '<div class="sim-panel sim-mc" hidden><h3>' + S.mc + '</h3><div class="sim-mc-plot"></div><div class="sim-legend"><span><i style="background:var(--muted)"></i>' + S.twfe + '</span><span><i style="background:var(--accent)"></i>' + S.cs + '</span><span><i style="background:var(--sim-gold)"></i>' + S.truth + '</span></div><p class="sim-note sim-mc-note"></p></div>' +
+        '<div class="sim-panel"><h3>' + S.paths + '</h3><div class="sim-paths"></div></div>' +
       '</div>';
     var $ = function (id) { return root.querySelector('#' + id); };
 
@@ -374,6 +378,31 @@
       var ylo = Math.min.apply(null, ys), yhi = Math.max.apply(null, ys);
       root.querySelector('.sim-paths').innerHTML = linePlot({ x0: 0.5, x1: T + 0.5, y0: Math.floor(ylo), y1: Math.ceil(yhi), xt: range(1, T, 1), yt: niceTicks(Math.floor(ylo), Math.ceil(yhi)), xlabel: S.year, label: S.paths, series: series, h: 220 });
     }
+
+    function exportCsv() {
+      var M = model(st), seed = 777, rnd = function () { seed = (seed * 1664525 + 1013904223) >>> 0; return seed / 4294967296; };
+      var gauss = function () { var u = 0; while (u === 0) u = rnd(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * rnd()); };
+      var lines = ['id,year,g,D,y,tau'], id = 0;
+      M.groups.forEach(function (G) {
+        for (var u = 0; u < 50; u++) {
+          id++; var ue = 0.5 * gauss();
+          for (var t = 1; t <= T; t++) {
+            var tau = M.tau(G, t), D = G.g && t >= G.g ? 1 : 0;
+            var y = M.y(G, t) + ue + (st.noise || 0) * gauss();
+            lines.push([id, t, G.g || 0, D, y.toFixed(4), tau.toFixed(4)].join(','));
+          }
+        }
+      });
+      try {
+        var blob = new Blob([lines.join('\n') + '\n'], { type: 'text/csv' });
+        var a = document.createElement('a');
+        a.href = URL.createObjectURL(blob); a.download = 'did_sim.csv';
+        document.body.appendChild(a); a.click();
+        setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+      } catch (e) {}
+      return lines.length - 1;
+    }
+    root.querySelector('.sim-csv').addEventListener('click', exportCsv);
 
     root.addEventListener('input', function () { readControls(); writeControls(); render(); });
     root.addEventListener('change', function () { readControls(); writeControls(); render(); });

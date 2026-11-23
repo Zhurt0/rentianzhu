@@ -118,8 +118,8 @@
     function sync() { Q.forEach(function (q) { var r = root.querySelector('#guide-' + q.id + '-' + a[q.id]); if (r) r.checked = true; }); }
     function block(title, items, cls) {
       if (!items.length) return '';
-      return '<h4>' + title + '</h4><ol class="guide-list ' + cls + '">' + items.map(function (it) {
-        return '<li><b>' + esc(it.name) + '</b><p>' + esc(it.why) + '</p>' + (it.code ? '<pre><code>' + esc(it.code) + '</code></pre>' : '') +
+      return '<h3>' + title + '</h3><ol class="guide-list ' + cls + '">' + items.map(function (it) {
+        return '<li><b>' + esc(it.name) + '</b><p>' + esc(it.why) + '</p>' + (it.code ? '<pre tabindex="0"><code>' + esc(it.code) + '</code></pre>' : '') +
           (it.anim ? '<a class="anim-link" href="#anim-' + it.anim + '">' + S.watch + '</a>' : '') + '</li>';
       }).join('') + '</ol>';
     }
