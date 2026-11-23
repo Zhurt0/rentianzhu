@@ -20,6 +20,7 @@
       never: 'Include a never-treated group', effects: 'Treatment effects', base: 'Effect in the first year',
       growth: 'Extra effect per year since adoption', het: 'Early cohorts gain more', presets: 'Try a preset',
       p1: 'Constant effect', p2: 'Growing effects', p3: 'No never-treated group', p4: 'Cohorts differ',
+      noise: 'Sampling noise (standard deviation)', mc: 'Sampling distribution over 200 simulated samples', mcNote: function (bt, bc, st, sc) { return 'Average estimate: TWFE ' + bt + ' (spread ' + st + '), Callaway & Sant\u2019Anna ' + bc + ' (spread ' + sc + '). The gold line is the true ATT.'; },
       truth: 'True ATT', twfe: 'Static TWFE', cs: 'Callaway & Sant’Anna', bias: 'bias',
       exact: 'matches the truth', csSub: function (v) { return 'exact: the true ATT over the cohort-years with a valid control is also ' + v; },
       weights: 'Weight TWFE puts on each treated cohort-year', weightsNote: 'Red cells get negative weight: their effects are subtracted. Numbers in cells are the true effects.',
@@ -32,6 +33,7 @@
       never: '包含从未处理组', effects: '处理效应', base: '处理第一年的效应',
       growth: '此后每年增加的效应', het: '早处理批次效应更大', presets: '试试预设情形',
       p1: '效应不变', p2: '效应逐年增长', p3: '没有从未处理组', p4: '批次间效应不同',
+      noise: '抽样噪声（标准差）', mc: '200 个模拟样本的抽样分布', mcNote: function (bt, bc, st, sc) { return '平均估计值：TWFE 为 ' + bt + '（标准差 ' + st + '），Callaway & Sant\u2019Anna 为 ' + bc + '（标准差 ' + sc + '）。金色线为真实 ATT。'; },
       truth: '真实 ATT', twfe: '静态 TWFE', cs: 'Callaway & Sant’Anna', bias: '偏误',
       exact: '与真实值一致', csSub: function (v) { return '准确：在有有效对照的批次-年份上，真实 ATT 也是 ' + v; },
       weights: 'TWFE 对每个已处理批次-年份赋予的权重', weightsNote: '红色格子的权重为负：它们的效应被减掉了。格子中的数字是真实效应。',
@@ -42,10 +44,10 @@
   };
 
   var PRESETS = {
-    p1: { g: [4, 7, 10], on: [1, 1, 0], never: 1, base: 1, growth: 0, het: 0 },
-    p2: { g: [4, 7, 10], on: [1, 1, 0], never: 1, base: 0.5, growth: 0.5, het: 0 },
-    p3: { g: [4, 6, 9], on: [1, 1, 1], never: 0, base: 0.5, growth: 0.5, het: 0 },
-    p4: { g: [3, 8, 10], on: [1, 1, 0], never: 1, base: 1, growth: 0.3, het: 1 }
+    p1: { g: [4, 7, 10], on: [1, 1, 0], never: 1, base: 1, growth: 0, het: 0, noise: 0 },
+    p2: { g: [4, 7, 10], on: [1, 1, 0], never: 1, base: 0.5, growth: 0.5, het: 0, noise: 0 },
+    p3: { g: [4, 6, 9], on: [1, 1, 1], never: 0, base: 0.5, growth: 0.5, het: 0, noise: 0 },
+    p4: { g: [3, 8, 10], on: [1, 1, 0], never: 1, base: 1, growth: 0.3, het: 1, noise: 0 }
   };
   var LEVEL = [3.2, 2.4, 1.6], NEVER_LEVEL = 0.8;
   function lam(t) { return 0.2 * t + 0.3 * Math.sin(t); }
@@ -68,7 +70,7 @@
 
   function demean(M, v) {
     var x = v.slice(), ng = M.groups.length;
-    for (var it = 0; it < 200; it++) {
+    for (var it = 0; it < 1; it++) { // balanced panel: one pass of two-way demeaning is exact
       var gm = new Array(ng).fill(0), tm = new Array(T + 1).fill(0);
       M.rows.forEach(function (r, i) { gm[r.gi] += x[i] / T; });
       x = x.map(function (val, i) { return val - gm[M.rows[i].gi]; });
@@ -89,6 +91,35 @@
       for (r = 0; r < n; r++) if (r !== c) { var f = M[r][c] / M[c][c]; for (j = c; j <= n; j++) M[r][j] -= f * M[c][j]; }
     }
     return M.map(function (row, k) { return row[n] / row[k]; });
+  }
+
+  // Monte Carlo: add iid noise to every cohort-year mean and re-estimate TWFE and CS
+  function monteCarlo(st, M, reps) {
+    var seed = 12345, rnd = function () { seed = (seed * 1664525 + 1013904223) >>> 0; return seed / 4294967296; };
+    var gauss = function () { var u = 0; while (u === 0) u = rnd(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * rnd()); };
+    var dd = demean(M, M.rows.map(function (r) { return r.d; })), den = 0;
+    M.rows.forEach(function (r, i) { den += dd[i] * dd[i]; });
+    var idx = {}; M.rows.forEach(function (r, i) { idx[r.gi + ':' + r.t] = i; });
+    var tw = [], cs = [];
+    for (var k = 0; k < reps; k++) {
+      var yv = M.rows.map(function (r) { return r.y + st.noise * gauss(); });
+      var yy = demean(M, yv), num = 0;
+      M.rows.forEach(function (r, i) { num += dd[i] * yy[i]; });
+      tw.push(num / den);
+      var s = 0, n = 0;
+      M.groups.forEach(function (G, gi) {
+        if (!G.g) return;
+        for (var t = G.g; t <= T; t++) {
+          var base = G.g - 1, ctrl = [];
+          M.groups.forEach(function (H, hi) { if (!H.g || H.g > t) ctrl.push(hi); });
+          if (base < 1 || !ctrl.length) continue;
+          var dC = ctrl.reduce(function (acc, hi) { return acc + yv[idx[hi + ':' + t]] - yv[idx[hi + ':' + base]]; }, 0) / ctrl.length;
+          s += (yv[idx[gi + ':' + t]] - yv[idx[gi + ':' + base]]) - dC; n++;
+        }
+      });
+      cs.push(n ? s / n : NaN);
+    }
+    return { tw: tw, cs: cs };
   }
 
   function analyse(st) {
@@ -225,6 +256,7 @@
           '<label class="sim-slide"><span>' + S.base + ' <b id="sim-bv"></b></span><input type="range" id="sim-base" min="0" max="2" step="0.1"></label>' +
           '<label class="sim-slide"><span>' + S.growth + ' <b id="sim-grv"></b></span><input type="range" id="sim-growth" min="0" max="1" step="0.05"></label>' +
           '<label class="sim-slide"><span>' + S.het + ' <b id="sim-hv"></b></span><input type="range" id="sim-het" min="0" max="1" step="0.05"></label>' +
+          '<label class="sim-slide"><span>' + S.noise + ' <b id="sim-nv"></b></span><input type="range" id="sim-noise" min="0" max="1.5" step="0.1"></label>' +
         '</fieldset>' +
         '<div class="sim-presets"><span>' + S.presets + '</span>' +
           ['p1', 'p2', 'p3', 'p4'].map(function (p) { return '<button type="button" data-p="' + p + '">' + S[p] + '</button>'; }).join('') +
@@ -234,6 +266,7 @@
         '<div class="sim-nums" aria-live="polite"></div>' +
         '<div class="sim-panel"><h4>' + S.weights + '</h4><div class="sim-heat"></div><p class="sim-note sim-negs"></p></div>' +
         '<div class="sim-panel"><h4>' + S.es + '</h4><div class="sim-es"></div><div class="sim-legend sim-es-leg"></div><p class="sim-note sim-es-note"></p></div>' +
+        '<div class="sim-panel sim-mc" hidden><h4>' + S.mc + '</h4><div class="sim-mc-plot"></div><div class="sim-legend"><span><i style="background:var(--muted)"></i>' + S.twfe + '</span><span><i style="background:var(--accent)"></i>' + S.cs + '</span><span><i style="background:var(--sim-gold)"></i>' + S.truth + '</span></div><p class="sim-note sim-mc-note"></p></div>' +
         '<div class="sim-panel"><h4>' + S.paths + '</h4><div class="sim-paths"></div></div>' +
       '</div>';
     var $ = function (id) { return root.querySelector('#' + id); };
@@ -241,13 +274,14 @@
     function writeControls() {
       for (var k = 0; k < 3; k++) { $('sim-on-' + k).checked = !!st.on[k]; $('sim-g-' + k).value = st.g[k]; $('sim-g-' + k).disabled = !st.on[k]; $('sim-gv-' + k).textContent = st.on[k] ? st.g[k] : S.off; }
       $('sim-never').checked = !!st.never;
-      $('sim-base').value = st.base; $('sim-growth').value = st.growth; $('sim-het').value = st.het;
+      $('sim-base').value = st.base; $('sim-growth').value = st.growth; $('sim-het').value = st.het; $('sim-noise').value = st.noise || 0;
+      $('sim-nv').textContent = (st.noise || 0).toFixed(1);
       $('sim-bv').textContent = st.base.toFixed(1); $('sim-grv').textContent = st.growth.toFixed(2); $('sim-hv').textContent = st.het.toFixed(2);
     }
     function readControls() {
       for (var k = 0; k < 3; k++) { st.on[k] = $('sim-on-' + k).checked ? 1 : 0; st.g[k] = +$('sim-g-' + k).value; }
       st.never = $('sim-never').checked ? 1 : 0;
-      st.base = +$('sim-base').value; st.growth = +$('sim-growth').value; st.het = +$('sim-het').value;
+      st.base = +$('sim-base').value; st.growth = +$('sim-growth').value; st.het = +$('sim-het').value; st.noise = +$('sim-noise').value;
     }
 
     function render() {
@@ -306,6 +340,30 @@
         '';
       root.querySelector('.sim-es-note').textContent = R.esDropped ? S.esNote(R.esDropped) : '';
       root.querySelector('.sim-es-leg').innerHTML += '<span><i style="background:var(--sim-gold)"></i>' + S.esTruth + '</span><span><i style="background:var(--muted)"></i>' + S.esTwfe + '</span><span><i class="o" style="border-color:var(--accent)"></i>' + S.esCs + '</span>';
+
+      // sampling distribution
+      var mcPanel = root.querySelector('.sim-mc');
+      if (st.noise > 0) {
+        mcPanel.hidden = false;
+        var MC = monteCarlo(st, M, 200);
+        var all = MC.tw.concat(MC.cs.filter(function (v) { return !isNaN(v); })).concat([R.truth]);
+        var lo2 = Math.min.apply(null, all), hi2 = Math.max.apply(null, all), nb = 30, bw = (hi2 - lo2) / nb || 1;
+        function hist(a) { var hh = new Array(nb).fill(0); a.forEach(function (v) { if (isNaN(v)) return; var b = Math.min(nb - 1, Math.floor((v - lo2) / bw)); hh[b]++; }); return hh; }
+        var h1 = hist(MC.tw), h2 = hist(MC.cs), mx = Math.max.apply(null, h1.concat(h2));
+        var W2 = 520, H2 = 190, pl = 14, pr = 14, pt = 10, pb = 34;
+        var X2 = function (v) { return pl + (v - lo2) / (hi2 - lo2) * (W2 - pl - pr); }, Y2 = function (c) { return pt + (1 - c / mx) * (H2 - pt - pb); };
+        var g2 = '';
+        [[h1, 'var(--muted)'], [h2, 'var(--accent)']].forEach(function (pair) {
+          pair[0].forEach(function (c, b) { if (c) g2 += el('rect', { x: X2(lo2 + b * bw) + 0.5, y: Y2(c), width: Math.max(1, X2(lo2 + (b + 1) * bw) - X2(lo2 + b * bw) - 1), height: H2 - pb - Y2(c), fill: pair[1], 'fill-opacity': 0.55 }); });
+        });
+        g2 += el('line', { x1: X2(R.truth), x2: X2(R.truth), y1: pt, y2: H2 - pb, stroke: 'var(--sim-gold)', 'stroke-width': 3 });
+        g2 += el('line', { x1: pl, x2: W2 - pr, y1: H2 - pb, y2: H2 - pb, class: 'sim-axis' });
+        niceTicks(lo2, hi2).filter(function (v) { return v >= lo2 && v <= hi2; }).forEach(function (v) { g2 += el('text', { x: X2(v), y: H2 - pb + 18, class: 'sim-tick', 'text-anchor': 'middle' }, fmt(v, 1)); });
+        root.querySelector('.sim-mc-plot').innerHTML = el('svg', { viewBox: '0 0 ' + W2 + ' ' + H2, class: 'sim-svg', role: 'img', 'aria-label': S.mc }, g2);
+        var mean = function (a) { a = a.filter(function (v) { return !isNaN(v); }); return a.reduce(function (x, y) { return x + y; }, 0) / a.length; };
+        var sd = function (a) { a = a.filter(function (v) { return !isNaN(v); }); var m = mean(a); return Math.sqrt(a.reduce(function (x, y) { return x + (y - m) * (y - m); }, 0) / (a.length - 1)); };
+        root.querySelector('.sim-mc-note').textContent = S.mcNote(fmt(mean(MC.tw)), fmt(mean(MC.cs)), fmt(sd(MC.tw)), fmt(sd(MC.cs)));
+      } else mcPanel.hidden = true;
 
       // outcome paths
       var series = [], ys = [];
