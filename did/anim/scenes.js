@@ -1045,6 +1045,55 @@
     }
   });
 
+  // ------------------------------------------------------------------ Card & Krueger (1994), real data
+  // FTE employment per store recomputed from the original survey (public.dat, Card's website):
+  // FTE = full-time + managers + 0.5 x part-time. DiD from an OLS with store-clustered SE.
+  var CK = { pa: [23.33, 21.17], nj: [20.44, 21.03], wpa: [4.63, 4.62], wnj: [4.61, 5.08], did: 2.75, se: 1.31 };
+  scene({
+    id: 'ck', stata: ['didregress', 'regress'], dur: 38,
+    title: { en: 'Card & Krueger (1994): real data', zh: 'Card & Krueger（1994）：真实数据' },
+    sub: { en: 'New Jersey\u2019s minimum wage and fast-food jobs', zh: '新泽西州的最低工资与快餐业就业' },
+    beats: [
+      { t: 2.6, en: 'April 1992: New Jersey raised its minimum wage from $4.25 to $5.05 an hour. Neighbouring eastern Pennsylvania did not.', zh: '1992 年 4 月，新泽西州把最低工资从每小时 4.25 美元提高到 5.05 美元，相邻的宾夕法尼亚州东部没有调整。' },
+      { t: 9, en: 'Card & Krueger surveyed 410 fast-food restaurants before (February–March) and after (November–December). Starting wages rose only in New Jersey.', zh: 'Card 和 Krueger 在政策前（2–3 月）和政策后（11–12 月）调查了 410 家快餐店。只有新泽西州的起薪上涨了。' },
+      { t: 16, en: 'Full-time-equivalent employment per store: Pennsylvania fell from 23.33 to 21.17, New Jersey rose from 20.44 to 21.03.', zh: '每家店的全职等效就业人数：宾夕法尼亚州从 23.33 降到 21.17，新泽西州从 20.44 升到 21.03。' },
+      { t: 23, en: 'DiD: (21.03 − 20.44) − (21.17 − 23.33) = +2.75 workers per store (store-clustered standard error 1.31). No sign of job losses.', zh: '双重差分：(21.03 − 20.44) − (21.17 − 23.33) = 每店 +2.75 人（按门店聚类的标准误为 1.31）。没有就业减少的迹象。' },
+      { t: 30.5, en: 'These numbers are recomputed here from the original survey data. The finding started a long debate (Neumark & Wascher 2000; Card & Krueger 2000).', zh: '这些数字是根据原始调查数据重新计算的。这一发现引发了长期争论（Neumark & Wascher 2000；Card & Krueger 2000）。' }
+    ],
+    draw: function (ctx, t) {
+      // starting wages
+      var W = new h.Plot(110, 140, 300, 300, -0.3, 1.3, 4.2, 5.2), wA = prog(t, 9.3, 10);
+      h.text(ctx, L('Average starting wage ($/hour)', '平均起薪（美元/小时）'), W.x, W.y - 18, { size: 16, color: C.muted, italic: LANG_mono(), a: wA });
+      W.axes(ctx, { a: wA, xt: [[0, L('Feb–Mar', '2–3 月')], [1, L('Nov–Dec', '11–12 月')]], xmono: false, yt: [[4.25, '4.25'], [4.5, '4.50'], [4.75, '4.75'], [5.05, '5.05']] });
+      h.line(ctx, W.x, W.Y(5.05), W.x + W.w, W.Y(5.05), { color: C.treat, lw: 1.5, dash: [4, 5], a: wA * 0.7 });
+      h.text(ctx, L('new NJ minimum', '新泽西新最低工资'), W.x + 6, W.Y(5.05) - 8, { size: 13, color: C.treat, align: 'left', a: wA });
+      [[CK.wnj, C.treat], [CK.wpa, C.ctrl]].forEach(function (g, i) {
+        h.path(ctx, W.P([[0, g[0][0]], [1, g[0][1]]]), prog(t, 9.8 + i * 0.6, 11 + i * 0.6), { color: g[1], lw: 4 });
+        h.dot(ctx, W.X(0), W.Y(g[0][0]), 6, { color: g[1], a: prog(t, 9.8 + i * 0.6, 10.1 + i * 0.6) });
+        h.dot(ctx, W.X(1), W.Y(g[0][1]), 6, { color: g[1], a: prog(t, 10.9 + i * 0.6, 11.2 + i * 0.6) });
+        num(ctx, '$' + g[0][1].toFixed(2), W.X(1) + 12, W.Y(g[0][1]) + (i ? 18 : -4), { size: 15, align: 'left', color: g[1], a: prog(t, 11 + i * 0.6, 11.4 + i * 0.6) });
+      });
+      // FTE employment
+      var P = new h.Plot(560, 140, 420, 340, -0.3, 1.3, 17.5, 24.5), pA = prog(t, 2.8, 3.6);
+      P.axes(ctx, { a: pA, xt: [[0, L('Feb–Mar 1992', '1992 年 2–3 月')], [1, L('Nov–Dec 1992', '1992 年 11–12 月')]], xmono: false, yt: [18, 19, 20, 21, 22, 23, 24], ylabel: L('FTE employment per store', '每店全职等效就业') });
+      h.text(ctx, L('Pennsylvania', '宾夕法尼亚'), P.X(0.62), P.Y(23.1), { size: 18, color: C.ctrl, weight: 600, align: 'center', a: prog(t, 17, 17.6) });
+      h.text(ctx, L('New Jersey', '新泽西'), P.X(0.5), P.Y(20.74) + 28, { size: 18, color: C.treat, weight: 600, align: 'center', a: prog(t, 18, 18.6) });
+      [[CK.pa, C.ctrl, 16.3], [CK.nj, C.treat, 17.3]].forEach(function (g) {
+        h.path(ctx, P.P([[0, g[0][0]], [1, g[0][1]]]), prog(t, g[2], g[2] + 1.2), { color: g[1], lw: 4 });
+        h.dot(ctx, P.X(0), P.Y(g[0][0]), 7, { color: g[1], a: prog(t, g[2], g[2] + 0.3) });
+        h.dot(ctx, P.X(1), P.Y(g[0][1]), 7, { color: g[1], a: prog(t, g[2] + 1.1, g[2] + 1.4) });
+        num(ctx, g[0][0].toFixed(2), P.X(0) - 14, P.Y(g[0][0]) + 6, { size: 17, align: 'right', color: g[1], a: prog(t, g[2] + 0.2, g[2] + 0.6) });
+        num(ctx, g[0][1].toFixed(2), P.X(1) + 14, P.Y(g[0][1]) + (g[1] === C.ctrl ? -6 : 18), { size: 17, align: 'left', color: g[1], a: prog(t, g[2] + 1.2, g[2] + 1.6) });
+      });
+      var cf = CK.nj[0] + CK.pa[1] - CK.pa[0];
+      h.path(ctx, P.P([[0, CK.nj[0]], [1, cf]]), prog(t, 23.3, 24.3), { color: C.cf, lw: 2.5, dash: [8, 6] });
+      h.text(ctx, L('if NJ had followed PA', '若新泽西与宾州同步'), P.X(0.95), P.Y(cf) + 26, { size: 14, color: C.cf, italic: true, align: 'right', a: prog(t, 24, 24.6) });
+      h.brace(ctx, P.X(1) + 78, P.Y(CK.nj[1]), P.Y(cf), { side: 1, p: prog(t, 24.3, 25.2) });
+      h.text(ctx, '+2.75', P.X(1) + 102, P.Y((cf + CK.nj[1]) / 2) + 8, { size: 24, mono: true, weight: 700, color: C.effect, a: prog(t, 25, 25.6) });
+      h.text(ctx, '(SE 1.31)', P.X(1) + 102, P.Y((cf + CK.nj[1]) / 2) + 34, { size: 15, mono: true, color: C.muted, a: prog(t, 25.3, 25.9) });
+    }
+  });
+
   // ------------------------------------------------------------------ local projections DiD
   scene({
     id: 'lpdid', stata: ['lpdid'], dur: 38,
@@ -1351,5 +1400,5 @@
     }
   });
 
-  D.order(['snow', 'classic', 'event', 'ddd', 'drdid', 'bacon', 'csdid', 'sunab', 'imputation', 'stacked', 'lpdid', 'dcdh', 'dose', 'fuzzy', 'cic', 'sdid', 'honest', 'cluster', 'wildboot']);
+  D.order(['snow', 'classic', 'ck', 'event', 'ddd', 'drdid', 'bacon', 'csdid', 'sunab', 'imputation', 'stacked', 'lpdid', 'dcdh', 'dose', 'fuzzy', 'cic', 'sdid', 'honest', 'cluster', 'wildboot']);
 })();

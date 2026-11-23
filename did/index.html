@@ -4,14 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Difference-in-Differences: The Story of the Economists' Workhorse</title>
-<meta name="description" content="A collection on difference-in-differences: what it is, its modern variants, the Stata command for each, the papers behind them, and 19 animated guides.">
+<meta name="description" content="A collection on difference-in-differences: what it is, its modern variants, the Stata command for each, the papers behind them, and 20 animated guides.">
 <link rel="canonical" href="https://zhurt0.github.io/rentianzhu/did/">
 <link rel="alternate" hreflang="en" href="https://zhurt0.github.io/rentianzhu/did/">
 <link rel="alternate" hreflang="zh-Hans" href="https://zhurt0.github.io/rentianzhu/zh/did/">
 <link rel="alternate" hreflang="x-default" href="https://zhurt0.github.io/rentianzhu/did/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Difference-in-Differences: The Story of the Economists' Workhorse">
-<meta property="og:description" content="What difference-in-differences is, its modern versions, the Stata command for each, and 19 animated guides.">
+<meta property="og:description" content="What difference-in-differences is, its modern versions, the Stata command for each, and 20 animated guides.">
 <meta property="og:url" content="https://zhurt0.github.io/rentianzhu/did/">
 <meta property="og:image" content="https://zhurt0.github.io/rentianzhu/did/og-en.png">
 <meta property="og:image:width" content="1200">
@@ -203,6 +203,8 @@ header.hero .wrap{position:relative}
 table.gl{min-width:640px}
 table.gl th[scope=row]{font-weight:600;background:none;color:var(--ink);position:static;white-space:nowrap}
 table.gl td:nth-child(2){white-space:nowrap;color:var(--muted)}
+.ck td:not(:first-child),.ck th:not(:first-child){text-align:right;font-variant-numeric:tabular-nums}
+table.ck{min-width:520px}
 .gl-anim{text-decoration:none;color:var(--accent);font-size:.8rem;margin-left:4px}
 a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 @media (max-width:640px){.lang-switch{position:static;width:fit-content;margin:0 0 18px}.anim-time{display:none}nav.toc .wrap{flex-wrap:nowrap;overflow-x:auto;white-space:nowrap;scrollbar-width:none}nav.toc .wrap::-webkit-scrollbar{display:none}}
@@ -215,7 +217,7 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(-
     <div class="lang-switch"><span>EN</span><a href="../zh/did/" lang="zh-Hans" hreflang="zh-Hans">中文</a></div>
     <h1>Difference-in-Differences</h1>
     <p class="sub">The Story of the Economists&rsquo; Workhorse</p>
-    <p class="by">What it is &middot; every major version &middot; the Stata command for each &middot; the papers behind them &middot; 19 animated guides</p>
+    <p class="by">What it is &middot; every major version &middot; the Stata command for each &middot; the papers behind them &middot; 20 animated guides</p>
     <p class="by">Compiled by <a href="https://zhurt0.github.io/rentianzhu/">Rentian Zhu</a> &middot; <a href="https://github.com/Zhurt0/rentianzhu/tree/main/did">Source on GitHub</a></p>
     <a class="hero-cta" href="#animations">Watch the animated guides</a>
     <a class="hero-alt" href="cheatsheet-en.pdf">Cheat sheet (PDF)</a>
@@ -226,6 +228,7 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(-
   <a href="#what">What it is</a>
   <a href="#animations">Animations</a>
   <a href="#simulator">Simulator</a>
+  <a href="#example">Real example</a>
   <a href="#story">Story</a>
   <a href="#problem">TWFE problem</a>
   <a href="#versions">Versions</a>
@@ -262,11 +265,11 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(-
 <!-- ====================== ANIMATIONS ====================== -->
 <section id="animations">
   <h2>2. Animated guides</h2>
-  <p class="lead">Nineteen short animations, from John Snow&rsquo;s cholera study to inference with few clusters. The TWFE, Sun &amp; Abraham and inference scenes compute their estimates and rejection rates from regressions on simulated panels, so what you see there is real.</p>
+  <p class="lead">Twenty short animations, from John Snow&rsquo;s cholera study and Card &amp; Krueger&rsquo;s minimum-wage data to inference with few clusters. The TWFE, Sun &amp; Abraham and inference scenes compute their estimates and rejection rates from regressions on simulated panels, so what you see there is real.</p>
   <div class="anim-player" data-mp4="videos/en/">
-    <noscript><p>The animations need JavaScript. You can watch them as videos instead: <a href="videos/en/all.mp4">all 19 in one MP4</a>.</p></noscript>
+    <noscript><p>The animations need JavaScript. You can watch them as videos instead: <a href="videos/en/all.mp4">all 20 in one MP4</a>.</p></noscript>
   </div>
-  <p class="anim-all">Prefer a file? Each animation has an MP4 link under the player, or download <a href="videos/en/all.mp4">all 19 as one video</a> (about 13 minutes), with <a href="videos/en/all.srt">subtitles (SRT)</a>.</p>
+  <p class="anim-all">Prefer a file? Each animation has an MP4 link under the player, or download <a href="videos/en/all.mp4">all 20 as one video</a> (about 14 minutes), with <a href="videos/en/all.srt">subtitles (SRT)</a>.</p>
 </section>
 
 <!-- ====================== SIMULATOR ====================== -->
@@ -279,9 +282,33 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(-
   <p class="sim-note">The weights follow de Chaisemartin &amp; D&rsquo;Haultf&oelig;uille (2020): static TWFE equals the weighted sum of the true effects in the cells above. Callaway &amp; Sant&rsquo;Anna uses not-yet-treated units (including the never treated) as controls.</p>
 </section>
 
+<!-- ====================== REAL EXAMPLE ====================== -->
+<section id="example">
+  <h2>4. A real example: New Jersey&rsquo;s minimum wage</h2>
+  <p class="lead">Card &amp; Krueger (1994), recomputed from their original survey of 410 fast-food restaurants.</p>
+  <p>In April 1992 New Jersey raised its minimum wage from $4.25 to $5.05 an hour; neighbouring eastern Pennsylvania did not. Card and Krueger surveyed fast-food restaurants in both states before (February&ndash;March) and after (November&ndash;December) the increase. Average starting wages rose from $4.61 to $5.08 in New Jersey and stayed at $4.62&ndash;4.63 in Pennsylvania.</p>
+  <div class="tablewrap"><table class="ck">
+    <thead><tr><th>FTE employment per store</th><th>Feb&ndash;Mar 1992</th><th>Nov&ndash;Dec 1992</th><th>Change</th></tr></thead>
+    <tbody>
+      <tr><td>Pennsylvania</td><td>23.33</td><td>21.17</td><td>&minus;2.16</td></tr>
+      <tr><td>New Jersey</td><td>20.44</td><td>21.03</td><td>+0.59</td></tr>
+      <tr><td><b>Difference in differences</b></td><td></td><td></td><td><b>+2.75</b> (1.31)</td></tr>
+    </tbody>
+  </table></div>
+  <p>Full-time-equivalent (FTE) employment counts full-time workers and managers plus half of part-time workers. The standard error in brackets is clustered by store. Instead of the job losses a simple competitive model predicts, employment in New Jersey rose relative to Pennsylvania. The finding started a long debate about data and methods (Neumark &amp; Wascher 2000; Card &amp; Krueger 2000).</p>
+  <pre><code>* data: davidcard.berkeley.edu/data_sets/njmin.zip (public.dat)
+infix sheet 1-3 state 9 empft 26-30 emppt 32-36 nmgrs 38-42 ///
+      empft2 122-126 emppt2 128-132 nmgrs2 134-138 using public.dat, clear
+gen fte1 = empft  + nmgrs  + 0.5*emppt
+gen fte2 = empft2 + nmgrs2 + 0.5*emppt2
+reshape long fte, i(sheet) j(wave)
+regress fte i.state##i.wave, vce(cluster sheet)</code></pre>
+  <p>The full script, with the table of means, <code>didregress</code> and chain fixed effects, is in <a href="card_krueger.do"><code>card_krueger.do</code></a>. <a class="anim-link" href="#anim-ck">Watch the animation</a></p>
+</section>
+
 <!-- ====================== STORY ====================== -->
 <section id="story">
-  <h2>4. The story</h2>
+  <h2>5. The story</h2>
   <p class="lead">From a London water pump to the &ldquo;credibility revolution&rdquo; and the post-2018 rewrite of the textbook.</p>
   <ul class="tl">
     <li><b class="y">1855</b>John Snow compares cholera deaths across London households served by two water companies before and after one moved its intake upstream &mdash; DiD logic before the name existed. <a class="anim-link" href="#anim-snow">Watch the animation</a></li>
@@ -297,14 +324,14 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(-
 
 <!-- ====================== PROBLEM ====================== -->
 <section id="problem">
-  <h2>5. Why the textbook estimator broke</h2>
+  <h2>6. Why the textbook estimator broke</h2>
   <p>When units adopt treatment at different dates, the static TWFE coefficient is a weighted average of every possible 2&times;2 comparison in the data (Goodman-Bacon 2021). Some of those comparisons use <b>already-treated units as controls</b>. If treatment effects grow or differ across cohorts, those &ldquo;forbidden comparisons&rdquo; subtract earlier effects from later ones; the weights can be negative, and the TWFE estimate can even have the opposite sign to every underlying effect (de Chaisemartin &amp; D&rsquo;Haultf&oelig;uille 2020). Event-study leads and lags are contaminated in the same way (Sun &amp; Abraham 2021), so flat pre-trends from a TWFE event study are not reliable evidence.</p>
   <p>TWFE is still fine when there is a single treatment date, or when effects are homogeneous across cohorts and time. Otherwise, use one of the heterogeneity-robust estimators below. They all share one idea: <b>only compare treated units to not-yet-treated or never-treated units</b>, then aggregate with sensible weights.</p>
 </section>
 
 <!-- ====================== VERSIONS ====================== -->
 <section id="versions">
-  <h2>6. The versions</h2>
+  <h2>7. The versions</h2>
   <p class="lead">Grouped by the problem each one solves. Commands marked <span class="tag">built-in</span> ship with Stata 17+; the rest are community-contributed.</p>
 
   <h3 style="margin-top:22px">A. Classic designs</h3>
@@ -557,7 +584,7 @@ boottest D, cluster(state) reps(9999)</code></pre>
 
 <!-- ====================== GUIDE ====================== -->
 <section id="guide">
-  <h2>7. Which estimator should I use?</h2>
+  <h2>8. Which estimator should I use?</h2>
   <p class="lead">Answer a few questions about your design. The recommendation and the Stata code update as you go.</p>
   <div class="guide" id="did-guide">
     <noscript><p>The guide needs JavaScript. The cards above and the cheat sheet below cover the same ground.</p></noscript>
@@ -566,7 +593,7 @@ boottest D, cluster(state) reps(9999)</code></pre>
 
 <!-- ====================== STATA ====================== -->
 <section id="stata">
-  <h2>8. Stata cheat sheet</h2>
+  <h2>9. Stata cheat sheet</h2>
   <p class="lead">One row per command. A runnable simulation that calls most of them is in <a href="did_examples.do"><code>did_examples.do</code></a>.</p>
   <div class="tablewrap"><table>
     <thead><tr><th>Command</th><th>Method</th><th>Use it when</th><th>Install</th><th>R &middot; Python</th><th>Paper</th></tr></thead>
@@ -604,7 +631,7 @@ boottest D, cluster(state) reps(9999)</code></pre>
 
 <!-- ====================== WORKFLOW ====================== -->
 <section id="workflow">
-  <h2>9. A practical workflow</h2>
+  <h2>10. A practical workflow</h2>
   <ol>
     <li><b>Describe the design.</b> One treatment date or staggered? Absorbing or reversible? Binary or continuous? Are there never-treated units? Plot the rollout (<code>panelview</code>).</li>
     <li><b>Plot raw means</b> by cohort over time before running any regression.</li>
@@ -618,21 +645,21 @@ boottest D, cluster(state) reps(9999)</code></pre>
 
 <!-- ====================== QUIZ ====================== -->
 <section id="quiz">
-  <h2>10. Test yourself</h2>
+  <h2>11. Test yourself</h2>
   <p class="lead">Twelve questions. Pick an answer to see whether it is right and why.</p>
   <div id="did-quiz"><noscript><p>The quiz needs JavaScript.</p></noscript></div>
 </section>
 
 <!-- ====================== GLOSSARY ====================== -->
 <section id="glossary">
-  <h2>11. Glossary</h2>
+  <h2>12. Glossary</h2>
   <p class="lead">The main terms in English and Chinese, each with a one-line definition and a link to the animation that shows it.</p>
   <div id="did-glossary"><noscript><p>The glossary needs JavaScript.</p></noscript></div>
 </section>
 
 <!-- ====================== REFS ====================== -->
 <section id="refs">
-  <h2>12. References</h2>
+  <h2>13. References</h2>
 
   <h3 style="margin-top:16px">Surveys and textbooks (start here)</h3>
   <ol class="refs">
@@ -656,6 +683,8 @@ boottest D, cluster(state) reps(9999)</code></pre>
     <li>Card, D. (1990). The impact of the Mariel boatlift on the Miami labor market. <i>ILR Review</i>, 43(2), 245&ndash;257.</li>
     <li>Card, D., &amp; Krueger, A. B. (1994). Minimum wages and employment: A case study of the fast-food industry in New Jersey and Pennsylvania. <i>American Economic Review</i>, 84(4), 772&ndash;793.</li>
     <li>Gruber, J. (1994). The incidence of mandated maternity benefits. <i>American Economic Review</i>, 84(3), 622&ndash;641.</li>
+    <li>Neumark, D., &amp; Wascher, W. (2000). Minimum wages and employment: A case study of the fast-food industry in New Jersey and Pennsylvania: Comment. <i>American Economic Review</i>, 90(5), 1362&ndash;1396.</li>
+    <li>Card, D., &amp; Krueger, A. B. (2000). Minimum wages and employment: A case study of the fast-food industry in New Jersey and Pennsylvania: Reply. <i>American Economic Review</i>, 90(5), 1397&ndash;1420.</li>
     <li>Meyer, B. D. (1995). Natural and quasi-experiments in economics. <i>Journal of Business &amp; Economic Statistics</i>, 13(2), 151&ndash;161.</li>
     <li>Heckman, J. J., Ichimura, H., &amp; Todd, P. E. (1997). Matching as an econometric evaluation estimator: Evidence from evaluating a job training programme. <i>Review of Economic Studies</i>, 64(4), 605&ndash;654.</li>
   </ol>

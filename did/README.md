@@ -5,11 +5,13 @@
 A compact collection on difference-in-differences (DiD): what it is, the main versions of it, the Stata command for each, and the papers behind them.
 
 - `index.html` — the full collection as a single web page (works on GitHub Pages); the Chinese version is `../zh/did/index.html`
-- `anim/` — 19 animated guides drawn on a canvas, with English and Chinese captions and transcripts
-- `videos/en/`, `videos/zh/` — the same animations as MP4 files, one per scene plus `all.mp4` (about 13 minutes)
+- `anim/` — 20 animated guides drawn on a canvas, with English and Chinese captions and transcripts
+- `videos/en/`, `videos/zh/` — the same animations as MP4 files, one per scene plus `all.mp4` (about 14 minutes)
 - `sim/` — an interactive simulator: pick adoption years and effect dynamics, compare true ATT, static TWFE (with its cohort-year weights), Callaway & Sant'Anna and a pooled event study
 - `guide/` — "Which estimator should I use?": design questions mapped to estimators, Stata code and diagnostics
 - `did_examples.do` — a simulated staggered-adoption panel with one call to each main estimator
+- `card_krueger.do` — Card & Krueger (1994) re-estimated from the original survey file
+- `cheatsheet-en.pdf`, `cheatsheet-zh.pdf` — one-page cheat sheets (`node tools/make_did_cheatsheet.mjs`)
 - `og-en.png`, `og-zh.png` — link-preview images (regenerate with `node tools/make_did_og.mjs`)
 
 Live: <https://zhurt0.github.io/rentianzhu/did/> · 中文：<https://zhurt0.github.io/rentianzhu/zh/did/>
@@ -20,25 +22,26 @@ Live: <https://zhurt0.github.io/rentianzhu/did/> · 中文：<https://zhurt0.git
 |---|---|---|
 | 1 | John Snow, 1855: the first DiD | `didregress` |
 | 2 | The 2×2 design | `didregress`, `reghdfe` |
-| 3 | Event studies and parallel trends | `reghdfe`, `eventdd` |
-| 4 | Triple differences | `didregress`, `reghdfe` |
-| 5 | Conditional parallel trends (doubly robust) | `drdid` |
-| 6 | Staggered adoption: why TWFE breaks | `bacondecomp`, `twowayfeweights` |
-| 7 | Callaway & Sant'Anna | `csdid`, `xthdidregress` |
-| 8 | Sun & Abraham | `eventstudyinteract` |
-| 9 | Imputation and two-stage DiD | `did_imputation`, `did2s`, `jwdid` |
-| 10 | Stacked DiD | `stackedev` |
-| 11 | Local-projections DiD | `lpdid` |
-| 12 | Treatments that switch on, off or change | `did_multiplegt_dyn`, `did_had` |
-| 13 | Continuous treatment | `did_had`, `did_multiplegt_dyn` |
-| 14 | Fuzzy DiD | `fuzzydid` |
-| 15 | Changes-in-changes | `cic` |
-| 16 | Synthetic control and synthetic DiD | `sdid`, `synth` |
-| 17 | Honest DiD | `honestdid`, `pretrends` |
-| 18 | Serial correlation and clustering | `vce(cluster)` |
-| 19 | Few clusters: the wild cluster bootstrap | `boottest` |
+| 3 | Card & Krueger (1994): real data | `didregress`, `regress` |
+| 4 | Event studies and parallel trends | `reghdfe`, `eventdd` |
+| 5 | Triple differences | `didregress`, `reghdfe` |
+| 6 | Conditional parallel trends (doubly robust) | `drdid` |
+| 7 | Staggered adoption: why TWFE breaks | `bacondecomp`, `twowayfeweights` |
+| 8 | Callaway & Sant'Anna | `csdid`, `xthdidregress` |
+| 9 | Sun & Abraham | `eventstudyinteract` |
+| 10 | Imputation and two-stage DiD | `did_imputation`, `did2s`, `jwdid` |
+| 11 | Stacked DiD | `stackedev` |
+| 12 | Local-projections DiD | `lpdid` |
+| 13 | Treatments that switch on, off or change | `did_multiplegt_dyn`, `did_had` |
+| 14 | Continuous treatment | `did_had`, `did_multiplegt_dyn` |
+| 15 | Fuzzy DiD | `fuzzydid` |
+| 16 | Changes-in-changes | `cic` |
+| 17 | Synthetic control and synthetic DiD | `sdid`, `synth` |
+| 18 | Honest DiD | `honestdid`, `pretrends` |
+| 19 | Serial correlation and clustering | `vce(cluster)` |
+| 20 | Few clusters: the wild cluster bootstrap | `boottest` |
 
-The data are simulated. Computed live in the browser: the TWFE estimate and 2×2 comparisons in scene 6, the pooled event study in scene 8, the LP-DiD estimates in scene 11, and the placebo-law rejection rates in scenes 18–19 (seeded simulations of AR(1) panels). The John Snow figures (cholera deaths per 10,000 households) are Snow's Table XII as presented in Cunningham (2021, Table 9.2). Other scenes use illustrative numbers; the Honest DiD bounds in scene 17 are a simplified illustration of the relative-magnitudes idea, not the exact Rambachan–Roth procedure.
+The data are simulated. Computed live in the browser: the TWFE estimate and 2×2 comparisons in scene 7, the pooled event study in scene 9, the LP-DiD estimates in scene 12, and the placebo-law rejection rates in scenes 19–20 (seeded simulations of AR(1) panels). The John Snow figures (cholera deaths per 10,000 households) are Snow's Table XII as presented in Cunningham (2021, Table 9.2). The Card & Krueger numbers in scene 3 are recomputed from their original survey data (see `card_krueger.do`). Other scenes use illustrative numbers; the Honest DiD bounds in scene 18 are a simplified illustration of the relative-magnitudes idea, not the exact Rambachan–Roth procedure.
 
 Each scene is a pure function of time in `anim/scenes.js`, so the page and the videos always match. To change a scene and re-render:
 

@@ -12,7 +12,7 @@ const lora = fs.readFileSync(path.join(ROOT, 'fonts/lora-normal-latin.woff2')).t
 
 const T = {
   en: {
-    title: 'Difference-in-differences cheat sheet', url: 'zhurt0.github.io/rentianzhu/did · 19 animated guides, a simulator and the full reference list',
+    title: 'Difference-in-differences cheat sheet', url: 'zhurt0.github.io/rentianzhu/did · 20 animated guides, a simulator and the full reference list',
     idea: 'The idea', ideaTxt: 'Compare the change over time in the treated group with the change in the control group. The second difference removes shocks both groups share.',
     ass: 'Assumptions', assL: ['<b>Parallel trends</b>: without treatment, the groups would have moved in parallel. Untestable after treatment.', '<b>No anticipation</b>: no response before treatment starts.', '<b>No spillovers</b>: one unit’s treatment does not affect another’s outcome.'],
     warn: 'When plain TWFE misleads', warnTxt: 'Staggered adoption + effects that differ across cohorts or grow over time. TWFE then uses already-treated units as controls ("forbidden comparisons"); some weights can be negative. Event-study leads and lags are contaminated too.',
@@ -35,7 +35,7 @@ const T = {
     note: 'Check option names with help after installing; never-treated units are coded 0 in csdid and jwdid but missing in did_imputation and eventstudyinteract.'
   },
   zh: {
-    title: '双重差分法速查表', url: 'zhurt0.github.io/rentianzhu/zh/did · 19 个动画讲解、交互式模拟器和完整参考文献',
+    title: '双重差分法速查表', url: 'zhurt0.github.io/rentianzhu/zh/did · 20 个动画讲解、交互式模拟器和完整参考文献',
     idea: '基本思路', ideaTxt: '把处理组随时间的变化与对照组的变化相比较。第二次差分去掉了两组共同受到的冲击。',
     ass: '识别假设', assL: ['<b>平行趋势</b>：如果没有处理，两组会平行变化。处理后无法检验。', '<b>无预期效应</b>：处理开始前个体不会作出反应。', '<b>无溢出效应</b>：一个个体是否处理不影响其他个体的结果。'],
     warn: '普通 TWFE 何时会误导', warnTxt: '交错处理，且效应在批次间不同或随时间增长。此时 TWFE 会把已处理个体当作对照（“禁止的比较”），部分权重可能为负；事件研究的前导项和滞后项也会被污染。',
