@@ -240,6 +240,12 @@
   // ---------- scenes ----------
   var SCENES = [];
   function scene(def) { SCENES.push(def); }
+  // put scenes in a given order (ids not listed keep their relative order at the end)
+  function order(ids) {
+    var rest = SCENES.filter(function (sc) { return ids.indexOf(sc.id) < 0; });
+    var sorted = ids.map(find).filter(Boolean).concat(rest);
+    SCENES.length = 0; sorted.forEach(function (sc) { SCENES.push(sc); });
+  }
 
   // ---------- frame ----------
   var CAPTION_Y = 616;
@@ -336,7 +342,8 @@
     var T = {
       play: L('Play', '播放'), pause: L('Pause', '暂停'), replay: L('Replay', '重播'),
       next: L('Next', '下一个'), mp4: L('MP4', 'MP4 视频'), full: L('Full screen', '全屏'),
-      scrub: L('Position in the animation', '动画进度'), chapters: L('Choose an animation', '选择动画')
+      scrub: L('Position in the animation', '动画进度'), chapters: L('Choose an animation', '选择动画'),
+      transcript: L('Transcript', '文字稿'), jump: L('Jump to', '跳转到')
     };
     root.innerHTML =
       '<div class="anim-stage">' +
@@ -352,6 +359,7 @@
         '<button type="button" class="anim-btn anim-fs" aria-label="' + T.full + '"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h6v2H6v4H4zM14 4h6v6h-2V6h-4zM4 14h2v4h4v2H4zM18 14h2v6h-6v-2h4z"/></svg></button>' +
       '</div>' +
       '<p class="anim-cap" aria-live="polite"></p>' +
+      '<details class="anim-transcript"><summary>' + T.transcript + '</summary><ol></ol></details>' +
       '<ol class="anim-chapters" aria-label="' + T.chapters + '"></ol>';
 
     var stage = root.querySelector('.anim-stage');
@@ -366,6 +374,7 @@
     var fsBtn = root.querySelector('.anim-fs');
     var sr = root.querySelector('.anim-cap');
     var list = root.querySelector('.anim-chapters');
+    var trList = root.querySelector('.anim-transcript ol');
 
     var cur = SCENES[0], t = 0, playing = false, last = 0, poster = true, lastCap = -1;
 
@@ -423,6 +432,16 @@
         b.classList.toggle('is-current', on);
         if (on) b.setAttribute('aria-current', 'true'); else b.removeAttribute('aria-current');
       });
+      trList.innerHTML = '';
+      sc.beats.forEach(function (b) {
+        var li = document.createElement('li');
+        var btn = document.createElement('button');
+        btn.type = 'button'; btn.className = 'anim-ts'; btn.textContent = fmtTime(b.t);
+        btn.setAttribute('aria-label', T.jump + ' ' + fmtTime(b.t));
+        btn.addEventListener('click', function () { t = b.t; poster = false; root.classList.remove('is-ended'); setPlaying(true); });
+        var span = document.createElement('span'); span.textContent = tr(b);
+        li.appendChild(btn); li.appendChild(span); trList.appendChild(li);
+      });
       setPlaying(false);
       draw();
       if (autoplay) setPlaying(true);
@@ -478,7 +497,7 @@
   }
 
   window.DIDAnim = {
-    W: W, H: H, C: C, SCENES: SCENES, scene: scene,
+    W: W, H: H, C: C, SCENES: SCENES, scene: scene, order: order,
     h: {
       clamp: clamp, ease: ease, prog: prog, lin: lin, lerp: lerp, win: win, tr: tr, L: L,
       text: text, para: para, measure: measure, font: font, box: box, dot: dot, path: path,

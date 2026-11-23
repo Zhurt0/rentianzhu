@@ -972,4 +972,384 @@
       h.text(ctx, L('breakdown ≈ ', '临界值 ≈ ') + HD.breakdown.toFixed(1), S.X(HD.breakdown) + 8, S.y + 24, { size: 16, color: C.effect, a: bA });
     }
   });
+
+  // ================================================================== extra scenes
+  function lazy(fn) { var v, done = false; return function () { if (!done) { v = fn(); done = true; } return v; }; }
+  // beat whose text is computed on first use
+  function lbeat(t, fn) { var o = { t: t }; Object.defineProperty(o, 'en', { get: function () { return fn().en; } }); Object.defineProperty(o, 'zh', { get: function () { return fn().zh; } }); return o; }
+  function pct(v) { return (v * 100).toFixed(1).replace(/\.0$/, '') + '%'; }
+
+  // ------------------------------------------------------------------ John Snow 1855
+  // Death rates as tabulated in Cunningham (2021), The Mixtape, Table 9.1.
+  var SNOW = { sv: [135, 147], lb: [85, 19] };
+  scene({
+    id: 'snow', stata: ['didregress'], dur: 36,
+    title: { en: 'John Snow, 1855: the first DiD', zh: '约翰·斯诺，1855：最早的双重差分' },
+    sub: { en: 'Cholera, the Thames and two water companies', zh: '霍乱、泰晤士河与两家自来水公司' },
+    beats: [
+      { t: 2.6, en: 'London, 1849 and 1854. Two water companies, Southwark & Vauxhall and Lambeth, supplied households in the same districts.', zh: '伦敦，1849 年和 1854 年。Southwark & Vauxhall 和 Lambeth 两家自来水公司为同一片街区的住户供水。' },
+      { t: 8.5, en: 'In 1852 Lambeth moved its intake upstream, above the city’s sewage. Southwark & Vauxhall kept drawing water from the polluted stretch.', zh: '1852 年，Lambeth 把取水口迁到上游，避开了城市污水；Southwark & Vauxhall 仍从受污染的河段取水。' },
+      { t: 15, en: 'Cholera death rates: Southwark & Vauxhall went from 135 to 147, Lambeth from 85 to 19.', zh: '霍乱死亡率：Southwark & Vauxhall 从 135 升到 147，Lambeth 从 85 降到 19。' },
+      { t: 22, en: 'Lambeth’s change (−66) minus Southwark & Vauxhall’s change (+12) is −78: a difference in differences.', zh: 'Lambeth 的变化（−66）减去 Southwark & Vauxhall 的变化（+12），等于 −78：这就是双重差分。' },
+      { t: 29, en: 'Snow (1855) used this comparison to argue that cholera spreads through water, long before germ theory was accepted. Numbers as tabulated in Cunningham (2021).', zh: '斯诺（1855）用这一比较论证霍乱经水传播，而那时细菌理论尚未被接受。数据引自 Cunningham（2021）的整理。' }
+    ],
+    draw: function (ctx, t) {
+      // river
+      var rA = prog(t, 2.8, 3.6), ry = 140;
+      ctx.save(); ctx.globalAlpha *= rA;
+      ctx.fillStyle = 'rgba(108,180,238,0.22)'; ctx.beginPath();
+      for (var x = 70; x <= 1210; x += 10) ctx.lineTo(x, ry - 16 + 4 * Math.sin(x / 40 + t * 1.2));
+      for (x = 1210; x >= 70; x -= 10) ctx.lineTo(x, ry + 16 + 4 * Math.sin(x / 40 + t * 1.2 + 1));
+      ctx.closePath(); ctx.fill(); ctx.restore();
+      h.text(ctx, L('River Thames', '泰晤士河'), 80, ry - 26, { size: 16, color: C.ctrl, italic: true, a: rA });
+      h.arrow(ctx, 560, ry, 640, ry, { color: C.ctrl, lw: 2, head: 9, a: rA * 0.8 });
+      h.text(ctx, L('flow', '水流'), 600, ry - 24, { size: 14, color: C.ctrl, align: 'center', a: rA });
+      // sewage downstream
+      for (var k = 0; k < 18; k++) { var sx = 820 + (k * 53) % 380, sy = ry - 10 + (k * 37) % 20; h.dot(ctx, sx, sy, 3, { color: '#a07a4a', a: rA * 0.9 }); }
+      h.text(ctx, L('central London: sewage', '伦敦市中心：污水'), 1010, ry - 26, { size: 15, color: '#c49a6a', align: 'center', a: rA });
+      // intakes
+      var lx = h.lerp(840, 260, prog(t, 9.2, 12));
+      function intake(x, label, col, a) {
+        h.line(ctx, x, ry, x, ry + 70, { color: col, lw: 4, a: a });
+        h.dot(ctx, x, ry, 7, { color: col, a: a });
+        h.box(ctx, x - 92, ry + 70, 184, 36, { fill: C.panel, stroke: col, lw: 2, r: 8, a: a });
+        h.text(ctx, label, x, ry + 94, { size: 16, color: col, align: 'center', weight: 600, a: a });
+      }
+      intake(1100, 'Southwark & Vauxhall', C.ctrl, prog(t, 3.4, 4.2));
+      intake(lx, 'Lambeth', C.treat, prog(t, 3.8, 4.6));
+      h.text(ctx, L('1852: Lambeth moves upstream', '1852 年：Lambeth 迁往上游'), lx, ry + 132, { size: 15, color: C.treat, align: 'center', a: prog(t, 11, 11.6) });
+      // DiD plot
+      var P = new h.Plot(130, 330, 440, 200, -0.3, 1.3, 0, 170), pA = prog(t, 15, 15.8);
+      P.axes(ctx, { a: pA, xt: [[0, '1849'], [1, '1854']], yt: [0, 50, 100, 150], ylabel: L('Cholera death rate', '霍乱死亡率') });
+      h.path(ctx, P.P([[0, SNOW.sv[0]], [1, SNOW.sv[1]]]), prog(t, 15.4, 16.6), { color: C.ctrl, lw: 4 });
+      h.path(ctx, P.P([[0, SNOW.lb[0]], [1, SNOW.lb[1]]]), prog(t, 16.4, 17.6), { color: C.treat, lw: 4 });
+      [[0, SNOW.sv[0], C.ctrl, 15.4], [1, SNOW.sv[1], C.ctrl, 16.5], [0, SNOW.lb[0], C.treat, 16.4], [1, SNOW.lb[1], C.treat, 17.5]].forEach(function (d) {
+        h.dot(ctx, P.X(d[0]), P.Y(d[1]), 7, { color: d[2], a: prog(t, d[3], d[3] + 0.3) });
+        num(ctx, String(d[1]), P.X(d[0]) + (d[0] ? 16 : -16), P.Y(d[1]) + 6, { size: 17, color: d[2], align: d[0] ? 'left' : 'right', a: prog(t, d[3] + 0.2, d[3] + 0.6) });
+      });
+      var cf = SNOW.lb[0] + SNOW.sv[1] - SNOW.sv[0];
+      h.path(ctx, P.P([[0, SNOW.lb[0]], [1, cf]]), prog(t, 22.3, 23.3), { color: C.cf, lw: 2.5, dash: [8, 6] });
+      h.brace(ctx, P.X(1) + 56, P.Y(cf), P.Y(SNOW.lb[1]), { side: 1, p: prog(t, 23.3, 24.2) });
+      h.text(ctx, '−78', P.X(1) + 80, P.Y((cf + SNOW.lb[1]) / 2) + 8, { size: 24, mono: true, weight: 700, color: C.effect, a: prog(t, 24, 24.6) });
+      // table
+      var tx = 780, ty = 350, cw = [200, 90, 90, 100], cx = [tx, tx + 200, tx + 290, tx + 380], tA = prog(t, 15.2, 16);
+      h.box(ctx, tx - 16, ty - 40, 500, 210, { fill: C.panel, r: 12, a: tA });
+      ['1849', '1854', L('Change', '变化')].forEach(function (s, i) { h.text(ctx, s, cx[i + 1] + cw[i + 1] / 2, ty - 10, { size: 16, color: C.muted, align: 'center', a: tA }); });
+      h.text(ctx, 'Southwark & Vauxhall', tx, ty + 34, { size: 17, color: C.ctrl, weight: 600, a: tA });
+      h.text(ctx, 'Lambeth', tx, ty + 80, { size: 17, color: C.treat, weight: 600, a: tA });
+      num(ctx, '135', cx[1] + 45, ty + 34, { size: 19, a: prog(t, 15.6, 16) }); num(ctx, '147', cx[2] + 45, ty + 34, { size: 19, a: prog(t, 16.6, 17) }); num(ctx, '+12', cx[3] + 50, ty + 34, { size: 19, color: C.ctrl, a: prog(t, 18.5, 19) });
+      num(ctx, '85', cx[1] + 45, ty + 80, { size: 19, a: prog(t, 16.6, 17) }); num(ctx, '19', cx[2] + 45, ty + 80, { size: 19, a: prog(t, 17.6, 18) }); num(ctx, '−66', cx[3] + 50, ty + 80, { size: 19, color: C.treat, a: prog(t, 19, 19.5) });
+      h.line(ctx, tx, ty + 100, tx + 470, ty + 100, { color: C.axis, lw: 1, a: prog(t, 22, 22.5) });
+      h.text(ctx, L('Difference in differences', '双重差分'), tx, ty + 140, { size: 17, color: C.effect, weight: 600, a: prog(t, 22.3, 22.8) });
+      num(ctx, '−78', cx[3] + 50, ty + 140, { size: 22, color: C.effect, weight: 700, a: prog(t, 22.6, 23.1) });
+    }
+  });
+
+  // ------------------------------------------------------------------ local projections DiD
+  scene({
+    id: 'lpdid', stata: ['lpdid'], dur: 38,
+    title: { en: 'Local-projections DiD', zh: '局部投影双重差分' },
+    sub: { en: 'One long-difference regression per horizon', zh: '每个时期做一次长差分回归' },
+    beats: [
+      { t: 2.6, en: 'Local-projections DiD (Dube, Girardi, Jordà & Taylor 2023) runs one simple regression for each horizon h after adoption.', zh: '局部投影双重差分（Dube, Girardi, Jordà & Taylor 2023）为处理后的每个时期 h 各做一次简单回归。' },
+      { t: 9, en: 'For horizon h, take the long difference from the year before adoption to h years after: y(t+h) − y(t−1).', zh: '对于时期 h，取从处理前一年到处理后第 h 年的长差分：y(t+h) − y(t−1)。' },
+      { t: 16, en: 'Compare newly treated units with clean controls: units not yet treated by year t+h. The late cohort drops out once it adopts in year 7.', zh: '把新处理的个体与干净的对照比较：到第 t+h 年仍未接受处理的个体。晚处理组在第 7 年接受处理后就被剔除。' },
+      { t: 24, en: 'Each regression adds one point to the event study, and no already-treated unit is ever used as a control.', zh: '每次回归为事件研究图增加一个点，已处理的个体从不被用作对照。' },
+      { t: 31, en: 'It is fast on large data and easy to extend with covariates and non-absorbing treatments. Stata: lpdid.', zh: '它在大数据上运算快，也便于加入协变量和处理非吸收型处理。Stata：lpdid。' }
+    ],
+    draw: function (ctx, t) {
+      var P = new h.Plot(100, 110, 600, 390, 0.5, 10.5, 0, 11);
+      var axA = prog(t, 2.6, 3.4);
+      P.axes(ctx, { a: axA, xt: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(function (v) { return [v, String(v)]; }), yt: [0, 2, 4, 6, 8, 10], xlabel: L('Year', '年份'), ylabel: L('Outcome', '结果变量') });
+      var hz = t < 16 ? 0 : Math.min(3, Math.floor((t - 16) / 3.2));
+      var on = prog(t, 9.3, 10), base = 3, end = 4 + hz;
+      STAG.groups.forEach(function (G, gi) {
+        var pts = []; for (var yr = 1; yr <= 10; yr++) pts.push([yr, STAG.y(G, yr)]);
+        var valid = !G.g || G.g === 4 || G.g > end;
+        h.path(ctx, P.P(pts), prog(t, 3.2 + gi * 0.8, 5 + gi * 0.8), { color: G.color, lw: 3.5, a: on > 0 && !valid ? 0.25 : 1 });
+        h.text(ctx, G.label, P.X(10.5) - 4, P.Y(STAG.y(G, 10)) + (gi === 2 ? 28 : -14), { size: 16, color: G.color, align: 'right', weight: 600, a: prog(t, 5, 5.6) });
+        if (on > 0) {
+          var x0 = P.X(base), x1 = P.X(end), y0 = P.Y(STAG.y(G, base)), y1 = P.Y(STAG.y(G, end));
+          h.dot(ctx, x0, y0, 6, { color: G.color, a: on * (valid ? 1 : 0.3) });
+          h.dot(ctx, x1, y1, 6, { color: G.color, a: on * (valid ? 1 : 0.3) });
+          h.line(ctx, x1 + 10, y0, x1 + 10, y1, { color: valid ? C.effect : C.faint, lw: 3, a: on });
+          if (!valid) cross(ctx, x1 + 26, (y0 + y1) / 2, 7, C.bad, prog(t, 16 + 3 * 3.2 + 0.2, 16 + 3 * 3.2 + 0.8));
+        }
+      });
+      if (on > 0) {
+        h.line(ctx, P.X(base), P.y + 8, P.X(base), P.y + P.h, { color: C.faint, lw: 1.5, dash: [4, 6], a: on });
+        h.line(ctx, P.X(end), P.y + 8, P.X(end), P.y + P.h, { color: C.effect, lw: 1.5, dash: [4, 6], a: on });
+        h.text(ctx, 't−1', P.X(base), P.y + 2, { size: 15, mono: true, color: C.muted, align: 'center', a: on });
+        h.text(ctx, 't+' + hz, P.X(end), P.y + 2, { size: 15, mono: true, color: C.effect, align: 'center', a: on });
+      }
+      // estimates by horizon
+      var B = new h.Plot(860, 170, 330, 270, -0.6, 3.6, 0, 2.4), bA = prog(t, 9.6, 10.3);
+      B.axes(ctx, { a: bA, xt: [0, 1, 2, 3].map(function (v) { return [v, 'h=' + v]; }), xmono: false, yt: [[0, '0'], [1, '1'], [2, '2']], xlabel: L('Horizon', '时期'), ylabel: L('LP-DiD estimate', 'LP-DiD 估计') });
+      for (var k = 0; k <= 3; k++) {
+        var shown = k < hz || (k === hz && t >= 10) || t >= 24;
+        if (k > 0 && t < 16) shown = false;
+        var endK = 4 + k, ctrl = STAG.groups.filter(function (G) { return !G.g || G.g > endK; });
+        var dE = STAG.y(STAG.groups[0], endK) - STAG.y(STAG.groups[0], 3);
+        var dC = ctrl.reduce(function (s, G) { return s + STAG.y(G, endK) - STAG.y(G, 3); }, 0) / ctrl.length;
+        var v = dE - dC, a = shown ? 1 : 0;
+        h.box(ctx, B.X(k) - 20, B.Y(v), 40, B.Y(0) - B.Y(v), { fill: C.effect, r: 4, a: bA * a * 0.9 });
+        num(ctx, v, B.X(k), B.Y(v) - 10, { size: 16, a: bA * a });
+      }
+    }
+  });
+
+  // ------------------------------------------------------------------ continuous dose
+  var DOSE = { dy: [1.0, 2.2, 3.0, 3.9], own3: [0, 1.5, 2.3, 2.9] };
+  scene({
+    id: 'dose', stata: ['did_had', 'did_multiplegt_dyn'], dur: 39,
+    title: { en: 'Continuous treatment', zh: '连续处理' },
+    sub: { en: 'When units get different doses', zh: '当个体接受不同剂量时' },
+    beats: [
+      { t: 2.6, en: 'With a continuous treatment, units receive different doses: here 0, 1, 2 or 3. Bars show each dose group’s change in the outcome.', zh: '在连续处理下，个体接受不同剂量：这里是 0、1、2 或 3。柱子表示各剂量组结果变量的变化。' },
+      { t: 9, en: 'Under ordinary parallel trends, each dose group’s change minus the untreated group’s change identifies the effect of that dose on the units that received it.', zh: '在普通平行趋势下，各剂量组的变化减去未处理组的变化，识别的是该剂量对实际接受它的个体的效应。' },
+      { t: 17, en: 'Comparing across doses is harder. The jump from dose 2 to dose 3 (0.9) also reflects differences between the units that ended up with those doses.', zh: '跨剂量比较更难。从剂量 2 到剂量 3 的增幅（0.9）还反映了最终接受不同剂量的个体之间的差异。' },
+      { t: 25, en: 'For the dose-3 units themselves the marginal gain is only 0.6. Reading the curve as a causal dose-response needs “strong” parallel trends (Callaway, Goodman-Bacon & Sant’Anna 2024).', zh: '对剂量 3 的个体本身而言，边际收益只有 0.6。要把这条曲线解读为因果剂量反应，需要更强的平行趋势假设（Callaway, Goodman-Bacon & Sant’Anna 2024）。' },
+      { t: 33, en: 'If every unit gets some dose there is no untreated group at all; did_had uses units with small doses instead (de Chaisemartin et al. 2024).', zh: '如果所有个体都接受一定剂量，就根本没有未处理组；did_had 改用剂量很小的个体作为对照（de Chaisemartin 等 2024）。' }
+    ],
+    draw: function (ctx, t) {
+      var B = new h.Plot(110, 130, 440, 360, -0.6, 3.6, 0, 4.4), aA = prog(t, 2.8, 3.6);
+      B.axes(ctx, { a: aA, xt: [0, 1, 2, 3].map(function (d) { return [d, L('dose ', '剂量 ') + d]; }), xmono: false, yt: [0, 1, 2, 3, 4], ylabel: L('Change in outcome', '结果变量的变化') });
+      DOSE.dy.forEach(function (v, d) {
+        var p = prog(t, 3.2 + d * 0.4, 4.2 + d * 0.4);
+        h.box(ctx, B.X(d) - 32, B.Y(v * p), 64, B.Y(0) - B.Y(v * p), { fill: d ? 'rgba(240,138,93,' + (0.35 + 0.18 * d) + ')' : C.ctrl, r: 4, a: aA });
+        num(ctx, v, B.X(d), B.Y(v) - 10, { size: 16, a: prog(t, 4.2 + d * 0.4, 4.6 + d * 0.4) });
+      });
+      var gA = prog(t, 9.3, 10);
+      h.line(ctx, B.x, B.Y(DOSE.dy[0]), B.x + B.w, B.Y(DOSE.dy[0]), { color: C.ctrl, lw: 2, dash: [6, 5], a: gA });
+      for (var d = 1; d <= 3; d++) {
+        var att = DOSE.dy[d] - DOSE.dy[0];
+        h.line(ctx, B.X(d) + 40, B.Y(DOSE.dy[0]), B.X(d) + 40, B.Y(DOSE.dy[d]), { color: C.effect, lw: 4, p: prog(t, 10 + d * 0.5, 10.6 + d * 0.5) });
+        num(ctx, '+' + att.toFixed(1), B.X(d), B.y + B.h + 50, { size: 16, color: C.effect, weight: 600, a: prog(t, 10.4 + d * 0.5, 10.9 + d * 0.5) });
+      }
+      // dose-response panel
+      var P = new h.Plot(700, 130, 420, 360, -0.3, 3.3, 0, 3.4), pA = prog(t, 12.5, 13.3);
+      P.axes(ctx, { a: pA, xt: [0, 1, 2, 3].map(function (v) { return [v, String(v)]; }), yt: [0, 1, 2, 3], xlabel: L('Dose', '剂量'), ylabel: L('Effect of the dose received', '所受剂量的效应') });
+      var pts = [0, 1, 2, 3].map(function (dd) { return [dd, DOSE.dy[dd] - DOSE.dy[0]]; });
+      h.path(ctx, P.P(pts), prog(t, 13, 15), { color: C.effect, lw: 3.5 });
+      pts.forEach(function (q, i) { h.dot(ctx, P.X(q[0]), P.Y(q[1]), 7, { color: C.effect, a: prog(t, 13 + i * 0.4, 13.4 + i * 0.4) }); });
+      h.text(ctx, L('across dose groups', '跨剂量组比较'), P.X(1.55), P.Y(1.15), { size: 15, color: C.effect, a: prog(t, 15, 15.6) });
+      // naive slope 2->3
+      var sA = prog(t, 17.3, 18);
+      h.line(ctx, P.X(2), P.Y(2.0), P.X(3), P.Y(2.0), { color: C.faint, lw: 1.5, dash: [4, 4], a: sA });
+      h.line(ctx, P.X(3) + 18, P.Y(2.0), P.X(3) + 18, P.Y(2.9), { color: C.effect, lw: 3, a: sA });
+      h.text(ctx, '0.9', P.X(3) + 26, P.Y(2.45) + 6, { size: 16, mono: true, color: C.effect, a: sA });
+      // own curve of dose-3 units
+      var oA = prog(t, 25.3, 26);
+      h.path(ctx, P.P(DOSE.own3.map(function (v, i) { return [i, v]; })), prog(t, 25.3, 27), { color: C.purple, lw: 3, dash: [8, 6] });
+      h.text(ctx, L('dose-3 units at each dose', '剂量 3 的个体在各剂量下'), P.X(0.4), P.Y(2.7), { size: 15, color: C.purple, a: oA });
+      h.line(ctx, P.X(3) + 70, P.Y(2.3), P.X(3) + 70, P.Y(2.9), { color: C.purple, lw: 3, a: oA * prog(t, 26.5, 27) });
+      h.text(ctx, '0.6', P.X(3) + 78, P.Y(2.6) + 6, { size: 16, mono: true, color: C.purple, a: oA * prog(t, 26.5, 27) });
+    }
+  });
+
+  // ------------------------------------------------------------------ fuzzy DiD
+  var FZ = { dA: [0.2, 0.6], dB: [0.2, 0.3], yA: [5.2, 6.8], yB: [4.6, 5.0] };
+  scene({
+    id: 'fuzzy', stata: ['fuzzydid'], dur: 38,
+    title: { en: 'Fuzzy DiD', zh: '模糊双重差分' },
+    sub: { en: 'When only the share treated changes', zh: '当变化的只是处理比例时' },
+    beats: [
+      { t: 2.6, en: 'Sometimes no group is fully treated or untreated. Take-up just rises faster in one group than in another.', zh: '有时没有哪一组是完全处理或完全未处理的，只是某一组的处理比例上升得更快。' },
+      { t: 9, en: 'Share treated: group A goes from 20% to 60%, group B from 20% to 30%. The first-stage DiD is 40 − 10 = 30 percentage points.', zh: '处理比例：A 组从 20% 升到 60%，B 组从 20% 升到 30%。第一阶段的双重差分为 40 − 10 = 30 个百分点。' },
+      { t: 16.5, en: 'Outcomes: group A rises by 1.6, group B by 0.4. The outcome DiD is 1.2.', zh: '结果变量：A 组上升 1.6，B 组上升 0.4。结果变量的双重差分为 1.2。' },
+      { t: 23, en: 'Divide them: the Wald-DiD is 1.2 / 0.30 = 4.0, the effect per unit of treatment, much like an instrumental-variables ratio.', zh: '两者相除：Wald-DiD = 1.2 / 0.30 = 4.0，即每单位处理的效应，类似工具变量的比率。' },
+      { t: 30, en: 'It needs more than parallel trends; de Chaisemartin & D’Haultfœuille (2018) also propose time-corrected and changes-in-changes versions. Stata: fuzzydid.', zh: '它需要的不只是平行趋势；de Chaisemartin & D’Haultfœuille（2018）还提出了时间修正版和变化中的变化版。Stata：fuzzydid。' }
+    ],
+    draw: function (ctx, t) {
+      var B = new h.Plot(110, 120, 430, 310, 0, 5, 0, 1), aA = prog(t, 2.8, 3.6);
+      B.axes(ctx, { a: aA, xt: [[1, L('before', '政策前')], [2, L('after', '政策后')], [3, L('before', '政策前')], [4, L('after', '政策后')]], xmono: false, yt: [[0, '0%'], [0.2, '20%'], [0.4, '40%'], [0.6, '60%'], [0.8, '80%']], ylabel: L('Share treated', '处理比例') });
+      h.text(ctx, L('group A', 'A 组'), B.X(1.5), B.y + B.h + 54, { size: 17, color: C.treat, weight: 600, align: 'center', a: aA });
+      h.text(ctx, L('group B', 'B 组'), B.X(3.5), B.y + B.h + 54, { size: 17, color: C.purple, weight: 600, align: 'center', a: aA });
+      [[1, FZ.dA[0], C.treat], [2, FZ.dA[1], C.treat], [3, FZ.dB[0], C.purple], [4, FZ.dB[1], C.purple]].forEach(function (b, i) {
+        var p = prog(t, 9.3 + i * 0.4, 10.3 + i * 0.4);
+        h.box(ctx, B.X(b[0]) - 30, B.Y(b[1] * p), 60, B.Y(0) - B.Y(b[1] * p), { fill: b[2], r: 4, a: aA * (i % 2 ? 0.95 : 0.5) });
+        h.text(ctx, Math.round(b[1] * 100) + '%', B.X(b[0]), B.Y(b[1]) - 10, { size: 16, mono: true, align: 'center', a: prog(t, 10 + i * 0.4, 10.4 + i * 0.4) });
+      });
+      var P = new h.Plot(680, 120, 460, 310, -0.3, 1.3, 4, 7.4), pA = prog(t, 16.6, 17.4);
+      P.axes(ctx, { a: pA, xt: [[0, L('before', '政策前')], [1, L('after', '政策后')]], yt: [4, 5, 6, 7], ylabel: L('Average outcome', '平均结果') });
+      [[FZ.yA, C.treat, 17], [FZ.yB, C.purple, 18]].forEach(function (g) {
+        h.path(ctx, P.P([[0, g[0][0]], [1, g[0][1]]]), prog(t, g[2], g[2] + 1.2), { color: g[1], lw: 4 });
+        h.dot(ctx, P.X(0), P.Y(g[0][0]), 7, { color: g[1], a: prog(t, g[2], g[2] + 0.3) });
+        h.dot(ctx, P.X(1), P.Y(g[0][1]), 7, { color: g[1], a: prog(t, g[2] + 1.1, g[2] + 1.4) });
+        num(ctx, '+' + (g[0][1] - g[0][0]).toFixed(1), P.X(1) + 18, P.Y(g[0][1]) + 6, { size: 17, color: g[1], align: 'left', a: prog(t, g[2] + 1.3, g[2] + 1.7) });
+      });
+      var fA = prog(t, 23.3, 24);
+      h.box(ctx, 250, 516, 780, 60, { fill: C.panel, r: 12, a: fA });
+      h.text(ctx, 'Wald-DiD = (1.6 − 0.4) / (0.40 − 0.10) = 4.0', 640, 555, { size: 24, mono: true, weight: 700, color: C.effect, align: 'center', a: fA });
+    }
+  });
+
+  // ------------------------------------------------------------------ inference simulations
+  function mulberry(seed) { var s = seed >>> 0; return function () { s = (s + 0x6D2B79F5) >>> 0; var q = s; q = Math.imul(q ^ q >>> 15, q | 1); q ^= q + Math.imul(q ^ q >>> 7, q | 61); return ((q ^ q >>> 14) >>> 0) / 4294967296; }; }
+  function gauss(r) { var u = 0; while (u === 0) u = r(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * r()); }
+  function dm2(x, G, T) {
+    var y = x.slice(), gm = new Array(G).fill(0), tm = new Array(T).fill(0), m = 0, g, t;
+    for (g = 0; g < G; g++) for (t = 0; t < T; t++) { gm[g] += y[g * T + t] / T; tm[t] += y[g * T + t] / G; m += y[g * T + t] / (G * T); }
+    for (g = 0; g < G; g++) for (t = 0; t < T; t++) y[g * T + t] = y[g * T + t] - gm[g] - tm[t] + m;
+    return y;
+  }
+  function ols(yd, dd, G, T) {
+    var sdd = 0, sdy = 0, i, g, t;
+    for (i = 0; i < yd.length; i++) { sdd += dd[i] * dd[i]; sdy += dd[i] * yd[i]; }
+    var b = sdy / sdd, ss = 0, sc = new Array(G).fill(0);
+    for (g = 0; g < G; g++) for (t = 0; t < T; t++) { i = g * T + t; var e = yd[i] - b * dd[i]; ss += e * e; sc[g] += dd[i] * e; }
+    var n = G * T, k = G + T, s2 = 0; sc.forEach(function (v) { s2 += v * v; });
+    return { b: b, seN: Math.sqrt(ss / (n - k) / sdd), seC: Math.sqrt(s2 * G / (G - 1) * (n - 1) / (n - k)) / sdd };
+  }
+  function ar1Panel(r, G, T, rho) {
+    var y = new Array(G * T);
+    for (var g = 0; g < G; g++) { var e = gauss(r) / Math.sqrt(1 - rho * rho); for (var t = 0; t < T; t++) { e = rho * e + gauss(r); y[g * T + t] = e; } }
+    return y;
+  }
+  var BDM = lazy(function () {
+    var r = mulberry(1), G = 50, T = 20, nsim = 200, res = [], example = null;
+    for (var s = 0; s < nsim; s++) {
+      var y = ar1Panel(r, G, T, 0.8);
+      if (!example) example = y.slice(0, 5 * T);
+      var idx = []; for (var g = 0; g < G; g++) idx.push(g);
+      for (var i = G - 1; i > 0; i--) { var j = Math.floor(r() * (i + 1)), tmp = idx[i]; idx[i] = idx[j]; idx[j] = tmp; }
+      var t0 = 5 + Math.floor(r() * 11), d = new Array(G * T).fill(0);
+      idx.slice(0, 25).forEach(function (gg) { for (var tt = t0; tt < T; tt++) d[gg * T + tt] = 1; });
+      var o = ols(dm2(y, G, T), dm2(d, G, T), G, T);
+      res.push({ n: Math.abs(o.b / o.seN) > 1.96, c: Math.abs(o.b / o.seC) > 2.01 });
+    }
+    var rn = res.filter(function (q) { return q.n; }).length / nsim, rc = res.filter(function (q) { return q.c; }).length / nsim;
+    return { res: res, rn: rn, rc: rc, example: example, T: T };
+  });
+  var FEW = lazy(function () {
+    var r = mulberry(29), G = 12, NT = 3, T = 10, nsim = 300, B = 199, rejC = 0, rejW = 0, ex = null;
+    var crit = 2.201; // t(11), 5% two-sided
+    for (var s = 0; s < nsim; s++) {
+      var y = ar1Panel(r, G, T, 0.8), d = new Array(G * T).fill(0);
+      for (var g = 0; g < NT; g++) for (var t = 5; t < T; t++) d[g * T + t] = 1;
+      var yd = dm2(y, G, T), dd = dm2(d, G, T), o = ols(yd, dd, G, T), tt = o.b / o.seC;
+      if (Math.abs(tt) > crit) rejC++;
+      var cnt = 0, tstars = [];
+      for (var bb = 0; bb < B; bb++) {
+        var v = []; for (g = 0; g < G; g++) v.push(r() < 0.5 ? -1 : 1);
+        var ys = yd.map(function (e, i) { return e * v[Math.floor(i / T)]; });
+        var ob = ols(ys, dd, G, T), ts = ob.b / ob.seC;
+        if (Math.abs(ts) >= Math.abs(tt)) cnt++;
+        tstars.push(ts);
+      }
+      var pw = (cnt + 1) / (B + 1);
+      if (pw < 0.05) rejW++;
+      if (!ex && Math.abs(tt) > crit && pw >= 0.05) {
+        var res = []; for (g = 0; g < G; g++) { var sum = 0; for (t = 0; t < T; t++) sum += yd[g * T + t]; res.push(sum); }
+        var resT = []; for (g = 0; g < G; g++) { var s2 = 0; for (t = 0; t < T; t++) s2 += yd[g * T + t] * dd[g * T + t]; resT.push(s2); }
+        ex = { t: tt, p: pw, tstars: tstars, res: resT, sim: s + 1 };
+      }
+    }
+    return { rejC: rejC / nsim, rejW: rejW / nsim, ex: ex, G: G, NT: NT, nsim: nsim };
+  });
+  D.BDM = BDM; D.FEW = FEW;
+
+  // ------------------------------------------------------------------ serial correlation and clustering
+  scene({
+    id: 'cluster', stata: ['vce(cluster)'], dur: 38,
+    title: { en: 'Serial correlation and clustering', zh: '序列相关与聚类标准误' },
+    sub: { en: 'How often does DiD find a law that does not exist?', zh: '双重差分有多常“发现”一项并不存在的政策效应？' },
+    beats: [
+      { t: 2.6, en: 'Bertrand, Duflo & Mullainathan (2004) asked how often DiD finds an effect of a law that does not exist.', zh: 'Bertrand, Duflo & Mullainathan（2004）提出的问题是：双重差分有多常为一项并不存在的政策找到“效应”？' },
+      { t: 9, en: 'Here outcomes in each of 50 states drift slowly over 20 years (serial correlation 0.8). Each dot will be one placebo law, given at random to 25 states.', zh: '这里 50 个州的结果变量在 20 年里缓慢漂移（序列相关系数 0.8）。每个点代表一项随机分配给 25 个州的安慰剂政策。' },
+      lbeat(16, function () { var R = BDM(); return { en: 'With conventional standard errors, ' + pct(R.rn) + ' of the 200 placebo laws look significant at the 5% level.', zh: '使用常规标准误时，200 项安慰剂政策中有 ' + pct(R.rn) + ' 在 5% 水平上显著。' }; }),
+      lbeat(24, function () { var R = BDM(); return { en: 'Clustering standard errors by state allows for correlation over time within a state. The rejection rate falls to ' + pct(R.rc) + '.', zh: '按州聚类的标准误允许同一州内跨期相关。拒绝率降到 ' + pct(R.rc) + '。' }; }),
+      { t: 31.5, en: 'Rule: cluster at the level at which treatment is assigned, for example vce(cluster state) in Stata.', zh: '原则：在处理分配的层级聚类，例如在 Stata 中用 vce(cluster state)。' }
+    ],
+    draw: function (ctx, t) {
+      var R = BDM();
+      var P = new h.Plot(100, 140, 460, 300, 0.5, R.T + 0.5, -5, 5), aA = prog(t, 9.3, 10);
+      P.axes(ctx, { a: aA, xt: [1, 5, 10, 15, 20].map(function (v) { return [v, String(v)]; }), yt: [[-4, '−4'], [0, '0'], [4, '4']], xlabel: L('Year', '年份'), ylabel: L('Outcome, five example states', '结果变量（五个示例州）') });
+      var cols = [C.ctrl, C.treat, C.purple, C.teal, C.effect];
+      for (var g = 0; g < 5; g++) {
+        var pts = []; for (var tt = 0; tt < R.T; tt++) pts.push([tt + 1, Math.max(-4.9, Math.min(4.9, R.example[g * R.T + tt]))]);
+        h.path(ctx, P.P(pts), prog(t, 9.6 + g * 0.4, 11.6 + g * 0.4), { color: cols[g], lw: 2.5, a: 0.9 });
+      }
+      // dot grid
+      var gx = 680, gy = 150, cs = 26, per = 20;
+      var phase2 = t >= 24.2;
+      var shownN = Math.floor(200 * h.lin(t, 16.3, 22)), shownC = Math.floor(200 * h.lin(t, 24.3, 29));
+      var cntN = 0, cntC = 0;
+      R.res.forEach(function (q, i) {
+        var x = gx + (i % per) * cs, y = gy + Math.floor(i / per) * cs;
+        var vis = i < shownN || t >= 22;
+        if (!vis) { h.dot(ctx, x, y, 8, { color: C.panel2, a: prog(t, 9.4, 10) }); return; }
+        var sig = phase2 && i < shownC ? q.c : q.n;
+        if (q.n && (i < shownN || t >= 22)) cntN++;
+        if (phase2 && i < shownC && q.c) cntC++;
+        h.dot(ctx, x, y, 8, { color: sig ? C.bad : C.faint });
+      });
+      var lx = gx, ly = gy + 10 * cs + 30;
+      h.dot(ctx, lx + 6, ly - 6, 7, { color: C.bad, a: aA }); h.text(ctx, L('significant at 5%', '在 5% 水平显著'), lx + 22, ly, { size: 16, color: C.muted, a: aA });
+      h.dot(ctx, lx + 226, ly - 6, 7, { color: C.faint, a: aA }); h.text(ctx, L('not significant', '不显著'), lx + 242, ly, { size: 16, color: C.muted, a: aA });
+      var nA = prog(t, 16.3, 17);
+      h.text(ctx, L('conventional SE: ', '常规标准误：') + pct(cntN / 200), lx, ly + 44, { size: 20, mono: LANG_mono(), color: C.bad, weight: 600, a: nA });
+      h.text(ctx, L('clustered by state: ', '按州聚类：') + pct(cntC / 200), lx, ly + 76, { size: 20, mono: LANG_mono(), color: C.good, weight: 600, a: prog(t, 24.3, 25) });
+    }
+  });
+
+  // ------------------------------------------------------------------ few clusters: wild cluster bootstrap
+  scene({
+    id: 'wildboot', stata: ['boottest'], dur: 40,
+    title: { en: 'Few clusters: the wild cluster bootstrap', zh: '聚类数较少：野聚类自助法' },
+    sub: { en: 'When even clustered standard errors are too small', zh: '当聚类标准误也偏小时' },
+    beats: [
+      { t: 2.6, en: 'With few clusters, or few treated clusters, even clustered standard errors are too small. Here: 12 states, 3 of them treated.', zh: '聚类数较少或处理组聚类很少时，连聚类标准误也会偏小。这里有 12 个州，其中 3 个接受处理。' },
+      { t: 9, en: 'The wild cluster bootstrap redraws the data many times. Each state’s residuals are kept or flipped in sign as one block.', zh: '野聚类自助法多次重新生成数据：每个州的残差作为一个整体，要么保持不变，要么整体翻转符号。' },
+      lbeat(16.5, function () { var R = FEW(); return { en: 'Take one placebo dataset where the two tests disagree: the clustered t-statistic is ' + fmt(R.ex.t, 2) + ', “significant” by the usual rule, but the share of bootstrap t-statistics at least as extreme gives p = ' + R.ex.p.toFixed(3) + '.', zh: '看一个两种检验结论不同的安慰剂数据集：聚类 t 统计量为 ' + fmt(R.ex.t, 2) + '，按常规标准是“显著”的，但自助法 t 统计量中至少同样极端的比例给出 p = ' + R.ex.p.toFixed(3) + '。' }; }),
+      lbeat(24, function () { var R = FEW(); return { en: 'Across ' + R.nsim + ' simulated placebo laws, clustered standard errors reject ' + pct(R.rejC) + ' of the time instead of 5%; the wild cluster bootstrap rejects ' + pct(R.rejW) + '.', zh: '在 ' + R.nsim + ' 项模拟的安慰剂政策中，聚类标准误的拒绝率为 ' + pct(R.rejC) + '，而不是 5%；野聚类自助法的拒绝率为 ' + pct(R.rejW) + '。' }; }),
+      { t: 32, en: 'Stata: boottest right after your regression (Roodman et al. 2019). See Cameron, Gelbach & Miller (2008) and MacKinnon & Webb (2017).', zh: 'Stata：回归后直接运行 boottest（Roodman 等 2019）。参见 Cameron, Gelbach & Miller（2008）和 MacKinnon & Webb（2017）。' }
+    ],
+    draw: function (ctx, t) {
+      var R = FEW(), ex = R.ex;
+      // cluster residual blocks with sign flips
+      var P = new h.Plot(100, 150, 460, 220, 0.3, R.G + 0.7, -1, 1), aA = prog(t, 2.8, 3.6);
+      var maxR = Math.max.apply(null, ex.res.map(Math.abs)) || 1;
+      h.text(ctx, L('Treatment-weighted residual by state', '各州按处理加权的残差'), P.x, P.y - 18, { size: 16, color: C.muted, italic: LANG_mono(), a: aA });
+      P.zero(ctx, aA);
+      var step = t < 9.3 ? -1 : Math.floor((Math.min(t, 23) - 9.3) / 0.6);
+      var rr = mulberry(1000 + step);
+      for (var g = 0; g < R.G; g++) {
+        var flip = step >= 0 ? (rr() < 0.5 ? -1 : 1) : 1;
+        var v = ex.res[g] / maxR * flip, x = P.X(g + 1);
+        h.box(ctx, x - 13, Math.min(P.Y(0), P.Y(v)), 26, Math.abs(P.Y(v) - P.Y(0)), { fill: g < R.NT ? C.treat : C.ctrl, r: 3, a: aA * (flip < 0 ? 0.6 : 0.95) });
+        h.text(ctx, String(g + 1), x, P.y + P.h + 22, { size: 13, mono: true, color: C.muted, align: 'center', a: aA });
+      }
+      h.text(ctx, L('treated states', '处理州'), P.X(2), P.y + P.h + 46, { size: 14, color: C.treat, align: 'center', a: aA });
+      // bootstrap histogram
+      var Hh = new h.Plot(680, 150, 500, 180, -5, 5, 0, 1), hA = prog(t, 16.6, 17.3);
+      Hh.axes(ctx, { a: hA, xt: [-4, -2, 0, 2, 4].map(function (v) { return [v, v < 0 ? '−' + Math.abs(v) : String(v)]; }), xlabel: L('Bootstrap t-statistics', '自助法 t 统计量') });
+      var bins = new Array(25).fill(0), nShow = Math.floor(ex.tstars.length * h.lin(t, 16.8, 22.5));
+      for (var i = 0; i < nShow; i++) { var b = Math.floor((ex.tstars[i] + 5) / 0.4); if (b >= 0 && b < 25) bins[b]++; }
+      var mx = Math.max(8, Math.max.apply(null, bins));
+      bins.forEach(function (c, k) {
+        var x0 = Hh.X(-5 + k * 0.4), x1 = Hh.X(-5 + (k + 1) * 0.4), mid = -5 + (k + 0.5) * 0.4;
+        var ext = Math.abs(mid) >= Math.abs(ex.t);
+        h.box(ctx, x0 + 1, Hh.Y(c / mx), x1 - x0 - 2, Hh.Y(0) - Hh.Y(c / mx), { fill: ext ? C.bad : C.muted, r: 2, a: hA * 0.85 });
+      });
+      var tA = prog(t, 17, 17.6);
+      [ex.t, -ex.t].forEach(function (v, k) { h.line(ctx, Hh.X(v), Hh.y, Hh.X(v), Hh.y + Hh.h, { color: C.effect, lw: k ? 1.5 : 3, dash: k ? [4, 4] : null, a: tA }); });
+      h.text(ctx, 't = ' + fmt(ex.t, 2), Hh.X(ex.t) + (ex.t > 0 ? 8 : -8), Hh.y + 18, { size: 16, mono: true, color: C.effect, align: ex.t > 0 ? 'left' : 'right', a: tA });
+      h.text(ctx, 'p = ' + ex.p.toFixed(3), Hh.X(ex.t) + (ex.t > 0 ? 8 : -8), Hh.y + 42, { size: 16, mono: true, color: C.effect, align: ex.t > 0 ? 'left' : 'right', a: prog(t, 22.5, 23) });
+      // rejection rates
+      var Rr = new h.Plot(860, 430, 320, 120, 0, 0.2, 0, 2), rA = prog(t, 24.2, 25);
+      var lab = [[L('clustered SE', '聚类标准误'), R.rejC, C.bad], [L('wild bootstrap', '野聚类自助法'), R.rejW, C.good]];
+      h.text(ctx, L('Rejection rate under the null', '原假设成立时的拒绝率'), 680, 420, { size: 16, color: C.muted, a: rA });
+      lab.forEach(function (q, k) {
+        var y = 450 + k * 50;
+        h.text(ctx, q[0], 680, y + 20, { size: 17, color: q[2], a: rA });
+        h.box(ctx, 860, y, 1400 * q[1] * prog(t, 24.4 + k * 0.4, 25.6 + k * 0.4), 28, { fill: q[2], r: 4, a: rA });
+        h.text(ctx, pct(q[1]), 868 + 1400 * q[1], y + 21, { size: 17, mono: true, a: prog(t, 25.4 + k * 0.4, 25.9 + k * 0.4) });
+      });
+      h.line(ctx, 860 + 1400 * 0.05, 440, 860 + 1400 * 0.05, 540, { color: C.text, lw: 1.5, dash: [4, 4], a: rA });
+      h.text(ctx, '5%', 860 + 1400 * 0.05, 560, { size: 14, mono: true, color: C.muted, align: 'center', a: rA });
+    }
+  });
+
+  D.order(['snow', 'classic', 'event', 'ddd', 'drdid', 'bacon', 'csdid', 'sunab', 'imputation', 'stacked', 'lpdid', 'dcdh', 'dose', 'fuzzy', 'cic', 'sdid', 'honest', 'cluster', 'wildboot']);
 })();
