@@ -45,6 +45,7 @@ MARKUP = [
     ('<div class="lang-switch"><span>EN</span><a href="../zh/did/" lang="zh-Hans" hreflang="zh-Hans">中文</a></div>',
      '<div class="lang-switch"><a href="../../did/" lang="en" hreflang="en">EN</a><span>中文</span></div>'),
     ('<div class="anim-player" data-mp4="videos/en/">', '<div class="anim-player" data-mp4="../../did/videos/zh/">'),
+    ('<a class="hero-alt" href="cheatsheet-en.pdf">Cheat sheet (PDF)</a>', '<a class="hero-alt" href="../../did/cheatsheet-zh.pdf">速查表（PDF）</a>'),
     ('<script src="anim/engine.js"></script>', '<script src="../../did/anim/engine.js"></script>'),
     ('<script src="anim/scenes.js"></script>', '<script src="../../did/anim/scenes.js"></script>'),
     ('<script src="sim/sim.js"></script>', '<script src="../../did/sim/sim.js"></script>'),
@@ -107,8 +108,8 @@ TEXT = [
      '十九个短动画，从约翰·斯诺的霍乱研究讲到聚类数较少时的统计推断。TWFE、Sun &amp; Abraham 以及统计推断几节中的估计值和拒绝率，都来自对模拟面板的真实回归和模拟，所以其中看到的结果是真实的。'),
     ('The animations need JavaScript. You can watch them as videos instead: <a href="videos/en/all.mp4">all 19 in one MP4</a>.',
      '动画需要 JavaScript。也可以直接观看视频：<a href="../../did/videos/zh/all.mp4">19 个动画合集（MP4）</a>。'),
-    ('Prefer a file? Each animation has an MP4 link under the player, or download <a href="videos/en/all.mp4">all 19 as one video</a> (about 13 minutes).',
-     '想下载视频？播放器下方有每个动画的 MP4 链接，也可以下载<a href="../../did/videos/zh/all.mp4">全部 19 个动画的合集</a>（约 13 分钟）。'),
+    ('Prefer a file? Each animation has an MP4 link under the player, or download <a href="videos/en/all.mp4">all 19 as one video</a> (about 13 minutes), with <a href="videos/en/all.srt">subtitles (SRT)</a>.',
+     '想下载视频？播放器下方有每个动画的 MP4 链接，也可以下载<a href="../../did/videos/zh/all.mp4">全部 19 个动画的合集</a>（约 13 分钟）及<a href="../../did/videos/zh/all.srt">字幕文件（SRT）</a>。'),
 
     # quiz and glossary
     ('Quiz', '小测验'),
