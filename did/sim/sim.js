@@ -21,7 +21,7 @@
       growth: 'Extra effect per year since adoption', het: 'Early cohorts gain more', presets: 'Try a preset',
       p1: 'Constant effect', p2: 'Growing effects', p3: 'No never-treated group', p4: 'Cohorts differ',
       truth: 'True ATT', twfe: 'Static TWFE', cs: 'Callaway & Sant’Anna', bias: 'bias',
-      exact: 'matches the truth', csNote: 'over the cohort-years that have a not-yet-treated control',
+      exact: 'matches the truth', csSub: function (v) { return 'exact: the true ATT over the cohort-years with a valid control is also ' + v; },
       weights: 'Weight TWFE puts on each treated cohort-year', weightsNote: 'Red cells get negative weight: their effects are subtracted. Numbers in cells are the true effects.',
       year: 'Year', es: 'Event study', esTruth: 'true effect', esTwfe: 'pooled TWFE', esCs: 'Callaway & Sant’Anna',
       rel: 'Years relative to adoption', paths: 'Outcomes by cohort', neverLab: 'never treated', negCount: function (n, m) { return n + ' of ' + m + ' treated cohort-years get negative weight'; },
@@ -33,7 +33,7 @@
       growth: '此后每年增加的效应', het: '早处理批次效应更大', presets: '试试预设情形',
       p1: '效应不变', p2: '效应逐年增长', p3: '没有从未处理组', p4: '批次间效应不同',
       truth: '真实 ATT', twfe: '静态 TWFE', cs: 'Callaway & Sant’Anna', bias: '偏误',
-      exact: '与真实值一致', csNote: '只计算有尚未处理对照的批次-年份',
+      exact: '与真实值一致', csSub: function (v) { return '准确：在有有效对照的批次-年份上，真实 ATT 也是 ' + v; },
       weights: 'TWFE 对每个已处理批次-年份赋予的权重', weightsNote: '红色格子的权重为负：它们的效应被减掉了。格子中的数字是真实效应。',
       year: '年份', es: '事件研究', esTruth: '真实效应', esTwfe: '混合 TWFE', esCs: 'Callaway & Sant’Anna',
       rel: '相对于处理的年份', paths: '各批次的结果变量', neverLab: '从未处理', negCount: function (n, m) { return m + ' 个已处理批次-年份中有 ' + n + ' 个权重为负'; },
@@ -265,7 +265,7 @@
       nums.innerHTML =
         '<div class="sim-num"><span>' + S.truth + '</span><b>' + fmt(R.truth) + '</b></div>' +
         '<div class="sim-num ' + (bad ? 'is-bad' : 'is-ok') + '"><span>' + S.twfe + '</span><b>' + fmt(R.twfe) + '</b><small>' + S.bias + ' ' + (bias >= 0 ? '+' : '−') + Math.abs(bias).toFixed(0) + '%</small></div>' +
-        '<div class="sim-num is-ok"><span>' + S.cs + '</span><b>' + fmt(R.cs) + '</b><small>' + (csOk ? (R.csCells === R.cells ? S.exact : S.exact + ', ' + S.csNote) : '') + '</small></div>' +
+        '<div class="sim-num is-ok"><span>' + S.cs + '</span><b>' + fmt(R.cs) + '</b><small>' + (csOk ? (R.csCells === R.cells ? S.exact : S.csSub(fmt(R.csTruth))) : '') + '</small></div>' +
         (R.csCells < R.cells ? '<p class="sim-note">' + S.noCtrl + '</p>' : '');
 
       // weight heatmap
@@ -286,7 +286,7 @@
         }
       });
       root.querySelector('.sim-heat').innerHTML = el('svg', { viewBox: '0 0 ' + Wd + ' ' + Hd, class: 'sim-svg', role: 'img', 'aria-label': S.weights }, h);
-      root.querySelector('.sim-negs').textContent = S.negCount(negs, tot) + '. ' + S.weightsNote;
+      root.querySelector('.sim-negs').textContent = S.negCount(negs, tot) + (lang === 'zh' ? '。' : '. ') + S.weightsNote;
 
       // event study
       var es = R.es.filter(function (e) { return e >= -6 && e <= 8; });
