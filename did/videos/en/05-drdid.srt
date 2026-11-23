@@ -1,0 +1,23 @@
+1
+00:00:00,000 --> 00:00:02,550
+Conditional parallel trends — When the groups differ in who they contain
+
+2
+00:00:02,600 --> 00:00:09,450
+Sometimes trends are only parallel within comparable units. Here young workers’ outcomes grow faster than older workers’, policy or not.
+
+3
+00:00:09,500 --> 00:00:14,950
+The treated group is 80% young; the control group is only 20% young.
+
+4
+00:00:15,000 --> 00:00:22,450
+A raw DiD compares groups with different mixes, so it mistakes the faster young trend for an effect: 2.7 − 0.8 = 1.9.
+
+5
+00:00:22,500 --> 00:00:30,450
+Instead compare treated and control units within each age group, then average with the treated group’s mix: the effect is 1.0.
+
+6
+00:00:30,500 --> 00:00:38,950
+Doubly robust DiD combines an outcome model with propensity-score weights and is consistent if either one is right (Sant’Anna & Zhao 2020).

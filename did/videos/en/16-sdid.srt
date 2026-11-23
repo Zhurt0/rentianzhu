@@ -1,0 +1,23 @@
+1
+00:00:00,000 --> 00:00:02,550
+Synthetic control and synthetic DiD — Build a comparison unit that tracks the treated one
+
+2
+00:00:02,600 --> 00:00:09,450
+One treated unit and a pool of potential controls. Their simple average (dashed) does not follow the treated unit before treatment.
+
+3
+00:00:09,500 --> 00:00:17,950
+Synthetic control chooses weights on control units so that their weighted average tracks the treated unit before treatment (Abadie et al. 2010).
+
+4
+00:00:18,000 --> 00:00:24,950
+After treatment, the gap between the treated unit and its synthetic twin is the estimated effect.
+
+5
+00:00:25,000 --> 00:00:32,950
+Synthetic DiD (Arkhangelsky et al. 2021) also weights the pre-treatment years and allows a level shift, so it only has to match trends, not levels.
+
+6
+00:00:33,000 --> 00:00:39,950
+Useful with few treated units when no comparison group has parallel trends on its own. Stata: sdid, synth.

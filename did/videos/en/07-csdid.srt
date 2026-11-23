@@ -1,0 +1,31 @@
+1
+00:00:00,000 --> 00:00:02,550
+Callaway & Sant’Anna — Many clean 2×2s, one for each cohort and year
+
+2
+00:00:02,600 --> 00:00:08,950
+Callaway & Sant’Anna (2021) split the problem into many clean 2×2 comparisons: one for each cohort g and year t.
+
+3
+00:00:09,000 --> 00:00:16,950
+ATT(g,t) compares cohort g’s change since its last untreated year, g−1, with the same change for never-treated or not-yet-treated units.
+
+4
+00:00:17,000 --> 00:00:23,950
+Example: ATT(4,6) takes cohort 4’s change from year 3 to year 6, minus the never-treated group’s change: 2.25 − 0.75 = 1.5.
+
+5
+00:00:24,000 --> 00:00:30,950
+Repeat for every cohort and year. An already-treated unit is never used as a control.
+
+6
+00:00:31,000 --> 00:00:38,950
+Then aggregate. Averaging the cells with the same time since adoption gives an event study…
+
+7
+00:00:39,000 --> 00:00:44,950
+…or a single overall ATT that weights cohorts by size: 1.73, exactly the true average effect.
+
+8
+00:00:45,000 --> 00:00:49,950
+Stata: csdid (doubly robust by default), or the official xthdidregress in Stata 18 and later.

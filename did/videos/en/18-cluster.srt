@@ -1,0 +1,23 @@
+1
+00:00:00,000 --> 00:00:02,550
+Serial correlation and clustering — How often does DiD find a law that does not exist?
+
+2
+00:00:02,600 --> 00:00:08,950
+Bertrand, Duflo & Mullainathan (2004) asked how often DiD finds an effect of a law that does not exist.
+
+3
+00:00:09,000 --> 00:00:15,950
+Here outcomes in each of 50 states drift slowly over 20 years (serial correlation 0.8). Each dot will be one placebo law, given at random to 25 states.
+
+4
+00:00:16,000 --> 00:00:23,950
+With conventional standard errors, 39% of the 200 placebo laws look significant at the 5% level.
+
+5
+00:00:24,000 --> 00:00:31,450
+Clustering standard errors by state allows for correlation over time within a state. The rejection rate falls to 5%.
+
+6
+00:00:31,500 --> 00:00:37,950
+Rule: cluster at the level at which treatment is assigned, for example vce(cluster state) in Stata.

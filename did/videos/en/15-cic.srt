@@ -1,0 +1,23 @@
+1
+00:00:00,000 --> 00:00:02,550
+Changes-in-changes — The whole counterfactual distribution, not just the mean
+
+2
+00:00:02,600 --> 00:00:08,950
+DiD compares averages. Changes-in-changes (Athey & Imbens 2006) recovers the whole counterfactual distribution.
+
+3
+00:00:09,000 --> 00:00:15,950
+In the control group, see how each rank of the distribution moved over time: the 10th, 50th and 90th percentiles.
+
+4
+00:00:16,000 --> 00:00:23,450
+Give each treated unit the change that a control unit with the same before-period outcome experienced.
+
+5
+00:00:23,500 --> 00:00:30,950
+Compare the actual treated distribution with this counterfactual: there is an effect at every quantile, larger at the top.
+
+6
+00:00:31,000 --> 00:00:38,950
+Unlike DiD, the answer does not depend on whether the outcome is measured in levels or logs. Stata: cic.
