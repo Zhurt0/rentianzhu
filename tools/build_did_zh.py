@@ -245,6 +245,7 @@ TEXT = [
     ('Use it when', '适用情形'),
     ('Install', '安装'),
     ('Paper', '文献'),
+    ('R &middot; Python', 'R &middot; Python'),
     ('Single treatment date', '单一处理时点'),
     ('Group-time ATTs (RA, IPW, AIPW, TWFE)', '分组-时期 ATT（RA、IPW、AIPW、TWFE）'),
     ('Staggered, official command', '交错处理，官方命令'),
@@ -291,8 +292,8 @@ TEXT = [
     ('Latent factors, treatment reversals', '潜在因子，处理可逆'),
     ('Wild cluster bootstrap', '野聚类自助法'),
     ('Few clusters', '聚类数较少'),
-    ('Option names in community-contributed packages change between versions. Check <code>help &lt;command&gt;</code> after installing; coding of never-treated units in particular differs (0 for <code>csdid</code> and <code>jwdid</code>, missing for <code>did_imputation</code> and <code>eventstudyinteract</code>).',
-     '用户编写命令的选项名称会随版本变化。安装后请查看 <code>help &lt;命令名&gt;</code>；尤其要注意从未处理个体的编码方式不同（<code>csdid</code> 和 <code>jwdid</code> 用 0，<code>did_imputation</code> 和 <code>eventstudyinteract</code> 用缺失值）。'),
+    ('R and Python names are the packages or functions that implement the same method; a dash means there is no well-established equivalent we know of. Option names in community-contributed packages change between versions. Check <code>help &lt;command&gt;</code> after installing; coding of never-treated units in particular differs (0 for <code>csdid</code> and <code>jwdid</code>, missing for <code>did_imputation</code> and <code>eventstudyinteract</code>).',
+     'R 和 Python 一栏列出实现同一方法的软件包或函数；短横线表示我们不知道有成熟的对应实现。用户编写命令的选项名称会随版本变化。安装后请查看 <code>help &lt;命令名&gt;</code>；尤其要注意从未处理个体的编码方式不同（<code>csdid</code> 和 <code>jwdid</code> 用 0，<code>did_imputation</code> 和 <code>eventstudyinteract</code> 用缺失值）。'),
 
     # 7
     ('A practical workflow', '实证流程'),

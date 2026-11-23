@@ -5,9 +5,12 @@
 A compact collection on difference-in-differences (DiD): what it is, the main versions of it, the Stata command for each, and the papers behind them.
 
 - `index.html` — the full collection as a single web page (works on GitHub Pages); the Chinese version is `../zh/did/index.html`
-- `anim/` — 13 animated guides drawn on a canvas, one per method, with English and Chinese captions
-- `videos/en/`, `videos/zh/` — the same animations as MP4 files, one per scene plus `all.mp4`
+- `anim/` — 19 animated guides drawn on a canvas, with English and Chinese captions and transcripts
+- `videos/en/`, `videos/zh/` — the same animations as MP4 files, one per scene plus `all.mp4` (about 13 minutes)
+- `sim/` — an interactive simulator: pick adoption years and effect dynamics, compare true ATT, static TWFE (with its cohort-year weights), Callaway & Sant'Anna and a pooled event study
+- `guide/` — "Which estimator should I use?": design questions mapped to estimators, Stata code and diagnostics
 - `did_examples.do` — a simulated staggered-adoption panel with one call to each main estimator
+- `og-en.png`, `og-zh.png` — link-preview images (regenerate with `node tools/make_did_og.mjs`)
 
 Live: <https://zhurt0.github.io/rentianzhu/did/> · 中文：<https://zhurt0.github.io/rentianzhu/zh/did/>
 
@@ -15,21 +18,27 @@ Live: <https://zhurt0.github.io/rentianzhu/did/> · 中文：<https://zhurt0.git
 
 | # | Scene | Stata |
 |---|---|---|
-| 1 | The 2×2 design | `didregress`, `reghdfe` |
-| 2 | Event studies and parallel trends | `reghdfe`, `eventdd` |
-| 3 | Triple differences | `didregress`, `reghdfe` |
-| 4 | Conditional parallel trends (doubly robust) | `drdid` |
-| 5 | Staggered adoption: why TWFE breaks | `bacondecomp`, `twowayfeweights` |
-| 6 | Callaway & Sant'Anna | `csdid`, `xthdidregress` |
-| 7 | Sun & Abraham | `eventstudyinteract` |
-| 8 | Imputation and two-stage DiD | `did_imputation`, `did2s`, `jwdid` |
-| 9 | Stacked DiD | `stackedev` |
-| 10 | Treatments that switch on, off or change | `did_multiplegt_dyn`, `did_had` |
-| 11 | Changes-in-changes | `cic` |
-| 12 | Synthetic control and synthetic DiD | `sdid`, `synth` |
-| 13 | Honest DiD | `honestdid`, `pretrends` |
+| 1 | John Snow, 1855: the first DiD | `didregress` |
+| 2 | The 2×2 design | `didregress`, `reghdfe` |
+| 3 | Event studies and parallel trends | `reghdfe`, `eventdd` |
+| 4 | Triple differences | `didregress`, `reghdfe` |
+| 5 | Conditional parallel trends (doubly robust) | `drdid` |
+| 6 | Staggered adoption: why TWFE breaks | `bacondecomp`, `twowayfeweights` |
+| 7 | Callaway & Sant'Anna | `csdid`, `xthdidregress` |
+| 8 | Sun & Abraham | `eventstudyinteract` |
+| 9 | Imputation and two-stage DiD | `did_imputation`, `did2s`, `jwdid` |
+| 10 | Stacked DiD | `stackedev` |
+| 11 | Local-projections DiD | `lpdid` |
+| 12 | Treatments that switch on, off or change | `did_multiplegt_dyn`, `did_had` |
+| 13 | Continuous treatment | `did_had`, `did_multiplegt_dyn` |
+| 14 | Fuzzy DiD | `fuzzydid` |
+| 15 | Changes-in-changes | `cic` |
+| 16 | Synthetic control and synthetic DiD | `sdid`, `synth` |
+| 17 | Honest DiD | `honestdid`, `pretrends` |
+| 18 | Serial correlation and clustering | `vce(cluster)` |
+| 19 | Few clusters: the wild cluster bootstrap | `boottest` |
 
-The numbers in the animations are computed in the browser from small simulated panels. The TWFE estimate in scene 5 and the pooled event study in scene 7 come from actual regressions on those panels; the Honest DiD bounds in scene 13 are a simplified illustration of the relative-magnitudes idea, not the exact Rambachan–Roth procedure.
+The data are simulated. Computed live in the browser: the TWFE estimate and 2×2 comparisons in scene 6, the pooled event study in scene 8, the LP-DiD estimates in scene 11, and the placebo-law rejection rates in scenes 18–19 (seeded simulations of AR(1) panels). The John Snow figures are as tabulated in Cunningham (2021). Other scenes use illustrative numbers; the Honest DiD bounds in scene 17 are a simplified illustration of the relative-magnitudes idea, not the exact Rambachan–Roth procedure.
 
 Each scene is a pure function of time in `anim/scenes.js`, so the page and the videos always match. To change a scene and re-render:
 
