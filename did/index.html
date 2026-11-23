@@ -294,7 +294,7 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(-
   <h2>4. A real example: New Jersey&rsquo;s minimum wage</h2>
   <p class="lead">Card &amp; Krueger (1994), recomputed from their original survey of 410 fast-food restaurants.</p>
   <p>In April 1992 New Jersey raised its minimum wage from $4.25 to $5.05 an hour; neighbouring eastern Pennsylvania did not. Card and Krueger surveyed fast-food restaurants in both states before (February&ndash;March) and after (November&ndash;December) the increase. Average starting wages rose from $4.61 to $5.08 in New Jersey and stayed at $4.62&ndash;4.63 in Pennsylvania.</p>
-  <div class="tablewrap"><table class="ck">
+  <div class="tablewrap" tabindex="0" role="region" aria-label="Card and Krueger results"><table class="ck">
     <thead><tr><th>FTE employment per store</th><th>Feb&ndash;Mar 1992</th><th>Nov&ndash;Dec 1992</th><th>Change</th></tr></thead>
     <tbody>
       <tr><td>Pennsylvania</td><td>23.33</td><td>21.17</td><td>&minus;2.16</td></tr>
@@ -317,7 +317,7 @@ regress fte i.state##i.wave, vce(cluster sheet)</code></pre>
 <section id="castle">
   <h2>5. A staggered example: castle-doctrine laws</h2>
   <p class="lead">Cheng &amp; Hoekstra (2013) asked whether &ldquo;stand your ground&rdquo; laws deter crime or escalate violence. Twenty-one states adopted them between 2005 and 2009; 29 did not.</p>
-  <div class="tablewrap"><table class="ck">
+  <div class="tablewrap" tabindex="0" role="region" aria-label="Castle-doctrine results"><table class="ck">
     <thead><tr><th>Log homicides per 100,000, 2000&ndash;2010</th><th>Estimate</th><th>Std. error</th></tr></thead>
     <tbody>
       <tr><td>Static TWFE</td><td>+0.082</td><td>(0.055)</td></tr>
@@ -625,7 +625,7 @@ boottest D, cluster(state) reps(9999)</code></pre>
 <section id="stata">
   <h2>10. Stata cheat sheet</h2>
   <p class="lead">One row per command. A runnable simulation that calls most of them is in <a href="did_examples.do"><code>did_examples.do</code></a>.</p>
-  <div class="tablewrap"><table>
+  <div class="tablewrap" tabindex="0" role="region" aria-label="Stata cheat sheet"><table>
     <thead><tr><th>Command</th><th>Method</th><th>Use it when</th><th>Install</th><th>R &middot; Python</th><th>Paper</th></tr></thead>
     <tbody>
     <tr><td><code>didregress</code> / <code>xtdidregress</code></td><td>2&times;2, TWFE, DDD</td><td>Single treatment date</td><td>Stata 17+</td><td class="rpy">R <code>fixest::feols</code><br>Py <code>pyfixest.feols</code></td><td>&mdash;</td></tr>

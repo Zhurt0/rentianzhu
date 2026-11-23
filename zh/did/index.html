@@ -292,7 +292,7 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(-
   <h2>4. 真实案例：新泽西州的最低工资</h2>
   <p class="lead">Card &amp; Krueger（1994），根据他们对 410 家快餐店的原始调查数据重新计算。</p>
   <p>1992 年 4 月，新泽西州把最低工资从每小时 4.25 美元提高到 5.05 美元，相邻的宾夕法尼亚州东部没有调整。Card 和 Krueger 在提高前（2&ndash;3 月）和提高后（11&ndash;12 月）调查了两州的快餐店。新泽西州的平均起薪从 4.61 美元升到 5.08 美元，宾夕法尼亚州则保持在 4.62&ndash;4.63 美元。</p>
-  <div class="tablewrap"><table class="ck">
+  <div class="tablewrap" tabindex="0" role="region" aria-label="Card 与 Krueger 结果"><table class="ck">
     <thead><tr><th>每店全职等效就业</th><th>1992 年 2&ndash;3 月</th><th>1992 年 11&ndash;12 月</th><th>变化</th></tr></thead>
     <tbody>
       <tr><td>宾夕法尼亚州</td><td>23.33</td><td>21.17</td><td>&minus;2.16</td></tr>
@@ -315,7 +315,7 @@ regress fte i.state##i.wave, vce(cluster sheet)</code></pre>
 <section id="castle">
   <h2>5. 交错处理案例：城堡法</h2>
   <p class="lead">Cheng &amp; Hoekstra（2013）研究“不退让”（城堡法）法律究竟会威慑犯罪，还是会加剧暴力。2005 至 2009 年间有 21 个州通过了这类法律，另有 29 个州没有。</p>
-  <div class="tablewrap"><table class="ck">
+  <div class="tablewrap" tabindex="0" role="region" aria-label="城堡法结果"><table class="ck">
     <thead><tr><th>每十万人凶杀率（对数），2000&ndash;2010</th><th>估计值</th><th>标准误</th></tr></thead>
     <tbody>
       <tr><td>静态 TWFE</td><td>+0.082</td><td>(0.055)</td></tr>
@@ -623,7 +623,7 @@ boottest D, cluster(state) reps(9999)</code></pre>
 <section id="stata">
   <h2>10. Stata 速查表</h2>
   <p class="lead">每行一个命令。<a href="../../did/did_examples.do"><code>did_examples.do</code></a> 是一个可直接运行的模拟示例，调用了其中大部分命令。</p>
-  <div class="tablewrap"><table>
+  <div class="tablewrap" tabindex="0" role="region" aria-label="Stata 速查表"><table>
     <thead><tr><th>命令</th><th>方法</th><th>适用情形</th><th>安装</th><th>R &middot; Python</th><th>文献</th></tr></thead>
     <tbody>
     <tr><td><code>didregress</code> / <code>xtdidregress</code></td><td>2&times;2, TWFE, DDD</td><td>单一处理时点</td><td>Stata 17+</td><td class="rpy">R <code>fixest::feols</code><br>Py <code>pyfixest.feols</code></td><td>&mdash;</td></tr>

@@ -100,7 +100,7 @@
         (g[4] ? ' <a class="gl-anim" href="#anim-' + g[4] + '" aria-label="' + T.watch + '">▶</a>' : '') + '</td></tr>';
     }).join('');
     root.innerHTML = '<label class="gl-search"><span>' + T.filter + '</span><input type="search" id="gl-q" autocomplete="off"></label>' +
-      '<div class="tablewrap gl-wrap"><table class="gl"><thead><tr><th>' + T.term + '</th><th>' + T.other + '</th><th>' + T.def + '</th></tr></thead><tbody>' + rows + '</tbody></table></div>';
+      '<div class="tablewrap gl-wrap" tabindex="0" role="region" aria-label="' + T.term + '">'<table class="gl"><thead><tr><th>' + T.term + '</th><th>' + T.other + '</th><th>' + T.def + '</th></tr></thead><tbody>' + rows + '</tbody></table></div>';
     var q = root.querySelector('#gl-q');
     q.addEventListener('input', function () {
       var v = q.value.trim().toLowerCase();
