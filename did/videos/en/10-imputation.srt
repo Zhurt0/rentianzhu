@@ -1,0 +1,27 @@
+1
+00:00:00,000 --> 00:00:02,550
+Imputation and two-stage DiD — Predict the untreated outcome, then compare
+
+2
+00:00:02,600 --> 00:00:08,950
+Imputation estimators (Borusyak, Jaravel & Spiess 2024) start from the observations that are not yet treated: the filled dots.
+
+3
+00:00:09,000 --> 00:00:15,950
+Step 1: fit unit and year fixed effects using only those untreated observations.
+
+4
+00:00:16,000 --> 00:00:22,950
+Step 2: extend the fit into the treated years to impute each unit’s outcome without treatment, Y(0).
+
+5
+00:00:23,000 --> 00:00:29,950
+Step 3: each treated observation’s effect is its observed outcome minus the imputed Y(0).
+
+6
+00:00:30,000 --> 00:00:36,950
+Average these gaps by years since adoption, or overall. Treated observations never serve as controls.
+
+7
+00:00:37,000 --> 00:00:43,950
+Gardner’s two-stage DiD (did2s) and Wooldridge’s extended TWFE (jwdid) give the same point estimates in this setting.

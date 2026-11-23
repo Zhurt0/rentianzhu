@@ -1,0 +1,23 @@
+1
+00:00:00,000 --> 00:00:02,550
+Real staggered data: castle-doctrine laws — Cheng & Hoekstra (2013), re-estimated
+
+2
+00:00:02,600 --> 00:00:09,450
+Castle-doctrine (“stand your ground”) laws widened the right to use lethal force in self-defence. Twenty-one US states adopted one between 2005 and 2009.
+
+3
+00:00:09,500 --> 00:00:15,950
+Adoption is staggered: most states adopted in 2006, a few earlier or later, and 29 states never did. A textbook case for the new estimators.
+
+4
+00:00:16,000 --> 00:00:23,950
+Callaway & Sant’Anna event study, comparing each cohort with never-treated states: no clear trend before adoption, roughly 10% more homicides after.
+
+5
+00:00:24,000 --> 00:00:31,450
+Overall: Callaway & Sant’Anna +0.110 (SE 0.038), static TWFE +0.082 (SE 0.055). With many never-treated states, TWFE puts no negative weights here, so the two are close.
+
+6
+00:00:31,500 --> 00:00:37,950
+Computed from the Mixtape copy of the data: log homicides, unweighted, no covariates, state-bootstrap standard errors. Stata code is on the page.

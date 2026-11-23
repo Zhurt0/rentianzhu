@@ -12,6 +12,7 @@ A compact collection on difference-in-differences (DiD): what it is, the main ve
 - `did_examples.do` — a simulated staggered-adoption panel with one call to each main estimator
 - `card_krueger.do` — Card & Krueger (1994) re-estimated from the original survey file
 - `did_examples.py` — the castle-doctrine example in Python with `pyfixest` (TWFE, Callaway & Sant'Anna by hand, two-stage DiD, LP-DiD); tested end to end
+- `did_examples.R` — the same in R with `did` and `fixest` (TWFE, Callaway & Sant'Anna, Sun & Abraham); tested end to end
 - `cheatsheet-en.pdf`, `cheatsheet-zh.pdf` — one-page cheat sheets (`node tools/make_did_cheatsheet.mjs`)
 - `og-en.png`, `og-zh.png` — link-preview images (regenerate with `node tools/make_did_og.mjs`)
 

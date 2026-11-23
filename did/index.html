@@ -333,7 +333,7 @@ reghdfe l_homicide D, absorb(sid year) vce(cluster sid)
 csdid l_homicide, ivar(sid) time(year) gvar(g) long2
 estat simple
 estat event, window(-5 5)</code></pre>
-<p>A Python version that runs end to end with <code>pyfixest</code> is in <a href="did_examples.py"><code>did_examples.py</code></a>: it reproduces these numbers and adds two-stage DiD (+0.080) and local-projections DiD (+0.093). <a class="anim-link" href="#anim-castle">Watch the animation</a></p>
+<p>Tested companions reproduce these numbers: <a href="did_examples.py"><code>did_examples.py</code></a> (Python, <code>pyfixest</code>) adds two-stage DiD (+0.080) and local-projections DiD (+0.093); <a href="did_examples.R"><code>did_examples.R</code></a> (R, <code>did</code> and <code>fixest</code>) adds Sun &amp; Abraham (+0.110). <a class="anim-link" href="#anim-castle">Watch the animation</a></p>
 </section>
 
 <!-- ====================== STORY ====================== -->

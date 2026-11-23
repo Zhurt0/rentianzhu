@@ -1,0 +1,31 @@
+1
+00:00:00,000 --> 00:00:02,550
+The 2×2 design — Compare changes, not levels
+
+2
+00:00:02,600 --> 00:00:07,450
+A policy reaches one group (treated) but not another (control). We observe both groups before and after it starts.
+
+3
+00:00:07,500 --> 00:00:13,450
+The control group rises from 4.0 to 5.0. That +1.0 reflects everything that changed over time for both groups.
+
+4
+00:00:13,500 --> 00:00:19,450
+The treated group rises from 6.0 to 8.5. Part of that +2.5 is the common time trend, part is the policy.
+
+5
+00:00:19,500 --> 00:00:26,450
+Parallel trends: without the policy, the treated group would have risen by the same +1.0 as the control group.
+
+6
+00:00:26,500 --> 00:00:32,450
+The gap between what happened (8.5) and that counterfactual (7.0) is the average effect on the treated: δ = 1.5.
+
+7
+00:00:32,500 --> 00:00:38,950
+In numbers: (8.5 − 6.0) − (5.0 − 4.0) = 1.5. The same δ is the interaction coefficient in the regression below.
+
+8
+00:00:39,000 --> 00:00:42,950
+Stata: didregress (y) (D), group(id) time(t), or reghdfe y D, absorb(id t).

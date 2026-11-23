@@ -1,0 +1,23 @@
+1
+00:00:00,000 --> 00:00:02,550
+Triple differences — Difference out a shock that hits the treated states
+
+2
+00:00:02,600 --> 00:00:08,950
+Worry: the treated states may have had their own shock, unrelated to the policy, that a plain DiD would mistake for an effect.
+
+3
+00:00:09,000 --> 00:00:16,950
+Step 1: a standard DiD for the group the policy targets. Treated vs. control states, before vs. after: 3.0 − 1.0 = 2.0.
+
+4
+00:00:17,000 --> 00:00:24,950
+Step 2: the same DiD for a group in the same states that the policy does not touch. Its 0.5 measures the state-specific shock.
+
+5
+00:00:25,000 --> 00:00:31,950
+Step 3: subtract. The shock cancels and the policy effect remains: 2.0 − 0.5 = 1.5.
+
+6
+00:00:32,000 --> 00:00:38,950
+Only the gap in trends between the two groups has to be parallel, a weaker assumption (Gruber 1994; Olden & Møen 2022).

@@ -1,0 +1,23 @@
+1
+00:00:00,000 --> 00:00:02,550
+Fuzzy DiD — When only the share treated changes
+
+2
+00:00:02,600 --> 00:00:08,950
+Sometimes no group is fully treated or untreated. Take-up just rises faster in one group than in another.
+
+3
+00:00:09,000 --> 00:00:16,450
+Share treated: group A goes from 20% to 60%, group B from 20% to 30%. The first-stage DiD is 40 − 10 = 30 percentage points.
+
+4
+00:00:16,500 --> 00:00:22,950
+Outcomes: group A rises by 1.6, group B by 0.4. The outcome DiD is 1.2.
+
+5
+00:00:23,000 --> 00:00:29,950
+Divide them: the Wald-DiD is 1.2 / 0.30 = 4.0, the effect per unit of treatment, much like an instrumental-variables ratio.
+
+6
+00:00:30,000 --> 00:00:37,950
+It needs more than parallel trends; de Chaisemartin & D’Haultfœuille (2018) also propose time-corrected and changes-in-changes versions. Stata: fuzzydid.

@@ -1,0 +1,551 @@
+1
+00:00:00,000 --> 00:00:02,550
+John Snow, 1855: the first DiD — Cholera, the Thames and two water companies
+
+2
+00:00:02,600 --> 00:00:08,450
+London, 1849 and 1854. Two water companies, Southwark & Vauxhall and Lambeth, supplied households in the same districts.
+
+3
+00:00:08,500 --> 00:00:14,950
+In 1852 Lambeth moved its intake upstream, above the city’s sewage. Southwark & Vauxhall kept drawing water from the polluted stretch.
+
+4
+00:00:15,000 --> 00:00:21,950
+Cholera deaths per 10,000 households: Southwark & Vauxhall went from 565 to 614, Lambeth from 62 to 14.
+
+5
+00:00:22,000 --> 00:00:28,950
+Lambeth’s change (−48) minus Southwark & Vauxhall’s change (+49) is −97 deaths per 10,000 households: a difference in differences.
+
+6
+00:00:29,000 --> 00:00:35,950
+Snow (1855) used this comparison to argue that cholera spreads through water, long before germ theory was accepted. Figures: Snow’s Table XII as presented in Cunningham (2021, Table 9.2).
+
+7
+00:00:36,033 --> 00:00:38,583
+The 2×2 design — Compare changes, not levels
+
+8
+00:00:38,633 --> 00:00:43,483
+A policy reaches one group (treated) but not another (control). We observe both groups before and after it starts.
+
+9
+00:00:43,533 --> 00:00:49,483
+The control group rises from 4.0 to 5.0. That +1.0 reflects everything that changed over time for both groups.
+
+10
+00:00:49,533 --> 00:00:55,483
+The treated group rises from 6.0 to 8.5. Part of that +2.5 is the common time trend, part is the policy.
+
+11
+00:00:55,533 --> 00:01:02,483
+Parallel trends: without the policy, the treated group would have risen by the same +1.0 as the control group.
+
+12
+00:01:02,533 --> 00:01:08,483
+The gap between what happened (8.5) and that counterfactual (7.0) is the average effect on the treated: δ = 1.5.
+
+13
+00:01:08,533 --> 00:01:14,983
+In numbers: (8.5 − 6.0) − (5.0 − 4.0) = 1.5. The same δ is the interaction coefficient in the regression below.
+
+14
+00:01:15,033 --> 00:01:18,983
+Stata: didregress (y) (D), group(id) time(t), or reghdfe y D, absorb(id t).
+
+15
+00:01:19,067 --> 00:01:21,617
+Card & Krueger (1994): real data — New Jersey’s minimum wage and fast-food jobs
+
+16
+00:01:21,667 --> 00:01:28,017
+April 1992: New Jersey raised its minimum wage from $4.25 to $5.05 an hour. Neighbouring eastern Pennsylvania did not.
+
+17
+00:01:28,067 --> 00:01:35,017
+Card & Krueger surveyed 410 fast-food restaurants before (February–March) and after (November–December). Starting wages rose only in New Jersey.
+
+18
+00:01:35,067 --> 00:01:42,017
+Full-time-equivalent employment per store: Pennsylvania fell from 23.33 to 21.17, New Jersey rose from 20.44 to 21.03.
+
+19
+00:01:42,067 --> 00:01:49,517
+DiD: (21.03 − 20.44) − (21.17 − 23.33) = +2.75 workers per store (store-clustered standard error 1.31). No sign of job losses.
+
+20
+00:01:49,567 --> 00:01:57,017
+These numbers are recomputed here from the original survey data. The finding started a long debate (Neumark & Wascher 2000; Card & Krueger 2000).
+
+21
+00:01:57,100 --> 00:01:59,650
+Event studies and parallel trends — One coefficient for every year around treatment
+
+22
+00:01:59,700 --> 00:02:06,050
+With many periods, estimate one coefficient for each year relative to treatment. Year −1 is the reference and is set to zero.
+
+23
+00:02:06,100 --> 00:02:13,050
+Leads, the years before treatment, should hover around zero: treated and control units moved together before the policy.
+
+24
+00:02:13,100 --> 00:02:20,050
+Lags, the years after treatment, trace out how the effect builds up over time.
+
+25
+00:02:20,100 --> 00:02:27,050
+Caution: flat leads do not prove parallel trends. A small trend like this one passes the pre-test (Roth 2022).
+
+26
+00:02:27,100 --> 00:02:33,050
+If that trend continued after treatment, part of the estimated effect would be bias rather than policy.
+
+27
+00:02:33,100 --> 00:02:39,050
+Report the event study, then check how robust it is with Honest DiD bounds (Rambachan & Roth 2023).
+
+28
+00:02:39,133 --> 00:02:41,683
+Triple differences — Difference out a shock that hits the treated states
+
+29
+00:02:41,733 --> 00:02:48,083
+Worry: the treated states may have had their own shock, unrelated to the policy, that a plain DiD would mistake for an effect.
+
+30
+00:02:48,133 --> 00:02:56,083
+Step 1: a standard DiD for the group the policy targets. Treated vs. control states, before vs. after: 3.0 − 1.0 = 2.0.
+
+31
+00:02:56,133 --> 00:03:04,083
+Step 2: the same DiD for a group in the same states that the policy does not touch. Its 0.5 measures the state-specific shock.
+
+32
+00:03:04,133 --> 00:03:11,083
+Step 3: subtract. The shock cancels and the policy effect remains: 2.0 − 0.5 = 1.5.
+
+33
+00:03:11,133 --> 00:03:18,083
+Only the gap in trends between the two groups has to be parallel, a weaker assumption (Gruber 1994; Olden & Møen 2022).
+
+34
+00:03:18,167 --> 00:03:20,717
+Conditional parallel trends — When the groups differ in who they contain
+
+35
+00:03:20,767 --> 00:03:27,617
+Sometimes trends are only parallel within comparable units. Here young workers’ outcomes grow faster than older workers’, policy or not.
+
+36
+00:03:27,667 --> 00:03:33,117
+The treated group is 80% young; the control group is only 20% young.
+
+37
+00:03:33,167 --> 00:03:40,617
+A raw DiD compares groups with different mixes, so it mistakes the faster young trend for an effect: 2.7 − 0.8 = 1.9.
+
+38
+00:03:40,667 --> 00:03:48,617
+Instead compare treated and control units within each age group, then average with the treated group’s mix: the effect is 1.0.
+
+39
+00:03:48,667 --> 00:03:57,117
+Doubly robust DiD combines an outcome model with propensity-score weights and is consistent if either one is right (Sant’Anna & Zhao 2020).
+
+40
+00:03:57,200 --> 00:03:59,750
+Staggered adoption: why TWFE breaks — Already-treated units make bad controls
+
+41
+00:03:59,800 --> 00:04:06,150
+Now units adopt at different dates: an early cohort in year 4, a late cohort in year 7, and a group that is never treated.
+
+42
+00:04:06,200 --> 00:04:12,150
+Effects build up after adoption (gold). Static two-way fixed effects (TWFE) uses all of these data and returns one number.
+
+43
+00:04:12,200 --> 00:04:17,150
+Goodman-Bacon (2021): that number is a weighted average of every 2×2 comparison hidden in the data.
+
+44
+00:04:17,200 --> 00:04:23,150
+Early vs. never treated, and late vs. never treated: clean comparisons.
+
+45
+00:04:23,200 --> 00:04:28,150
+Early vs. late, before the late cohort is treated: also clean, because the late cohort is still untreated.
+
+46
+00:04:28,200 --> 00:04:35,150
+Late vs. early, after year 4: the early cohort serves as the control while its own effect is still growing.
+
+47
+00:04:35,200 --> 00:04:41,150
+Its growth gets subtracted, so this comparison gives −0.50 even though every true effect is positive.
+
+48
+00:04:41,200 --> 00:04:47,150
+Result: TWFE reports 1.14, while the true average effect on the treated is 1.73.
+
+49
+00:04:47,200 --> 00:04:54,150
+Diagnose with bacondecomp or twowayfeweights. Fix it with estimators that only use clean controls, as in the next scenes.
+
+50
+00:04:54,233 --> 00:04:56,783
+Callaway & Sant’Anna — Many clean 2×2s, one for each cohort and year
+
+51
+00:04:56,833 --> 00:05:03,183
+Callaway & Sant’Anna (2021) split the problem into many clean 2×2 comparisons: one for each cohort g and year t.
+
+52
+00:05:03,233 --> 00:05:11,183
+ATT(g,t) compares cohort g’s change since its last untreated year, g−1, with the same change for never-treated or not-yet-treated units.
+
+53
+00:05:11,233 --> 00:05:18,183
+Example: ATT(4,6) takes cohort 4’s change from year 3 to year 6, minus the never-treated group’s change: 2.25 − 0.75 = 1.5.
+
+54
+00:05:18,233 --> 00:05:25,183
+Repeat for every cohort and year. An already-treated unit is never used as a control.
+
+55
+00:05:25,233 --> 00:05:33,183
+Then aggregate. Averaging the cells with the same time since adoption gives an event study…
+
+56
+00:05:33,233 --> 00:05:39,183
+…or a single overall ATT that weights cohorts by size: 1.73, exactly the true average effect.
+
+57
+00:05:39,233 --> 00:05:44,183
+Stata: csdid (doubly robust by default), or the official xthdidregress in Stata 18 and later.
+
+58
+00:05:44,267 --> 00:05:46,817
+Sun & Abraham — Event studies one cohort at a time
+
+59
+00:05:46,867 --> 00:05:54,217
+A pooled event-study regression mixes cohorts. With heterogeneous effects, leads and lags pick up effects from other horizons (Sun & Abraham 2021).
+
+60
+00:05:54,267 --> 00:06:01,217
+Here the pooled regression (grey) shows a pre-trend, although nobody anticipated the policy, and it distorts the effects after adoption.
+
+61
+00:06:01,267 --> 00:06:08,217
+Fix: estimate a separate event study for each cohort, using only a clean control cohort such as the never treated.
+
+62
+00:06:08,267 --> 00:06:15,217
+Then average across cohorts at each horizon, weighting by each cohort’s share of the units observed at that horizon: here 40% and 60%.
+
+63
+00:06:15,267 --> 00:06:20,217
+The interaction-weighted estimate (gold) is flat before adoption and recovers the average effect after it.
+
+64
+00:06:20,267 --> 00:06:24,217
+Stata: eventstudyinteract.
+
+65
+00:06:24,300 --> 00:06:26,850
+Imputation and two-stage DiD — Predict the untreated outcome, then compare
+
+66
+00:06:26,900 --> 00:06:33,250
+Imputation estimators (Borusyak, Jaravel & Spiess 2024) start from the observations that are not yet treated: the filled dots.
+
+67
+00:06:33,300 --> 00:06:40,250
+Step 1: fit unit and year fixed effects using only those untreated observations.
+
+68
+00:06:40,300 --> 00:06:47,250
+Step 2: extend the fit into the treated years to impute each unit’s outcome without treatment, Y(0).
+
+69
+00:06:47,300 --> 00:06:54,250
+Step 3: each treated observation’s effect is its observed outcome minus the imputed Y(0).
+
+70
+00:06:54,300 --> 00:07:01,250
+Average these gaps by years since adoption, or overall. Treated observations never serve as controls.
+
+71
+00:07:01,300 --> 00:07:08,250
+Gardner’s two-stage DiD (did2s) and Wooldridge’s extended TWFE (jwdid) give the same point estimates in this setting.
+
+72
+00:07:08,333 --> 00:07:10,883
+Stacked DiD — One clean experiment per adoption date
+
+73
+00:07:10,933 --> 00:07:16,283
+Stacked DiD builds one clean experiment for each adoption date, then pools them. Coloured cells are treated years.
+
+74
+00:07:16,333 --> 00:07:21,283
+Take the year-4 cohort and a window from 2 years before to 2 years after adoption.
+
+75
+00:07:21,333 --> 00:07:28,283
+Add controls that stay untreated throughout that window: the year-8 cohort and the never treated. The year-6 cohort is dropped.
+
+76
+00:07:28,333 --> 00:07:35,283
+Do the same for the year-6 and year-8 cohorts, each with its own clean controls.
+
+77
+00:07:35,333 --> 00:07:41,283
+Align the stacks on event time and pile them into one dataset.
+
+78
+00:07:41,333 --> 00:07:50,283
+Estimate one regression with stack-specific unit and time fixed effects (Cengiz et al. 2019). Wing, Freedman & Hollingsworth (2024) add weights so it targets a clear average.
+
+79
+00:07:50,367 --> 00:07:52,917
+Local-projections DiD — One long-difference regression per horizon
+
+80
+00:07:52,967 --> 00:07:59,317
+Local-projections DiD (Dube, Girardi, Jordà & Taylor 2023) runs one simple regression for each horizon h after adoption.
+
+81
+00:07:59,367 --> 00:08:06,317
+For horizon h, take the long difference from the year before adoption to h years after: y(t+h) − y(t−1).
+
+82
+00:08:06,367 --> 00:08:14,317
+Compare newly treated units with clean controls: units not yet treated by year t+h. The late cohort drops out once it adopts in year 7.
+
+83
+00:08:14,367 --> 00:08:21,317
+Each regression adds one point to the event study, and no already-treated unit is ever used as a control.
+
+84
+00:08:21,367 --> 00:08:28,317
+It is fast on large data and easy to extend with covariates and non-absorbing treatments. Stata: lpdid.
+
+85
+00:08:28,400 --> 00:08:30,950
+Treatments that switch on, off or change — de Chaisemartin & D’Haultfœuille
+
+86
+00:08:31,000 --> 00:08:37,850
+Many treatments are not one-time, on-forever switches. They can turn off, or change in intensity. Each row is a unit, each column a year.
+
+87
+00:08:37,900 --> 00:08:44,350
+de Chaisemartin & D’Haultfœuille compare switchers with units that had the same treatment at the start and have not switched yet.
+
+88
+00:08:44,400 --> 00:08:52,350
+Example: unit 1 switches on in year 4. Its controls are the units still at its starting level, 0: units 2, 3, 5 and 6. Unit 4 started treated, so it is excluded.
+
+89
+00:08:52,400 --> 00:09:00,350
+Effects are traced ℓ = 1, 2, … periods after the first switch, as long as not-yet-switched controls remain. The control set shrinks as units switch.
+
+90
+00:09:00,400 --> 00:09:08,350
+Placebos compare the same groups before the switch. Stata: did_multiplegt_dyn; for designs where everyone gets some dose, did_had.
+
+91
+00:09:08,433 --> 00:09:10,983
+Continuous treatment — When units get different doses
+
+92
+00:09:11,033 --> 00:09:17,383
+With a continuous treatment, units receive different doses: here 0, 1, 2 or 3. Bars show each dose group’s change in the outcome.
+
+93
+00:09:17,433 --> 00:09:25,383
+Under ordinary parallel trends, each dose group’s change minus the untreated group’s change identifies the effect of that dose on the units that received it.
+
+94
+00:09:25,433 --> 00:09:33,383
+Comparing across doses is harder. The jump from dose 2 to dose 3 (0.9) also reflects differences between the units that ended up with those doses.
+
+95
+00:09:33,433 --> 00:09:41,383
+For the dose-3 units themselves the marginal gain is only 0.6. Reading the curve as a causal dose-response needs “strong” parallel trends (Callaway, Goodman-Bacon & Sant’Anna 2024).
+
+96
+00:09:41,433 --> 00:09:47,383
+If every unit gets some dose there is no untreated group at all; did_had uses units with small doses instead (de Chaisemartin et al. 2024).
+
+97
+00:09:47,467 --> 00:09:50,017
+Fuzzy DiD — When only the share treated changes
+
+98
+00:09:50,067 --> 00:09:56,417
+Sometimes no group is fully treated or untreated. Take-up just rises faster in one group than in another.
+
+99
+00:09:56,467 --> 00:10:03,917
+Share treated: group A goes from 20% to 60%, group B from 20% to 30%. The first-stage DiD is 40 − 10 = 30 percentage points.
+
+100
+00:10:03,967 --> 00:10:10,417
+Outcomes: group A rises by 1.6, group B by 0.4. The outcome DiD is 1.2.
+
+101
+00:10:10,467 --> 00:10:17,417
+Divide them: the Wald-DiD is 1.2 / 0.30 = 4.0, the effect per unit of treatment, much like an instrumental-variables ratio.
+
+102
+00:10:17,467 --> 00:10:25,417
+It needs more than parallel trends; de Chaisemartin & D’Haultfœuille (2018) also propose time-corrected and changes-in-changes versions. Stata: fuzzydid.
+
+103
+00:10:25,500 --> 00:10:28,050
+Changes-in-changes — The whole counterfactual distribution, not just the mean
+
+104
+00:10:28,100 --> 00:10:34,450
+DiD compares averages. Changes-in-changes (Athey & Imbens 2006) recovers the whole counterfactual distribution.
+
+105
+00:10:34,500 --> 00:10:41,450
+In the control group, see how each rank of the distribution moved over time: the 10th, 50th and 90th percentiles.
+
+106
+00:10:41,500 --> 00:10:48,950
+Give each treated unit the change that a control unit with the same before-period outcome experienced.
+
+107
+00:10:49,000 --> 00:10:56,450
+Compare the actual treated distribution with this counterfactual: there is an effect at every quantile, larger at the top.
+
+108
+00:10:56,500 --> 00:11:04,450
+Unlike DiD, the answer does not depend on whether the outcome is measured in levels or logs. Stata: cic.
+
+109
+00:11:04,533 --> 00:11:07,083
+Synthetic control and synthetic DiD — Build a comparison unit that tracks the treated one
+
+110
+00:11:07,133 --> 00:11:13,983
+One treated unit and a pool of potential controls. Their simple average (dashed) does not follow the treated unit before treatment.
+
+111
+00:11:14,033 --> 00:11:22,483
+Synthetic control chooses weights on control units so that their weighted average tracks the treated unit before treatment (Abadie et al. 2010).
+
+112
+00:11:22,533 --> 00:11:29,483
+After treatment, the gap between the treated unit and its synthetic twin is the estimated effect.
+
+113
+00:11:29,533 --> 00:11:37,483
+Synthetic DiD (Arkhangelsky et al. 2021) also weights the pre-treatment years and allows a level shift, so it only has to match trends, not levels.
+
+114
+00:11:37,533 --> 00:11:44,483
+Useful with few treated units when no comparison group has parallel trends on its own. Stata: sdid, synth.
+
+115
+00:11:44,567 --> 00:11:47,117
+Honest DiD — How big a violation would overturn the result?
+
+116
+00:11:47,167 --> 00:11:54,017
+Parallel trends cannot be tested after treatment. Honest DiD asks how large a violation would overturn the result (Rambachan & Roth 2023).
+
+117
+00:11:54,067 --> 00:12:00,017
+Start from the largest jump between consecutive pre-treatment coefficients: here 0.20.
+
+118
+00:12:00,067 --> 00:12:07,017
+Allow each post-treatment jump in the violation to be up to M̄ times that size. The cone shows what M̄ = 1 permits.
+
+119
+00:12:07,067 --> 00:12:16,017
+As M̄ grows, the robust confidence interval for the average effect widens. In this illustration it first includes zero near M̄ = 1.1: the breakdown value.
+
+120
+00:12:16,067 --> 00:12:22,517
+Report this sensitivity plot next to the event study. Stata: honestdid; pretrends checks the power of pre-tests.
+
+121
+00:12:22,600 --> 00:12:25,150
+Serial correlation and clustering — How often does DiD find a law that does not exist?
+
+122
+00:12:25,200 --> 00:12:31,550
+Bertrand, Duflo & Mullainathan (2004) asked how often DiD finds an effect of a law that does not exist.
+
+123
+00:12:31,600 --> 00:12:38,550
+Here outcomes in each of 50 states drift slowly over 20 years (serial correlation 0.8). Each dot will be one placebo law, given at random to 25 states.
+
+124
+00:12:38,600 --> 00:12:46,550
+With conventional standard errors, 39% of the 200 placebo laws look significant at the 5% level.
+
+125
+00:12:46,600 --> 00:12:54,050
+Clustering standard errors by state allows for correlation over time within a state. The rejection rate falls to 5%.
+
+126
+00:12:54,100 --> 00:13:00,550
+Rule: cluster at the level at which treatment is assigned, for example vce(cluster state) in Stata.
+
+127
+00:13:00,633 --> 00:13:03,183
+Few clusters: the wild cluster bootstrap — When even clustered standard errors are too small
+
+128
+00:13:03,233 --> 00:13:09,583
+With few clusters, or few treated clusters, even clustered standard errors are too small. Here: 12 states, 3 of them treated.
+
+129
+00:13:09,633 --> 00:13:17,083
+The wild cluster bootstrap redraws the data many times. Each state’s residuals are kept or flipped in sign as one block.
+
+130
+00:13:17,133 --> 00:13:24,583
+Take one placebo dataset where the two tests disagree: the clustered t-statistic is −2.24, “significant” by the usual rule, but the share of bootstrap t-statistics at least as extreme gives p = 0.055.
+
+131
+00:13:24,633 --> 00:13:32,583
+Across 300 simulated placebo laws, clustered standard errors reject 8.3% of the time instead of 5%; the wild cluster bootstrap rejects 5%.
+
+132
+00:13:32,633 --> 00:13:40,583
+Stata: boottest right after your regression (Roodman et al. 2019). See Cameron, Gelbach & Miller (2008) and MacKinnon & Webb (2017).
+
+133
+00:13:40,667 --> 00:13:43,217
+Real staggered data: castle-doctrine laws — Cheng & Hoekstra (2013), re-estimated
+
+134
+00:13:43,267 --> 00:13:50,117
+Castle-doctrine (“stand your ground”) laws widened the right to use lethal force in self-defence. Twenty-one US states adopted one between 2005 and 2009.
+
+135
+00:13:50,167 --> 00:13:56,617
+Adoption is staggered: most states adopted in 2006, a few earlier or later, and 29 states never did. A textbook case for the new estimators.
+
+136
+00:13:56,667 --> 00:14:04,617
+Callaway & Sant’Anna event study, comparing each cohort with never-treated states: no clear trend before adoption, roughly 10% more homicides after.
+
+137
+00:14:04,667 --> 00:14:12,117
+Overall: Callaway & Sant’Anna +0.110 (SE 0.038), static TWFE +0.082 (SE 0.055). With many never-treated states, TWFE puts no negative weights here, so the two are close.
+
+138
+00:14:12,167 --> 00:14:18,617
+Computed from the Mixtape copy of the data: log homicides, unweighted, no covariates, state-bootstrap standard errors. Stata code is on the page.
