@@ -210,6 +210,7 @@ table.gl th[scope=row]{font-weight:600;background:none;color:var(--ink);position
 table.gl td:nth-child(2){white-space:nowrap;color:var(--muted)}
 .ck td:not(:first-child),.ck th:not(:first-child){text-align:right;font-variant-numeric:tabular-nums}
 table.ck{min-width:520px}
+.castle-chart{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin-top:14px;max-width:720px}
 .gl-anim{text-decoration:none;color:var(--accent);font-size:.8rem;margin-left:4px}
 a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 @media (max-width:640px){.lang-switch{position:static;width:fit-content;margin:0 0 18px}.anim-time{display:none}nav.toc .wrap{flex-wrap:nowrap;overflow-x:auto;white-space:nowrap;scrollbar-width:none}nav.toc .wrap::-webkit-scrollbar{display:none}}
@@ -234,6 +235,7 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(-
   <a href="#animations">Animations</a>
   <a href="#simulator">Simulator</a>
   <a href="#example">Real example</a>
+  <a href="#castle">Staggered example</a>
   <a href="#story">Story</a>
   <a href="#problem">TWFE problem</a>
   <a href="#versions">Versions</a>
@@ -311,9 +313,31 @@ regress fte i.state##i.wave, vce(cluster sheet)</code></pre>
   <p>The full script, with the table of means, <code>didregress</code> and chain fixed effects, is in <a href="card_krueger.do"><code>card_krueger.do</code></a>. <a class="anim-link" href="#anim-ck">Watch the animation</a></p>
 </section>
 
+<!-- ====================== STAGGERED EXAMPLE ====================== -->
+<section id="castle">
+  <h2>5. A staggered example: castle-doctrine laws</h2>
+  <p class="lead">Cheng &amp; Hoekstra (2013) asked whether &ldquo;stand your ground&rdquo; laws deter crime or escalate violence. Twenty-one states adopted them between 2005 and 2009; 29 did not.</p>
+  <div class="tablewrap"><table class="ck">
+    <thead><tr><th>Log homicides per 100,000, 2000&ndash;2010</th><th>Estimate</th><th>Std. error</th></tr></thead>
+    <tbody>
+      <tr><td>Static TWFE</td><td>+0.082</td><td>(0.055)</td></tr>
+      <tr><td>Callaway &amp; Sant&rsquo;Anna, never-treated controls</td><td>+0.110</td><td>(0.038)</td></tr>
+    </tbody>
+  </table></div>
+  <div class="castle-chart"><svg class="sim-svg castle-es" viewBox="0 0 640 280" role="img" aria-label="Event study: Callaway and Sant'Anna estimates of the effect of castle-doctrine laws on log homicides, five years before to five years after adoption, with 95% confidence intervals"><line class="sim-grid" x1="52" x2="624" y1="211.3" y2="211.3"/><text class="sim-tick" x="44" y="215.3" text-anchor="end">&minus;0.1</text><line class="sim-grid" x1="52" x2="624" y1="162.0" y2="162.0"/><text class="sim-tick" x="44" y="166.0" text-anchor="end">0.0</text><line class="sim-grid" x1="52" x2="624" y1="112.7" y2="112.7"/><text class="sim-tick" x="44" y="116.7" text-anchor="end">+0.1</text><line class="sim-grid" x1="52" x2="624" y1="63.3" y2="63.3"/><text class="sim-tick" x="44" y="67.3" text-anchor="end">+0.2</text><line class="sim-grid" x1="52" x2="624" y1="14.0" y2="14.0"/><text class="sim-tick" x="44" y="18.0" text-anchor="end">+0.3</text><line class="sim-zero" x1="52" x2="624" y1="162.0" y2="162.0"/><line class="sim-zero" x1="312.0" x2="312.0" y1="14" y2="236"/><line class="sim-axis" x1="52" x2="52" y1="14" y2="236"/><line class="sim-axis" x1="52" x2="624" y1="236" y2="236"/><line x1="78.0" x2="78.0" y1="204.2" y2="88.2" stroke="var(--muted)" stroke-width="2"/><circle cx="78.0" cy="146.2" r="4.5" fill="var(--muted)" stroke="var(--muted)" stroke-width="2"/><text class="sim-tick" x="78.0" y="254" text-anchor="middle">&minus;5</text><line x1="130.0" x2="130.0" y1="216.2" y2="115.7" stroke="var(--muted)" stroke-width="2"/><circle cx="130.0" cy="165.9" r="4.5" fill="var(--muted)" stroke="var(--muted)" stroke-width="2"/><text class="sim-tick" x="130.0" y="254" text-anchor="middle">&minus;4</text><line x1="182.0" x2="182.0" y1="178.4" y2="89.4" stroke="var(--muted)" stroke-width="2"/><circle cx="182.0" cy="133.9" r="4.5" fill="var(--muted)" stroke="var(--muted)" stroke-width="2"/><text class="sim-tick" x="182.0" y="254" text-anchor="middle">&minus;3</text><line x1="234.0" x2="234.0" y1="175.9" y2="90.8" stroke="var(--muted)" stroke-width="2"/><circle cx="234.0" cy="133.4" r="4.5" fill="var(--muted)" stroke="var(--muted)" stroke-width="2"/><text class="sim-tick" x="234.0" y="254" text-anchor="middle">&minus;2</text><circle cx="286.0" cy="162.0" r="4" fill="var(--card)" stroke="var(--muted)" stroke-width="2"/><text class="sim-tick" x="286.0" y="254" text-anchor="middle">&minus;1</text><line x1="338.0" x2="338.0" y1="151.9" y2="76.4" stroke="var(--accent)" stroke-width="2"/><circle cx="338.0" cy="114.1" r="4.5" fill="var(--accent)" stroke="var(--accent)" stroke-width="2"/><text class="sim-tick" x="338.0" y="254" text-anchor="middle">0</text><line x1="390.0" x2="390.0" y1="154.1" y2="59.4" stroke="var(--accent)" stroke-width="2"/><circle cx="390.0" cy="106.7" r="4.5" fill="var(--accent)" stroke="var(--accent)" stroke-width="2"/><text class="sim-tick" x="390.0" y="254" text-anchor="middle">1</text><line x1="442.0" x2="442.0" y1="164.8" y2="48.7" stroke="var(--accent)" stroke-width="2"/><circle cx="442.0" cy="106.7" r="4.5" fill="var(--accent)" stroke="var(--accent)" stroke-width="2"/><text class="sim-tick" x="442.0" y="254" text-anchor="middle">2</text><line x1="494.0" x2="494.0" y1="149.5" y2="39.3" stroke="var(--accent)" stroke-width="2"/><circle cx="494.0" cy="94.4" r="4.5" fill="var(--accent)" stroke="var(--accent)" stroke-width="2"/><text class="sim-tick" x="494.0" y="254" text-anchor="middle">3</text><line x1="546.0" x2="546.0" y1="168.3" y2="63.9" stroke="var(--accent)" stroke-width="2"/><circle cx="546.0" cy="116.1" r="4.5" fill="var(--accent)" stroke="var(--accent)" stroke-width="2"/><text class="sim-tick" x="546.0" y="254" text-anchor="middle">4</text><line x1="598.0" x2="598.0" y1="156.1" y2="57.4" stroke="var(--accent)" stroke-width="2"/><circle cx="598.0" cy="106.7" r="4.5" fill="var(--accent)" stroke="var(--accent)" stroke-width="2"/><text class="sim-tick" x="598.0" y="254" text-anchor="middle">5</text><text class="sim-lab" x="338" y="274" text-anchor="middle">Years relative to adoption</text></svg></div>
+  <p>Both estimators point to roughly 8&ndash;11% more homicides after adoption, in line with Cheng &amp; Hoekstra. Here the gap between them is modest: with 29 never-treated states, none of the 95 treated state-years gets a negative TWFE weight. The event study (Callaway &amp; Sant&rsquo;Anna, base year g&minus;1, 95% intervals) shows no clear pre-trend. Computed here from the Mixtape copy of the data: unweighted, no covariates, treatment from the year a law took effect, standard errors from 999 bootstrap draws of states. The paper&rsquo;s preferred specifications differ.</p>
+  <pre><code>use "https://raw.githubusercontent.com/scunning1975/mixtape/master/castle.dta", clear
+gen g = cond(missing(effyear), 0, effyear)     // adoption year, 0 = never
+gen D = g &gt; 0 &amp; year &gt;= g
+reghdfe l_homicide D, absorb(sid year) vce(cluster sid)
+csdid l_homicide, ivar(sid) time(year) gvar(g) long2
+estat simple
+estat event, window(-5 5)</code></pre>
+</section>
+
 <!-- ====================== STORY ====================== -->
 <section id="story">
-  <h2>5. The story</h2>
+  <h2>6. The story</h2>
   <p class="lead">From a London water pump to the &ldquo;credibility revolution&rdquo; and the post-2018 rewrite of the textbook.</p>
   <ul class="tl">
     <li><b class="y">1855</b>John Snow compares cholera deaths across London households served by two water companies before and after one moved its intake upstream &mdash; DiD logic before the name existed. <a class="anim-link" href="#anim-snow">Watch the animation</a></li>
@@ -329,14 +353,14 @@ regress fte i.state##i.wave, vce(cluster sheet)</code></pre>
 
 <!-- ====================== PROBLEM ====================== -->
 <section id="problem">
-  <h2>6. Why the textbook estimator broke</h2>
+  <h2>7. Why the textbook estimator broke</h2>
   <p>When units adopt treatment at different dates, the static TWFE coefficient is a weighted average of every possible 2&times;2 comparison in the data (Goodman-Bacon 2021). Some of those comparisons use <b>already-treated units as controls</b>. If treatment effects grow or differ across cohorts, those &ldquo;forbidden comparisons&rdquo; subtract earlier effects from later ones; the weights can be negative, and the TWFE estimate can even have the opposite sign to every underlying effect (de Chaisemartin &amp; D&rsquo;Haultf&oelig;uille 2020). Event-study leads and lags are contaminated in the same way (Sun &amp; Abraham 2021), so flat pre-trends from a TWFE event study are not reliable evidence.</p>
   <p>TWFE is still fine when there is a single treatment date, or when effects are homogeneous across cohorts and time. Otherwise, use one of the heterogeneity-robust estimators below. They all share one idea: <b>only compare treated units to not-yet-treated or never-treated units</b>, then aggregate with sensible weights.</p>
 </section>
 
 <!-- ====================== VERSIONS ====================== -->
 <section id="versions">
-  <h2>7. The versions</h2>
+  <h2>8. The versions</h2>
   <p class="lead">Grouped by the problem each one solves. Commands marked <span class="tag">built-in</span> ship with Stata 17+; the rest are community-contributed.</p>
 
   <h3 style="margin-top:22px">A. Classic designs</h3>
@@ -589,7 +613,7 @@ boottest D, cluster(state) reps(9999)</code></pre>
 
 <!-- ====================== GUIDE ====================== -->
 <section id="guide">
-  <h2>8. Which estimator should I use?</h2>
+  <h2>9. Which estimator should I use?</h2>
   <p class="lead">Answer a few questions about your design. The recommendation and the Stata code update as you go.</p>
   <div class="guide" id="did-guide">
     <noscript><p>The guide needs JavaScript. The cards above and the cheat sheet below cover the same ground.</p></noscript>
@@ -598,7 +622,7 @@ boottest D, cluster(state) reps(9999)</code></pre>
 
 <!-- ====================== STATA ====================== -->
 <section id="stata">
-  <h2>9. Stata cheat sheet</h2>
+  <h2>10. Stata cheat sheet</h2>
   <p class="lead">One row per command. A runnable simulation that calls most of them is in <a href="did_examples.do"><code>did_examples.do</code></a>.</p>
   <div class="tablewrap"><table>
     <thead><tr><th>Command</th><th>Method</th><th>Use it when</th><th>Install</th><th>R &middot; Python</th><th>Paper</th></tr></thead>
@@ -636,7 +660,7 @@ boottest D, cluster(state) reps(9999)</code></pre>
 
 <!-- ====================== WORKFLOW ====================== -->
 <section id="workflow">
-  <h2>10. A practical workflow</h2>
+  <h2>11. A practical workflow</h2>
   <ol>
     <li><b>Describe the design.</b> One treatment date or staggered? Absorbing or reversible? Binary or continuous? Are there never-treated units? Plot the rollout (<code>panelview</code>).</li>
     <li><b>Plot raw means</b> by cohort over time before running any regression.</li>
@@ -650,21 +674,21 @@ boottest D, cluster(state) reps(9999)</code></pre>
 
 <!-- ====================== QUIZ ====================== -->
 <section id="quiz">
-  <h2>11. Test yourself</h2>
+  <h2>12. Test yourself</h2>
   <p class="lead">Twelve questions. Pick an answer to see whether it is right and why.</p>
   <div id="did-quiz"><noscript><p>The quiz needs JavaScript.</p></noscript></div>
 </section>
 
 <!-- ====================== GLOSSARY ====================== -->
 <section id="glossary">
-  <h2>12. Glossary</h2>
+  <h2>13. Glossary</h2>
   <p class="lead">The main terms in English and Chinese, each with a one-line definition and a link to the animation that shows it.</p>
   <div id="did-glossary"><noscript><p>The glossary needs JavaScript.</p></noscript></div>
 </section>
 
 <!-- ====================== REFS ====================== -->
 <section id="refs">
-  <h2>13. References</h2>
+  <h2>14. References</h2>
 
   <h3 style="margin-top:16px">Surveys and textbooks (start here)</h3>
   <ol class="refs">
@@ -690,6 +714,7 @@ boottest D, cluster(state) reps(9999)</code></pre>
     <li>Gruber, J. (1994). The incidence of mandated maternity benefits. <i>American Economic Review</i>, 84(3), 622&ndash;641.</li>
     <li>Neumark, D., &amp; Wascher, W. (2000). Minimum wages and employment: A case study of the fast-food industry in New Jersey and Pennsylvania: Comment. <i>American Economic Review</i>, 90(5), 1362&ndash;1396.</li>
     <li>Card, D., &amp; Krueger, A. B. (2000). Minimum wages and employment: A case study of the fast-food industry in New Jersey and Pennsylvania: Reply. <i>American Economic Review</i>, 90(5), 1397&ndash;1420.</li>
+    <li>Cheng, C., &amp; Hoekstra, M. (2013). Does strengthening self-defense law deter crime or escalate violence? Evidence from expansions to castle doctrine. <i>Journal of Human Resources</i>, 48(3), 821&ndash;854.</li>
     <li>Meyer, B. D. (1995). Natural and quasi-experiments in economics. <i>Journal of Business &amp; Economic Statistics</i>, 13(2), 151&ndash;161.</li>
     <li>Heckman, J. J., Ichimura, H., &amp; Todd, P. E. (1997). Matching as an econometric evaluation estimator: Evidence from evaluating a job training programme. <i>Review of Economic Studies</i>, 64(4), 605&ndash;654.</li>
   </ol>

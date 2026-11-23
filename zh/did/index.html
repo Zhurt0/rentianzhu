@@ -208,6 +208,7 @@ table.gl th[scope=row]{font-weight:600;background:none;color:var(--ink);position
 table.gl td:nth-child(2){white-space:nowrap;color:var(--muted)}
 .ck td:not(:first-child),.ck th:not(:first-child){text-align:right;font-variant-numeric:tabular-nums}
 table.ck{min-width:520px}
+.castle-chart{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin-top:14px;max-width:720px}
 .gl-anim{text-decoration:none;color:var(--accent);font-size:.8rem;margin-left:4px}
 a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 @media (max-width:640px){.lang-switch{position:static;width:fit-content;margin:0 0 18px}.anim-time{display:none}nav.toc .wrap{flex-wrap:nowrap;overflow-x:auto;white-space:nowrap;scrollbar-width:none}nav.toc .wrap::-webkit-scrollbar{display:none}}
@@ -232,6 +233,7 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(-
   <a href="#animations">动画讲解</a>
   <a href="#simulator">模拟器</a>
   <a href="#example">真实案例</a>
+  <a href="#castle">交错处理案例</a>
   <a href="#story">发展历程</a>
   <a href="#problem">TWFE 的问题</a>
   <a href="#versions">各种版本</a>
@@ -309,9 +311,31 @@ regress fte i.state##i.wave, vce(cluster sheet)</code></pre>
   <p>完整脚本（包括均值表、<code>didregress</code> 以及连锁品牌固定效应）见 <a href="../../did/card_krueger.do"><code>card_krueger.do</code></a>。<a class="anim-link" href="#anim-ck">观看动画</a></p>
 </section>
 
+<!-- ====================== STAGGERED EXAMPLE ====================== -->
+<section id="castle">
+  <h2>5. 交错处理案例：城堡法</h2>
+  <p class="lead">Cheng &amp; Hoekstra（2013）研究“不退让”（城堡法）法律究竟会威慑犯罪，还是会加剧暴力。2005 至 2009 年间有 21 个州通过了这类法律，另有 29 个州没有。</p>
+  <div class="tablewrap"><table class="ck">
+    <thead><tr><th>每十万人凶杀率（对数），2000&ndash;2010</th><th>估计值</th><th>标准误</th></tr></thead>
+    <tbody>
+      <tr><td>静态 TWFE</td><td>+0.082</td><td>(0.055)</td></tr>
+      <tr><td>Callaway &amp; Sant&rsquo;Anna，以从未处理州为对照</td><td>+0.110</td><td>(0.038)</td></tr>
+    </tbody>
+  </table></div>
+  <div class="castle-chart"><svg class="sim-svg castle-es" viewBox="0 0 640 280" role="img" aria-label="事件研究：Callaway 和 Sant'Anna 对城堡法影响凶杀率（对数）的估计，从通过前五年到通过后五年，含 95% 置信区间"><line class="sim-grid" x1="52" x2="624" y1="211.3" y2="211.3"/><text class="sim-tick" x="44" y="215.3" text-anchor="end">&minus;0.1</text><line class="sim-grid" x1="52" x2="624" y1="162.0" y2="162.0"/><text class="sim-tick" x="44" y="166.0" text-anchor="end">0.0</text><line class="sim-grid" x1="52" x2="624" y1="112.7" y2="112.7"/><text class="sim-tick" x="44" y="116.7" text-anchor="end">+0.1</text><line class="sim-grid" x1="52" x2="624" y1="63.3" y2="63.3"/><text class="sim-tick" x="44" y="67.3" text-anchor="end">+0.2</text><line class="sim-grid" x1="52" x2="624" y1="14.0" y2="14.0"/><text class="sim-tick" x="44" y="18.0" text-anchor="end">+0.3</text><line class="sim-zero" x1="52" x2="624" y1="162.0" y2="162.0"/><line class="sim-zero" x1="312.0" x2="312.0" y1="14" y2="236"/><line class="sim-axis" x1="52" x2="52" y1="14" y2="236"/><line class="sim-axis" x1="52" x2="624" y1="236" y2="236"/><line x1="78.0" x2="78.0" y1="204.2" y2="88.2" stroke="var(--muted)" stroke-width="2"/><circle cx="78.0" cy="146.2" r="4.5" fill="var(--muted)" stroke="var(--muted)" stroke-width="2"/><text class="sim-tick" x="78.0" y="254" text-anchor="middle">&minus;5</text><line x1="130.0" x2="130.0" y1="216.2" y2="115.7" stroke="var(--muted)" stroke-width="2"/><circle cx="130.0" cy="165.9" r="4.5" fill="var(--muted)" stroke="var(--muted)" stroke-width="2"/><text class="sim-tick" x="130.0" y="254" text-anchor="middle">&minus;4</text><line x1="182.0" x2="182.0" y1="178.4" y2="89.4" stroke="var(--muted)" stroke-width="2"/><circle cx="182.0" cy="133.9" r="4.5" fill="var(--muted)" stroke="var(--muted)" stroke-width="2"/><text class="sim-tick" x="182.0" y="254" text-anchor="middle">&minus;3</text><line x1="234.0" x2="234.0" y1="175.9" y2="90.8" stroke="var(--muted)" stroke-width="2"/><circle cx="234.0" cy="133.4" r="4.5" fill="var(--muted)" stroke="var(--muted)" stroke-width="2"/><text class="sim-tick" x="234.0" y="254" text-anchor="middle">&minus;2</text><circle cx="286.0" cy="162.0" r="4" fill="var(--card)" stroke="var(--muted)" stroke-width="2"/><text class="sim-tick" x="286.0" y="254" text-anchor="middle">&minus;1</text><line x1="338.0" x2="338.0" y1="151.9" y2="76.4" stroke="var(--accent)" stroke-width="2"/><circle cx="338.0" cy="114.1" r="4.5" fill="var(--accent)" stroke="var(--accent)" stroke-width="2"/><text class="sim-tick" x="338.0" y="254" text-anchor="middle">0</text><line x1="390.0" x2="390.0" y1="154.1" y2="59.4" stroke="var(--accent)" stroke-width="2"/><circle cx="390.0" cy="106.7" r="4.5" fill="var(--accent)" stroke="var(--accent)" stroke-width="2"/><text class="sim-tick" x="390.0" y="254" text-anchor="middle">1</text><line x1="442.0" x2="442.0" y1="164.8" y2="48.7" stroke="var(--accent)" stroke-width="2"/><circle cx="442.0" cy="106.7" r="4.5" fill="var(--accent)" stroke="var(--accent)" stroke-width="2"/><text class="sim-tick" x="442.0" y="254" text-anchor="middle">2</text><line x1="494.0" x2="494.0" y1="149.5" y2="39.3" stroke="var(--accent)" stroke-width="2"/><circle cx="494.0" cy="94.4" r="4.5" fill="var(--accent)" stroke="var(--accent)" stroke-width="2"/><text class="sim-tick" x="494.0" y="254" text-anchor="middle">3</text><line x1="546.0" x2="546.0" y1="168.3" y2="63.9" stroke="var(--accent)" stroke-width="2"/><circle cx="546.0" cy="116.1" r="4.5" fill="var(--accent)" stroke="var(--accent)" stroke-width="2"/><text class="sim-tick" x="546.0" y="254" text-anchor="middle">4</text><line x1="598.0" x2="598.0" y1="156.1" y2="57.4" stroke="var(--accent)" stroke-width="2"/><circle cx="598.0" cy="106.7" r="4.5" fill="var(--accent)" stroke="var(--accent)" stroke-width="2"/><text class="sim-tick" x="598.0" y="254" text-anchor="middle">5</text><text class="sim-lab" x="338" y="274" text-anchor="middle">相对于通过法律的年份</text></svg></div>
+  <p>两种估计量都显示，法律通过后凶杀案大约增加 8&ndash;11%，与 Cheng &amp; Hoekstra 的结论一致。这里两者差距不大：由于有 29 个从未处理的州，95 个已处理的州-年份中没有一个在 TWFE 中权重为负。事件研究图（Callaway &amp; Sant&rsquo;Anna，基期为 g&minus;1，95% 置信区间）没有明显的处理前趋势。结果由本页根据 Mixtape 收录的数据计算：不加权、不含协变量、从法律生效当年起视为处理，标准误来自对州进行 999 次自助抽样。原论文的主要设定与此不同。</p>
+  <pre><code>use "https://raw.githubusercontent.com/scunning1975/mixtape/master/castle.dta", clear
+gen g = cond(missing(effyear), 0, effyear)     // adoption year, 0 = never
+gen D = g &gt; 0 &amp; year &gt;= g
+reghdfe l_homicide D, absorb(sid year) vce(cluster sid)
+csdid l_homicide, ivar(sid) time(year) gvar(g) long2
+estat simple
+estat event, window(-5 5)</code></pre>
+</section>
+
 <!-- ====================== STORY ====================== -->
 <section id="story">
-  <h2>5. 发展历程</h2>
+  <h2>6. 发展历程</h2>
   <p class="lead">从伦敦的一台水泵，到“可信性革命”，再到 2018 年后教科书的改写。</p>
   <ul class="tl">
     <li><b class="y">1855</b>约翰·斯诺比较了伦敦由两家自来水公司供水的家庭在其中一家把取水口迁往上游前后的霍乱死亡人数。这名字出现之前，双重差分的思路就已经有了。<a class="anim-link" href="#anim-snow">观看动画</a></li>
@@ -327,14 +351,14 @@ regress fte i.state##i.wave, vce(cluster sheet)</code></pre>
 
 <!-- ====================== PROBLEM ====================== -->
 <section id="problem">
-  <h2>6. 教科书估计量为何失灵</h2>
+  <h2>7. 教科书估计量为何失灵</h2>
   <p>当个体在不同时间接受处理时，静态 TWFE 系数是数据中所有可能的 2&times;2 比较的加权平均（Goodman-Bacon 2021）。其中一些比较把<b>已经接受处理的个体当作对照</b>。如果处理效应随时间增长或在批次之间不同，这些“禁止的比较”会用后期效应减去早期效应；权重可能为负，TWFE 估计值甚至可能与每一个真实效应符号相反（de Chaisemartin &amp; D&rsquo;Haultf&oelig;uille 2020）。事件研究的前导项和滞后项也会以同样方式被污染（Sun &amp; Abraham 2021），因此 TWFE 事件研究中平坦的处理前趋势并不是可靠的证据。</p>
   <p>当只有一个处理时点，或效应在批次和时间上同质时，TWFE 仍然适用。否则应使用下面这些对异质性稳健的估计量。它们的共同思路是：<b>只把处理个体与尚未处理或从未处理的个体相比较</b>，再用合理的权重加总。</p>
 </section>
 
 <!-- ====================== VERSIONS ====================== -->
 <section id="versions">
-  <h2>7. 各种版本</h2>
+  <h2>8. 各种版本</h2>
   <p class="lead">按所解决的问题分类。标有<span class="tag">Stata 内置</span>的命令随 Stata 17 及以上版本提供，其余为用户编写的命令。</p>
 
   <h3 style="margin-top:22px">A. 经典设计</h3>
@@ -587,7 +611,7 @@ boottest D, cluster(state) reps(9999)</code></pre>
 
 <!-- ====================== GUIDE ====================== -->
 <section id="guide">
-  <h2>8. 我该用哪个估计量？</h2>
+  <h2>9. 我该用哪个估计量？</h2>
   <p class="lead">回答几个关于研究设计的问题，推荐的方法和 Stata 代码会随之更新。</p>
   <div class="guide" id="did-guide">
     <noscript><p>这个向导需要 JavaScript。上面的卡片和下面的速查表包含同样的内容。</p></noscript>
@@ -596,7 +620,7 @@ boottest D, cluster(state) reps(9999)</code></pre>
 
 <!-- ====================== STATA ====================== -->
 <section id="stata">
-  <h2>9. Stata 速查表</h2>
+  <h2>10. Stata 速查表</h2>
   <p class="lead">每行一个命令。<a href="../../did/did_examples.do"><code>did_examples.do</code></a> 是一个可直接运行的模拟示例，调用了其中大部分命令。</p>
   <div class="tablewrap"><table>
     <thead><tr><th>命令</th><th>方法</th><th>适用情形</th><th>安装</th><th>R &middot; Python</th><th>文献</th></tr></thead>
@@ -634,7 +658,7 @@ boottest D, cluster(state) reps(9999)</code></pre>
 
 <!-- ====================== WORKFLOW ====================== -->
 <section id="workflow">
-  <h2>10. 实证流程</h2>
+  <h2>11. 实证流程</h2>
   <ol>
     <li><b>描述研究设计。</b>单一处理时点还是交错处理？吸收型还是可逆？二元还是连续？是否有从未处理的个体？画出处理的推进过程（<code>panelview</code>）。</li>
     <li>在做任何回归之前，先<b>画出各批次随时间变化的原始均值</b>。</li>
@@ -648,21 +672,21 @@ boottest D, cluster(state) reps(9999)</code></pre>
 
 <!-- ====================== QUIZ ====================== -->
 <section id="quiz">
-  <h2>11. 自我检测</h2>
+  <h2>12. 自我检测</h2>
   <p class="lead">十二道题。选择答案后会显示是否正确及其原因。</p>
   <div id="did-quiz"><noscript><p>小测验需要 JavaScript。</p></noscript></div>
 </section>
 
 <!-- ====================== GLOSSARY ====================== -->
 <section id="glossary">
-  <h2>12. 术语表</h2>
+  <h2>13. 术语表</h2>
   <p class="lead">主要术语的中英文对照，每个术语附一句话解释，以及演示它的动画链接。</p>
   <div id="did-glossary"><noscript><p>术语表需要 JavaScript。</p></noscript></div>
 </section>
 
 <!-- ====================== REFS ====================== -->
 <section id="refs">
-  <h2>13. 参考文献</h2>
+  <h2>14. 参考文献</h2>
 
   <h3 style="margin-top:16px">综述与教材（建议从这里开始）</h3>
   <ol class="refs">
@@ -688,6 +712,7 @@ boottest D, cluster(state) reps(9999)</code></pre>
     <li>Gruber, J. (1994). The incidence of mandated maternity benefits. <i>American Economic Review</i>, 84(3), 622&ndash;641.</li>
     <li>Neumark, D., &amp; Wascher, W. (2000). Minimum wages and employment: A case study of the fast-food industry in New Jersey and Pennsylvania: Comment. <i>American Economic Review</i>, 90(5), 1362&ndash;1396.</li>
     <li>Card, D., &amp; Krueger, A. B. (2000). Minimum wages and employment: A case study of the fast-food industry in New Jersey and Pennsylvania: Reply. <i>American Economic Review</i>, 90(5), 1397&ndash;1420.</li>
+    <li>Cheng, C., &amp; Hoekstra, M. (2013). Does strengthening self-defense law deter crime or escalate violence? Evidence from expansions to castle doctrine. <i>Journal of Human Resources</i>, 48(3), 821&ndash;854.</li>
     <li>Meyer, B. D. (1995). Natural and quasi-experiments in economics. <i>Journal of Business &amp; Economic Statistics</i>, 13(2), 151&ndash;161.</li>
     <li>Heckman, J. J., Ichimura, H., &amp; Todd, P. E. (1997). Matching as an econometric evaluation estimator: Evidence from evaluating a job training programme. <i>Review of Economic Studies</i>, 64(4), 605&ndash;654.</li>
   </ol>
