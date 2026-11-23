@@ -49,6 +49,7 @@ MARKUP = [
     ('<script src="anim/scenes.js"></script>', '<script src="../../did/anim/scenes.js"></script>'),
     ('<script src="sim/sim.js"></script>', '<script src="../../did/sim/sim.js"></script>'),
     ('<script src="guide/guide.js"></script>', '<script src="../../did/guide/guide.js"></script>'),
+    ('<script src="learn/learn.js"></script>', '<script src="../../did/learn/learn.js"></script>'),
     ('<span class="tag">built-in</span>', '<span class="tag">Stata 内置</span>'),
     ('<span class="tag">built-in: xthdidregress</span>', '<span class="tag">内置：xthdidregress</span>'),
     ('<span class="tag">covariates</span>', '<span class="tag">协变量</span>'),
@@ -109,6 +110,14 @@ TEXT = [
     ('Prefer a file? Each animation has an MP4 link under the player, or download <a href="videos/en/all.mp4">all 19 as one video</a> (about 13 minutes).',
      '想下载视频？播放器下方有每个动画的 MP4 链接，也可以下载<a href="../../did/videos/zh/all.mp4">全部 19 个动画的合集</a>（约 13 分钟）。'),
 
+    # quiz and glossary
+    ('Quiz', '小测验'),
+    ('Glossary', '术语表'),
+    ('Test yourself', '自我检测'),
+    ('Twelve questions. Pick an answer to see whether it is right and why.', '十二道题。选择答案后会显示是否正确及其原因。'),
+    ('The quiz needs JavaScript.', '小测验需要 JavaScript。'),
+    ('The main terms in English and Chinese, each with a one-line definition and a link to the animation that shows it.', '主要术语的中英文对照，每个术语附一句话解释，以及演示它的动画链接。'),
+    ('The glossary needs JavaScript.', '术语表需要 JavaScript。'),
     # estimator guide
     ('Which estimator?', '选哪个估计量？'),
     ('Which estimator should I use?', '我该用哪个估计量？'),
