@@ -38,7 +38,7 @@ Live: <https://zhurt0.github.io/rentianzhu/did/> · 中文：<https://zhurt0.git
 | 18 | Serial correlation and clustering | `vce(cluster)` |
 | 19 | Few clusters: the wild cluster bootstrap | `boottest` |
 
-The data are simulated. Computed live in the browser: the TWFE estimate and 2×2 comparisons in scene 6, the pooled event study in scene 8, the LP-DiD estimates in scene 11, and the placebo-law rejection rates in scenes 18–19 (seeded simulations of AR(1) panels). The John Snow figures are as tabulated in Cunningham (2021). Other scenes use illustrative numbers; the Honest DiD bounds in scene 17 are a simplified illustration of the relative-magnitudes idea, not the exact Rambachan–Roth procedure.
+The data are simulated. Computed live in the browser: the TWFE estimate and 2×2 comparisons in scene 6, the pooled event study in scene 8, the LP-DiD estimates in scene 11, and the placebo-law rejection rates in scenes 18–19 (seeded simulations of AR(1) panels). The John Snow figures (cholera deaths per 10,000 households) are Snow's Table XII as presented in Cunningham (2021, Table 9.2). Other scenes use illustrative numbers; the Honest DiD bounds in scene 17 are a simplified illustration of the relative-magnitudes idea, not the exact Rambachan–Roth procedure.
 
 Each scene is a pure function of time in `anim/scenes.js`, so the page and the videos always match. To change a scene and re-render:
 

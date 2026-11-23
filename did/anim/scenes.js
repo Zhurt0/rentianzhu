@@ -980,8 +980,8 @@
   function pct(v) { return (v * 100).toFixed(1).replace(/\.0$/, '') + '%'; }
 
   // ------------------------------------------------------------------ John Snow 1855
-  // Death rates as tabulated in Cunningham (2021), The Mixtape, Table 9.1.
-  var SNOW = { sv: [135, 147], lb: [85, 19] };
+  // Cholera deaths per 10,000 households: Snow's (1855) Table XII as presented in Cunningham (2021), The Mixtape, Table 9.2.
+  var SNOW = { sv: [565, 614], lb: [62, 14] }; // deaths per 10,000 households
   scene({
     id: 'snow', stata: ['didregress'], dur: 36,
     title: { en: 'John Snow, 1855: the first DiD', zh: '约翰·斯诺，1855：最早的双重差分' },
@@ -989,9 +989,9 @@
     beats: [
       { t: 2.6, en: 'London, 1849 and 1854. Two water companies, Southwark & Vauxhall and Lambeth, supplied households in the same districts.', zh: '伦敦，1849 年和 1854 年。Southwark & Vauxhall 和 Lambeth 两家自来水公司为同一片街区的住户供水。' },
       { t: 8.5, en: 'In 1852 Lambeth moved its intake upstream, above the city’s sewage. Southwark & Vauxhall kept drawing water from the polluted stretch.', zh: '1852 年，Lambeth 把取水口迁到上游，避开了城市污水；Southwark & Vauxhall 仍从受污染的河段取水。' },
-      { t: 15, en: 'Cholera death rates: Southwark & Vauxhall went from 135 to 147, Lambeth from 85 to 19.', zh: '霍乱死亡率：Southwark & Vauxhall 从 135 升到 147，Lambeth 从 85 降到 19。' },
-      { t: 22, en: 'Lambeth’s change (−66) minus Southwark & Vauxhall’s change (+12) is −78: a difference in differences.', zh: 'Lambeth 的变化（−66）减去 Southwark & Vauxhall 的变化（+12），等于 −78：这就是双重差分。' },
-      { t: 29, en: 'Snow (1855) used this comparison to argue that cholera spreads through water, long before germ theory was accepted. Numbers as tabulated in Cunningham (2021).', zh: '斯诺（1855）用这一比较论证霍乱经水传播，而那时细菌理论尚未被接受。数据引自 Cunningham（2021）的整理。' }
+      { t: 15, en: 'Cholera deaths per 10,000 households: Southwark & Vauxhall went from 565 to 614, Lambeth from 62 to 14.', zh: '每万户霍乱死亡人数：Southwark & Vauxhall 从 565 升到 614，Lambeth 从 62 降到 14。' },
+      { t: 22, en: 'Lambeth’s change (−48) minus Southwark & Vauxhall’s change (+49) is −97 deaths per 10,000 households: a difference in differences.', zh: 'Lambeth 的变化（−48）减去 Southwark & Vauxhall 的变化（+49），等于每万户 −97 人：这就是双重差分。' },
+      { t: 29, en: 'Snow (1855) used this comparison to argue that cholera spreads through water, long before germ theory was accepted. Figures: Snow’s Table XII as presented in Cunningham (2021, Table 9.2).', zh: '斯诺（1855）用这一比较论证霍乱经水传播，而那时细菌理论尚未被接受。数据：斯诺的 Table XII，引自 Cunningham（2021，表 9.2）。' }
     ],
     draw: function (ctx, t) {
       // river
@@ -1019,8 +1019,8 @@
       intake(lx, 'Lambeth', C.treat, prog(t, 3.8, 4.6));
       h.text(ctx, L('1852: Lambeth moves upstream', '1852 年：Lambeth 迁往上游'), lx, ry + 132, { size: 15, color: C.treat, align: 'center', a: prog(t, 11, 11.6) });
       // DiD plot
-      var P = new h.Plot(130, 330, 440, 200, -0.3, 1.3, 0, 170), pA = prog(t, 15, 15.8);
-      P.axes(ctx, { a: pA, xt: [[0, '1849'], [1, '1854']], yt: [0, 50, 100, 150], ylabel: L('Cholera death rate', '霍乱死亡率') });
+      var P = new h.Plot(130, 330, 440, 200, -0.3, 1.3, 0, 700), pA = prog(t, 15, 15.8);
+      P.axes(ctx, { a: pA, xt: [[0, '1849'], [1, '1854']], yt: [0, 200, 400, 600], ylabel: L('Cholera deaths per 10,000 households', '每万户霍乱死亡人数') });
       h.path(ctx, P.P([[0, SNOW.sv[0]], [1, SNOW.sv[1]]]), prog(t, 15.4, 16.6), { color: C.ctrl, lw: 4 });
       h.path(ctx, P.P([[0, SNOW.lb[0]], [1, SNOW.lb[1]]]), prog(t, 16.4, 17.6), { color: C.treat, lw: 4 });
       [[0, SNOW.sv[0], C.ctrl, 15.4], [1, SNOW.sv[1], C.ctrl, 16.5], [0, SNOW.lb[0], C.treat, 16.4], [1, SNOW.lb[1], C.treat, 17.5]].forEach(function (d) {
@@ -1030,18 +1030,18 @@
       var cf = SNOW.lb[0] + SNOW.sv[1] - SNOW.sv[0];
       h.path(ctx, P.P([[0, SNOW.lb[0]], [1, cf]]), prog(t, 22.3, 23.3), { color: C.cf, lw: 2.5, dash: [8, 6] });
       h.brace(ctx, P.X(1) + 56, P.Y(cf), P.Y(SNOW.lb[1]), { side: 1, p: prog(t, 23.3, 24.2) });
-      h.text(ctx, '−78', P.X(1) + 80, P.Y((cf + SNOW.lb[1]) / 2) + 8, { size: 24, mono: true, weight: 700, color: C.effect, a: prog(t, 24, 24.6) });
+      h.text(ctx, '−97', P.X(1) + 80, P.Y((cf + SNOW.lb[1]) / 2) + 8, { size: 24, mono: true, weight: 700, color: C.effect, a: prog(t, 24, 24.6) });
       // table
       var tx = 780, ty = 350, cw = [200, 90, 90, 100], cx = [tx, tx + 200, tx + 290, tx + 380], tA = prog(t, 15.2, 16);
       h.box(ctx, tx - 16, ty - 40, 500, 210, { fill: C.panel, r: 12, a: tA });
       ['1849', '1854', L('Change', '变化')].forEach(function (s, i) { h.text(ctx, s, cx[i + 1] + cw[i + 1] / 2, ty - 10, { size: 16, color: C.muted, align: 'center', a: tA }); });
       h.text(ctx, 'Southwark & Vauxhall', tx, ty + 34, { size: 17, color: C.ctrl, weight: 600, a: tA });
       h.text(ctx, 'Lambeth', tx, ty + 80, { size: 17, color: C.treat, weight: 600, a: tA });
-      num(ctx, '135', cx[1] + 45, ty + 34, { size: 19, a: prog(t, 15.6, 16) }); num(ctx, '147', cx[2] + 45, ty + 34, { size: 19, a: prog(t, 16.6, 17) }); num(ctx, '+12', cx[3] + 50, ty + 34, { size: 19, color: C.ctrl, a: prog(t, 18.5, 19) });
-      num(ctx, '85', cx[1] + 45, ty + 80, { size: 19, a: prog(t, 16.6, 17) }); num(ctx, '19', cx[2] + 45, ty + 80, { size: 19, a: prog(t, 17.6, 18) }); num(ctx, '−66', cx[3] + 50, ty + 80, { size: 19, color: C.treat, a: prog(t, 19, 19.5) });
+      num(ctx, '565', cx[1] + 45, ty + 34, { size: 19, a: prog(t, 15.6, 16) }); num(ctx, '614', cx[2] + 45, ty + 34, { size: 19, a: prog(t, 16.6, 17) }); num(ctx, '+49', cx[3] + 50, ty + 34, { size: 19, color: C.ctrl, a: prog(t, 18.5, 19) });
+      num(ctx, '62', cx[1] + 45, ty + 80, { size: 19, a: prog(t, 16.6, 17) }); num(ctx, '14', cx[2] + 45, ty + 80, { size: 19, a: prog(t, 17.6, 18) }); num(ctx, '−48', cx[3] + 50, ty + 80, { size: 19, color: C.treat, a: prog(t, 19, 19.5) });
       h.line(ctx, tx, ty + 100, tx + 470, ty + 100, { color: C.axis, lw: 1, a: prog(t, 22, 22.5) });
       h.text(ctx, L('Difference in differences', '双重差分'), tx, ty + 140, { size: 17, color: C.effect, weight: 600, a: prog(t, 22.3, 22.8) });
-      num(ctx, '−78', cx[3] + 50, ty + 140, { size: 22, color: C.effect, weight: 700, a: prog(t, 22.6, 23.1) });
+      num(ctx, '−97', cx[3] + 50, ty + 140, { size: 22, color: C.effect, weight: 700, a: prog(t, 22.6, 23.1) });
     }
   });
 

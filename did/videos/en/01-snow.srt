@@ -12,12 +12,12 @@ In 1852 Lambeth moved its intake upstream, above the city’s sewage. Southwark 
 
 4
 00:00:15,000 --> 00:00:21,950
-Cholera death rates: Southwark & Vauxhall went from 135 to 147, Lambeth from 85 to 19.
+Cholera deaths per 10,000 households: Southwark & Vauxhall went from 565 to 614, Lambeth from 62 to 14.
 
 5
 00:00:22,000 --> 00:00:28,950
-Lambeth’s change (−66) minus Southwark & Vauxhall’s change (+12) is −78: a difference in differences.
+Lambeth’s change (−48) minus Southwark & Vauxhall’s change (+49) is −97 deaths per 10,000 households: a difference in differences.
 
 6
 00:00:29,000 --> 00:00:35,950
-Snow (1855) used this comparison to argue that cholera spreads through water, long before germ theory was accepted. Numbers as tabulated in Cunningham (2021).
+Snow (1855) used this comparison to argue that cholera spreads through water, long before germ theory was accepted. Figures: Snow’s Table XII as presented in Cunningham (2021, Table 9.2).

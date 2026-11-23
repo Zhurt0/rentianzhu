@@ -84,7 +84,7 @@
       why: ['Once every unit is treated there is no clean control left, so later periods are not identified. Try it in the simulator above.', '一旦所有个体都已接受处理，就没有干净的对照了，因此之后的时期无法识别。可以在上面的模拟器中试试。'], anim: 'csdid' },
     { en: 'John Snow compared two water companies before and after one moved its intake. What did he find?', zh: '约翰·斯诺比较了两家自来水公司在其中一家迁移取水口前后的情况。他发现了什么？',
       opts: [['No difference in cholera deaths', '霍乱死亡人数没有差别'], ['Cholera fell sharply for the company that moved upstream', '迁往上游的公司供水区霍乱死亡率大幅下降'], ['Cholera rose for both equally', '两家公司供水区的霍乱死亡率同样上升'], ['He did not compare over time', '他没有做跨期比较']], ok: 1,
-      why: ['Lambeth’s death rate fell from 85 to 19 while Southwark & Vauxhall’s rose from 135 to 147: a DiD of about −78.', 'Lambeth 的死亡率从 85 降到 19，而 Southwark & Vauxhall 从 135 升到 147：双重差分约为 −78。'], anim: 'snow' }
+      why: ['Deaths per 10,000 households fell from 62 to 14 for Lambeth and rose from 565 to 614 for Southwark & Vauxhall: a DiD of −97.', '每万户死亡人数：Lambeth 从 62 降到 14，Southwark & Vauxhall 从 565 升到 614：双重差分为 −97。'], anim: 'snow' }
   ];
 
   var T = ZH
