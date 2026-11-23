@@ -10,8 +10,8 @@ await p.goto('file://' + ROOT + '/did/anim/render.html'); await p.evaluate(() =>
 for (const lang of ['en', 'zh']) {
   const img = await p.evaluate(([lang]) => { const c = document.getElementById('c'); c.width = 1280; c.height = 720; DIDAnim.renderFrame(c, 'bacon', 47, lang); return c.toDataURL('image/png'); }, [lang]);
   const t = lang === 'en'
-    ? { h: 'Difference-in-Differences', s: 'The Story of the Economists’ Workhorse', f: '20 animated guides · an interactive simulator · Stata commands · papers' }
-    : { h: '双重差分法', s: '经济学家的主力方法', f: '20 个动画讲解 · 交互式模拟器 · Stata 命令 · 文献' };
+    ? { h: 'Difference-in-Differences', s: 'The Story of the Economists’ Workhorse', f: '21 animated guides · an interactive simulator · Stata commands · papers' }
+    : { h: '双重差分法', s: '经济学家的主力方法', f: '21 个动画讲解 · 交互式模拟器 · Stata 命令 · 文献' };
   const q = await b.newPage({ viewport: { width: 1200, height: 630 } });
   await q.setContent(`<html><head><style>@font-face{font-family:Lora;font-weight:400 700;src:url(data:font/woff2;base64,${require('fs').readFileSync(ROOT + '/fonts/lora-normal-latin.woff2').toString('base64')}) format('woff2')}</style></head><body style="margin:0;width:1200px;height:630px;background:#1a2340;color:#f5f1e6;font-family:Lora,'WenQuanYi Zen Hei',serif;position:relative;overflow:hidden">
     <img src="${img}" style="position:absolute;right:-6px;top:205px;width:650px;border-radius:14px;box-shadow:0 20px 50px rgba(0,0,0,.45)">

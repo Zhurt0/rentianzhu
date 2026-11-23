@@ -5,7 +5,7 @@
 A compact collection on difference-in-differences (DiD): what it is, the main versions of it, the Stata command for each, and the papers behind them.
 
 - `index.html` — the full collection as a single web page (works on GitHub Pages); the Chinese version is `../zh/did/index.html`
-- `anim/` — 20 animated guides drawn on a canvas, with English and Chinese captions and transcripts
+- `anim/` — 21 animated guides drawn on a canvas, with English and Chinese captions and transcripts
 - `videos/en/`, `videos/zh/` — the same animations as MP4 files, one per scene plus `all.mp4` (about 14 minutes)
 - `sim/` — an interactive simulator: pick adoption years and effect dynamics, compare true ATT, static TWFE (with its cohort-year weights), Callaway & Sant'Anna and a pooled event study
 - `guide/` — "Which estimator should I use?": design questions mapped to estimators, Stata code and diagnostics
@@ -40,8 +40,9 @@ Live: <https://zhurt0.github.io/rentianzhu/did/> · 中文：<https://zhurt0.git
 | 18 | Honest DiD | `honestdid`, `pretrends` |
 | 19 | Serial correlation and clustering | `vce(cluster)` |
 | 20 | Few clusters: the wild cluster bootstrap | `boottest` |
+| 21 | Real staggered data: castle-doctrine laws | `csdid`, `reghdfe` |
 
-The data are simulated. Computed live in the browser: the TWFE estimate and 2×2 comparisons in scene 7, the pooled event study in scene 9, the LP-DiD estimates in scene 12, and the placebo-law rejection rates in scenes 19–20 (seeded simulations of AR(1) panels). The John Snow figures (cholera deaths per 10,000 households) are Snow's Table XII as presented in Cunningham (2021, Table 9.2). The Card & Krueger numbers in scene 3 are recomputed from their original survey data (see `card_krueger.do`). Other scenes use illustrative numbers; the Honest DiD bounds in scene 18 are a simplified illustration of the relative-magnitudes idea, not the exact Rambachan–Roth procedure.
+The data are simulated. Computed live in the browser: the TWFE estimate and 2×2 comparisons in scene 7, the pooled event study in scene 9, the LP-DiD estimates in scene 12, and the placebo-law rejection rates in scenes 19–20 (seeded simulations of AR(1) panels). The John Snow figures (cholera deaths per 10,000 households) are Snow's Table XII as presented in Cunningham (2021, Table 9.2). The Card & Krueger numbers in scene 3 are recomputed from their original survey data (see `card_krueger.do`); the castle-doctrine estimates in scene 21 are computed from the Mixtape copy of Cheng & Hoekstra's data (unweighted, no covariates, state-bootstrap SEs). Other scenes use illustrative numbers; the Honest DiD bounds in scene 18 are a simplified illustration of the relative-magnitudes idea, not the exact Rambachan–Roth procedure.
 
 Each scene is a pure function of time in `anim/scenes.js`, so the page and the videos always match. To change a scene and re-render:
 

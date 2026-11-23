@@ -4,14 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Difference-in-Differences: The Story of the Economists' Workhorse</title>
-<meta name="description" content="A collection on difference-in-differences: what it is, its modern variants, the Stata command for each, the papers behind them, and 20 animated guides.">
+<meta name="description" content="A collection on difference-in-differences: what it is, its modern variants, the Stata command for each, the papers behind them, and 21 animated guides.">
 <link rel="canonical" href="https://zhurt0.github.io/rentianzhu/did/">
 <link rel="alternate" hreflang="en" href="https://zhurt0.github.io/rentianzhu/did/">
 <link rel="alternate" hreflang="zh-Hans" href="https://zhurt0.github.io/rentianzhu/zh/did/">
 <link rel="alternate" hreflang="x-default" href="https://zhurt0.github.io/rentianzhu/did/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Difference-in-Differences: The Story of the Economists' Workhorse">
-<meta property="og:description" content="What difference-in-differences is, its modern versions, the Stata command for each, and 20 animated guides.">
+<meta property="og:description" content="What difference-in-differences is, its modern versions, the Stata command for each, and 21 animated guides.">
 <meta property="og:url" content="https://zhurt0.github.io/rentianzhu/did/">
 <meta property="og:image" content="https://zhurt0.github.io/rentianzhu/did/og-en.png">
 <meta property="og:image:width" content="1200">
@@ -223,7 +223,7 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(-
     <div class="lang-switch"><span>EN</span><a href="../zh/did/" lang="zh-Hans" hreflang="zh-Hans">中文</a></div>
     <h1>Difference-in-Differences</h1>
     <p class="sub">The Story of the Economists&rsquo; Workhorse</p>
-    <p class="by">What it is &middot; every major version &middot; the Stata command for each &middot; the papers behind them &middot; 20 animated guides</p>
+    <p class="by">What it is &middot; every major version &middot; the Stata command for each &middot; the papers behind them &middot; 21 animated guides</p>
     <p class="by">Compiled by <a href="https://zhurt0.github.io/rentianzhu/">Rentian Zhu</a> &middot; <a href="https://github.com/Zhurt0/rentianzhu/tree/main/did">Source on GitHub</a></p>
     <a class="hero-cta" href="#animations">Watch the animated guides</a>
     <a class="hero-alt" href="cheatsheet-en.pdf">Cheat sheet (PDF)</a>
@@ -272,11 +272,11 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(-
 <!-- ====================== ANIMATIONS ====================== -->
 <section id="animations">
   <h2>2. Animated guides</h2>
-  <p class="lead">Twenty short animations, from John Snow&rsquo;s cholera study and Card &amp; Krueger&rsquo;s minimum-wage data to inference with few clusters. The TWFE, Sun &amp; Abraham and inference scenes compute their estimates and rejection rates from regressions on simulated panels, so what you see there is real.</p>
+  <p class="lead">Twenty-one short animations, from John Snow&rsquo;s cholera study and two real-data examples to inference with few clusters. The TWFE, Sun &amp; Abraham and inference scenes compute their estimates and rejection rates from regressions on simulated panels, so what you see there is real.</p>
   <div class="anim-player" data-mp4="videos/en/">
-    <noscript><p>The animations need JavaScript. You can watch them as videos instead: <a href="videos/en/all.mp4">all 20 in one MP4</a>.</p></noscript>
+    <noscript><p>The animations need JavaScript. You can watch them as videos instead: <a href="videos/en/all.mp4">all 21 in one MP4</a>.</p></noscript>
   </div>
-  <p class="anim-all">Prefer a file? Each animation has an MP4 link under the player, or download <a href="videos/en/all.mp4">all 20 as one video</a> (about 14 minutes), with <a href="videos/en/all.srt">subtitles (SRT)</a>.</p>
+  <p class="anim-all">Prefer a file? Each animation has an MP4 link under the player, or download <a href="videos/en/all.mp4">all 21 as one video</a> (about 14 minutes), with <a href="videos/en/all.srt">subtitles (SRT)</a>.</p>
 </section>
 
 <!-- ====================== SIMULATOR ====================== -->
@@ -333,6 +333,7 @@ reghdfe l_homicide D, absorb(sid year) vce(cluster sid)
 csdid l_homicide, ivar(sid) time(year) gvar(g) long2
 estat simple
 estat event, window(-5 5)</code></pre>
+<p><a class="anim-link" href="#anim-castle">Watch the animation</a></p>
 </section>
 
 <!-- ====================== STORY ====================== -->

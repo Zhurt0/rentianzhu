@@ -1400,5 +1400,56 @@
     }
   });
 
-  D.order(['snow', 'classic', 'ck', 'event', 'ddd', 'drdid', 'bacon', 'csdid', 'sunab', 'imputation', 'stacked', 'lpdid', 'dcdh', 'dose', 'fuzzy', 'cic', 'sdid', 'honest', 'cluster', 'wildboot']);
+  // ------------------------------------------------------------------ castle doctrine, real staggered data
+  // Computed from the Mixtape copy of Cheng & Hoekstra (2013): log homicides per 100,000,
+  // unweighted, no covariates; CS with never-treated controls and base year g-1;
+  // standard errors from 999 bootstrap draws of states.
+  var CASTLE = {
+    cohorts: [[2005, 1], [2006, 13], [2007, 4], [2008, 2], [2009, 1]], never: 29,
+    es: { '-5': [0.032, 0.060], '-4': [-0.008, 0.052], '-3': [0.057, 0.046], '-2': [0.058, 0.044], '-1': [0, 0], '0': [0.097, 0.039], '1': [0.112, 0.049], '2': [0.112, 0.060], '3': [0.137, 0.057], '4': [0.093, 0.054], '5': [0.112, 0.051] },
+    twfe: [0.082, 0.055], cs: [0.110, 0.038]
+  };
+  scene({
+    id: 'castle', stata: ['csdid', 'reghdfe'], dur: 38,
+    title: { en: 'Real staggered data: castle-doctrine laws', zh: '真实交错处理数据：城堡法' },
+    sub: { en: 'Cheng & Hoekstra (2013), re-estimated', zh: '重新估计 Cheng & Hoekstra（2013）' },
+    beats: [
+      { t: 2.6, en: 'Castle-doctrine (\u201cstand your ground\u201d) laws widened the right to use lethal force in self-defence. Twenty-one US states adopted one between 2005 and 2009.', zh: '城堡法（“不退让”法）扩大了以致命武力自卫的权利。2005 至 2009 年间，美国有 21 个州通过了这类法律。' },
+      { t: 9.5, en: 'Adoption is staggered: most states adopted in 2006, a few earlier or later, and 29 states never did. A textbook case for the new estimators.', zh: '这是交错处理：多数州在 2006 年通过，少数更早或更晚，另有 29 个州从未通过。这正是新估计量的典型应用场景。' },
+      { t: 16, en: 'Callaway & Sant\u2019Anna event study, comparing each cohort with never-treated states: no clear trend before adoption, roughly 10% more homicides after.', zh: 'Callaway & Sant\u2019Anna 事件研究（每个批次与从未处理的州比较）：通过前没有明显趋势，通过后凶杀案大约增加 10%。' },
+      { t: 24, en: 'Overall: Callaway & Sant\u2019Anna +0.110 (SE 0.038), static TWFE +0.082 (SE 0.055). With many never-treated states, TWFE puts no negative weights here, so the two are close.', zh: '总体：Callaway & Sant\u2019Anna 为 +0.110（标准误 0.038），静态 TWFE 为 +0.082（标准误 0.055）。由于从未处理的州很多，这里 TWFE 没有负权重，所以两者接近。' },
+      { t: 31.5, en: 'Computed from the Mixtape copy of the data: log homicides, unweighted, no covariates, state-bootstrap standard errors. Stata code is on the page.', zh: '根据 Mixtape 收录的数据计算：凶杀率取对数、不加权、不含协变量，标准误来自对州的自助抽样。Stata 代码见页面。' }
+    ],
+    draw: function (ctx, t) {
+      // adoption timeline
+      var B = new h.Plot(100, 150, 380, 300, 2004.4, 2010.6, 0, 15), bA = prog(t, 9.8, 10.5);
+      h.text(ctx, L('States adopting each year', '每年通过法律的州数'), B.x, B.y - 18, { size: 16, color: C.muted, italic: LANG_mono(), a: prog(t, 2.8, 3.6) });
+      B.axes(ctx, { a: prog(t, 2.8, 3.6), xt: [2005, 2006, 2007, 2008, 2009, 2010].map(function (v) { return [v, String(v)]; }), yt: [0, 5, 10, 15] });
+      CASTLE.cohorts.forEach(function (c, i) {
+        var p = prog(t, 3.4 + i * 0.4, 4.4 + i * 0.4);
+        h.box(ctx, B.X(c[0]) - 20, B.Y(c[1] * p), 40, B.Y(0) - B.Y(c[1] * p), { fill: C.treat, r: 4, a: 0.9 });
+        num(ctx, String(c[1]), B.X(c[0]), B.Y(c[1]) - 10, { size: 16, a: prog(t, 4.2 + i * 0.4, 4.6 + i * 0.4) });
+      });
+      h.box(ctx, B.x + 10, B.y + 6, 190, 34, { fill: C.panel, r: 8, a: bA });
+      h.text(ctx, L('never adopted: ', '从未通过：') + CASTLE.never, B.x + 22, B.y + 29, { size: 16, color: C.ctrl, a: bA });
+      // event study
+      var P = new h.Plot(600, 150, 580, 300, -5.6, 5.6, -0.15, 0.3), pA = prog(t, 16.2, 17);
+      var ks = [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5];
+      P.axes(ctx, { a: pA, xt: ks.map(function (k) { return [k, k < 0 ? '−' + Math.abs(k) : String(k)]; }), yt: [[-0.1, '−0.1'], [0, '0.0'], [0.1, '+0.1'], [0.2, '+0.2'], [0.3, '+0.3']], xlabel: L('Years relative to adoption', '相对于通过法律的年份'), ylabel: L('Effect on log homicides', '对凶杀率（对数）的效应') });
+      P.zero(ctx, pA);
+      h.line(ctx, P.X(-0.5), P.y, P.X(-0.5), P.y + P.h, { color: C.faint, lw: 1.5, dash: [4, 6], a: pA });
+      ks.forEach(function (k, i) {
+        var v = CASTLE.es[String(k)], col = k < 0 ? C.ctrl : C.treat, a = prog(t, 16.6 + i * 0.35, 17 + i * 0.35);
+        if (k !== -1) h.line(ctx, P.X(k), P.Y(v[0] - 1.96 * v[1]), P.X(k), P.Y(v[0] + 1.96 * v[1]), { color: col, lw: 2.5, a: a * 0.75 });
+        h.dot(ctx, P.X(k), P.Y(v[0]), 7, { color: col, hollow: k === -1, a: a });
+      });
+      // summary
+      var sA = prog(t, 24.3, 25);
+      h.box(ctx, 600, 512, 580, 64, { fill: C.panel, r: 12, a: sA });
+      h.text(ctx, 'CS +0.110 (0.038)', 630, 552, { size: 22, mono: true, weight: 700, color: C.good, a: sA });
+      h.text(ctx, 'TWFE +0.082 (0.055)', 900, 552, { size: 22, mono: true, weight: 700, color: C.muted, a: prog(t, 24.8, 25.5) });
+    }
+  });
+
+  D.order(['snow', 'classic', 'ck', 'event', 'ddd', 'drdid', 'bacon', 'csdid', 'sunab', 'imputation', 'stacked', 'lpdid', 'dcdh', 'dose', 'fuzzy', 'cic', 'sdid', 'honest', 'cluster', 'wildboot', 'castle']);
 })();

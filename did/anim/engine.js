@@ -70,8 +70,11 @@
       if (/^\s+$/.test(tk)) { if (cur) cur += ' '; continue; }
       var test = cur + tk;
       if (ctx.measureText(test).width > maxW && cur.trim() && !NO_START.test(tk)) {
+        // never end a line with an opening bracket
+        var carry = '';
+        while (/[（《「『(\[]$/.test(cur)) { carry = cur.slice(-1) + carry; cur = cur.slice(0, -1); }
         lines.push(cur.trim());
-        cur = tk;
+        cur = carry + tk;
       } else {
         cur = test;
       }
