@@ -4,8 +4,42 @@
 
 A compact collection on difference-in-differences (DiD): what it is, the main versions of it, the Stata command for each, and the papers behind them.
 
-- `index.html` — the full collection as a single self-contained web page (works on GitHub Pages)
+- `index.html` — the full collection as a single web page (works on GitHub Pages); the Chinese version is `../zh/did/index.html`
+- `anim/` — 13 animated guides drawn on a canvas, one per method, with English and Chinese captions
+- `videos/en/`, `videos/zh/` — the same animations as MP4 files, one per scene plus `all.mp4`
 - `did_examples.do` — a simulated staggered-adoption panel with one call to each main estimator
+
+Live: <https://zhurt0.github.io/rentianzhu/did/> · 中文：<https://zhurt0.github.io/rentianzhu/zh/did/>
+
+## Animated guides
+
+| # | Scene | Stata |
+|---|---|---|
+| 1 | The 2×2 design | `didregress`, `reghdfe` |
+| 2 | Event studies and parallel trends | `reghdfe`, `eventdd` |
+| 3 | Triple differences | `didregress`, `reghdfe` |
+| 4 | Conditional parallel trends (doubly robust) | `drdid` |
+| 5 | Staggered adoption: why TWFE breaks | `bacondecomp`, `twowayfeweights` |
+| 6 | Callaway & Sant'Anna | `csdid`, `xthdidregress` |
+| 7 | Sun & Abraham | `eventstudyinteract` |
+| 8 | Imputation and two-stage DiD | `did_imputation`, `did2s`, `jwdid` |
+| 9 | Stacked DiD | `stackedev` |
+| 10 | Treatments that switch on, off or change | `did_multiplegt_dyn`, `did_had` |
+| 11 | Changes-in-changes | `cic` |
+| 12 | Synthetic control and synthetic DiD | `sdid`, `synth` |
+| 13 | Honest DiD | `honestdid`, `pretrends` |
+
+The numbers in the animations are computed in the browser from small simulated panels. The TWFE estimate in scene 5 and the pooled event study in scene 7 come from actual regressions on those panels; the Honest DiD bounds in scene 13 are a simplified illustration of the relative-magnitudes idea, not the exact Rambachan–Roth procedure.
+
+Each scene is a pure function of time in `anim/scenes.js`, so the page and the videos always match. To change a scene and re-render:
+
+```bash
+node tools/render_did_videos.mjs                       # all scenes, both languages
+node tools/render_did_videos.mjs --scene bacon --lang zh
+node tools/render_did_videos.mjs --sheet bacon --out sheet.png   # contact sheet for checking
+```
+
+The renderer needs Playwright (Chromium) and ffmpeg. After editing `index.html`, rebuild the Chinese page with `python3 tools/build_zh.py`; it stops with a list of any English text that no longer matches its translation table in `tools/build_did_zh.py`.
 
 ## What it is
 

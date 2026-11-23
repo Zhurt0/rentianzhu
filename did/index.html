@@ -4,7 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Difference-in-Differences: The Story of the Economists' Workhorse</title>
-<meta name="description" content="A collection on difference-in-differences: what it is, its modern variants, the Stata command for each, and the papers behind them.">
+<meta name="description" content="A collection on difference-in-differences: what it is, its modern variants, the Stata command for each, the papers behind them, and 13 animated guides.">
+<link rel="canonical" href="https://zhurt0.github.io/rentianzhu/did/">
+<link rel="alternate" hreflang="en" href="https://zhurt0.github.io/rentianzhu/did/">
+<link rel="alternate" hreflang="zh-Hans" href="https://zhurt0.github.io/rentianzhu/zh/did/">
+<link rel="alternate" hreflang="x-default" href="https://zhurt0.github.io/rentianzhu/did/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Difference-in-Differences: The Story of the Economists' Workhorse">
+<meta property="og:description" content="What difference-in-differences is, its modern versions, the Stata command for each, and 13 animated guides.">
+<meta property="og:url" content="https://zhurt0.github.io/rentianzhu/did/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
@@ -32,7 +40,7 @@ nav.toc{background:var(--navy-2);position:sticky;top:0;z-index:5}
 nav.toc .wrap{display:flex;gap:4px 20px;flex-wrap:wrap;padding-top:10px;padding-bottom:10px}
 nav.toc a{color:var(--cream);text-decoration:none;font-size:.92rem;opacity:.9}
 nav.toc a:hover{opacity:1;text-decoration:underline}
-section{padding:42px 0 6px;scroll-margin-top:56px}
+section{padding:42px 0 6px;scroll-margin-top:60px}
 h2{font-size:1.75rem;margin:0 0 6px;line-height:1.25}
 h2 + p.lead{color:var(--muted);margin-top:0}
 h3{font-size:1.18rem;margin:0 0 4px}
@@ -60,21 +68,68 @@ ol.refs{padding-left:22px;font-size:.93rem}
 ol.refs li{margin-bottom:7px}
 .note{background:var(--accent-soft);border-radius:8px;padding:12px 16px;font-size:.93rem;margin-top:16px}
 footer{margin-top:50px;padding:26px 0;border-top:1px solid var(--line);color:var(--muted);font-size:.88rem}
+header.hero .wrap{position:relative}
+.lang-switch{position:absolute;top:-30px;right:20px;display:flex;gap:2px;padding:3px;border:1px solid rgba(195,205,230,.35);border-radius:999px;font-size:.8rem;line-height:1}
+.lang-switch a,.lang-switch span{padding:6px 12px;border-radius:999px;text-decoration:none}
+.lang-switch a{color:var(--sub)}
+.lang-switch a:hover{color:var(--cream);background:rgba(255,255,255,.08)}
+.lang-switch span{background:var(--cream);color:var(--navy)}
+.hero-cta{display:inline-flex;align-items:center;gap:10px;margin-top:24px;padding:10px 18px 10px 14px;border-radius:999px;background:#f08a5d;color:#141c33;font-weight:600;text-decoration:none;font-size:.98rem}
+.hero-cta:hover{background:#f5a27c}
+.hero-cta::before{content:"";width:0;height:0;border-left:11px solid currentColor;border-top:7px solid transparent;border-bottom:7px solid transparent}
+.anim-player{margin-top:20px;position:relative;scroll-margin-top:64px}
+.anim-stage{position:relative;background:#141c33;border-radius:10px;overflow:hidden;box-shadow:0 10px 30px rgba(10,15,35,.22)}
+.anim-stage:fullscreen{border-radius:0;display:grid;place-items:center}
+.anim-canvas{display:block;width:100%;aspect-ratio:16/9;cursor:pointer}
+.anim-stage:fullscreen .anim-canvas{width:min(100vw,177.78vh)}
+.anim-big{position:absolute;inset:0;margin:auto;width:84px;height:84px;border-radius:50%;border:none;background:rgba(240,138,93,.94);cursor:pointer;display:grid;place-items:center;transition:opacity .2s,transform .15s}
+.anim-big:hover{transform:scale(1.06)}
+.anim-big svg{width:40px;height:40px;fill:#141c33;margin-left:5px}
+.anim-player.is-playing .anim-big{opacity:0;pointer-events:none}
+.anim-controls{display:flex;align-items:center;gap:10px;margin-top:10px}
+.anim-btn{width:38px;height:38px;flex:none;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--ink);display:grid;place-items:center;cursor:pointer;padding:0}
+.anim-btn:hover{border-color:var(--accent);color:var(--accent)}
+.anim-btn svg{width:18px;height:18px;fill:currentColor}
+.anim-toggle .ic-pause{display:none}
+.is-playing .anim-toggle .ic-play{display:none}
+.is-playing .anim-toggle .ic-pause{display:inline}
+.anim-scrub{flex:1;min-width:0;accent-color:var(--accent)}
+.anim-time{font-family:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;font-size:.78rem;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.anim-mp4{font-size:.85rem;white-space:nowrap}
+.anim-chapters{list-style:none;padding:0;margin:16px 0 0;display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:8px}
+.anim-chapter{width:100%;height:100%;display:flex;align-items:baseline;gap:10px;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:9px 12px;font:inherit;font-size:.9rem;line-height:1.35;color:var(--ink);cursor:pointer}
+.anim-chapter:hover{border-color:var(--accent)}
+.anim-chapter.is-current{border-color:var(--accent);background:var(--accent-soft)}
+.anim-num,.anim-dur{font-family:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;font-size:.74rem;font-variant-numeric:tabular-nums}
+.anim-num{color:var(--accent)}
+.anim-dur{color:var(--muted)}
+.anim-ttl{flex:1;min-width:0}
+.anim-cap{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;margin:0}
+@media (max-width:700px){.anim-cap{position:static;width:auto;height:auto;overflow:visible;clip:auto;white-space:normal;margin:10px 0 0;padding:10px 14px;background:var(--card);border:1px solid var(--line);border-radius:8px;font-size:.95rem;min-height:4.6em}.anim-big{width:60px;height:60px}.anim-big svg{width:28px;height:28px}}
+.anim-all{margin-top:14px;font-size:.92rem;color:var(--muted)}
+.anim-link{display:inline-flex;align-items:center;gap:7px;margin-top:10px;font-size:.88rem;font-weight:600;color:var(--accent);text-decoration:none}
+.anim-link:hover{text-decoration:underline}
+.anim-link::before{content:"";width:0;height:0;border-left:8px solid currentColor;border-top:5px solid transparent;border-bottom:5px solid transparent}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media (max-width:640px){.lang-switch{position:static;width:fit-content;margin:0 0 18px}.anim-time{display:none}nav.toc .wrap{flex-wrap:nowrap;overflow-x:auto;white-space:nowrap;scrollbar-width:none}nav.toc .wrap::-webkit-scrollbar{display:none}}
 </style>
 </head>
 <body>
 
 <header class="hero">
   <div class="wrap">
+    <div class="lang-switch"><span>EN</span><a href="../zh/did/" lang="zh-Hans" hreflang="zh-Hans">中文</a></div>
     <h1>Difference-in-Differences</h1>
     <p class="sub">The Story of the Economists&rsquo; Workhorse</p>
-    <p class="by">What it is &middot; every major version &middot; the Stata command for each &middot; the papers behind them</p>
+    <p class="by">What it is &middot; every major version &middot; the Stata command for each &middot; the papers behind them &middot; 13 animated guides</p>
     <p class="by">Compiled by <a href="https://zhurt0.github.io/rentianzhu/">Rentian Zhu</a> &middot; <a href="https://github.com/Zhurt0/rentianzhu/tree/main/did">Source on GitHub</a></p>
+    <a class="hero-cta" href="#animations">Watch the animated guides</a>
   </div>
 </header>
 
 <nav class="toc"><div class="wrap">
   <a href="#what">What it is</a>
+  <a href="#animations">Animations</a>
   <a href="#story">The story</a>
   <a href="#problem">The TWFE problem</a>
   <a href="#versions">Versions</a>
@@ -105,9 +160,19 @@ footer{margin-top:50px;padding:26px 0;border-top:1px solid var(--line);color:var
   <div class="eq">Y<sub>it</sub> = &alpha;<sub>i</sub> + &lambda;<sub>t</sub> + &Sigma;<sub>k&ne;&minus;1</sub> &beta;<sub>k</sub>&middot;1{t &minus; G<sub>i</sub> = k} + &epsilon;<sub>it</sub><span class="n">event study, G<sub>i</sub> = first treated period</span></div>
 </section>
 
+<!-- ====================== ANIMATIONS ====================== -->
+<section id="animations">
+  <h2>2. Animated guides</h2>
+  <p class="lead">Thirteen short animations, one for each idea, built on simulated data. In the TWFE and Sun &amp; Abraham scenes the estimates come from actual regressions on the simulated panels, so the bias you see there is real.</p>
+  <div class="anim-player" data-mp4="videos/en/">
+    <noscript><p>The animations need JavaScript. You can watch them as videos instead: <a href="videos/en/all.mp4">all 13 in one MP4</a>.</p></noscript>
+  </div>
+  <p class="anim-all">Prefer a file? Each animation has an MP4 link under the player, or download <a href="videos/en/all.mp4">all 13 as one video</a> (about 9 minutes).</p>
+</section>
+
 <!-- ====================== STORY ====================== -->
 <section id="story">
-  <h2>2. The story</h2>
+  <h2>3. The story</h2>
   <p class="lead">From a London water pump to the &ldquo;credibility revolution&rdquo; and the post-2018 rewrite of the textbook.</p>
   <ul class="tl">
     <li><b class="y">1855</b>John Snow compares cholera deaths across London households served by two water companies before and after one moved its intake upstream &mdash; DiD logic before the name existed.</li>
@@ -123,14 +188,14 @@ footer{margin-top:50px;padding:26px 0;border-top:1px solid var(--line);color:var
 
 <!-- ====================== PROBLEM ====================== -->
 <section id="problem">
-  <h2>3. Why the textbook estimator broke</h2>
+  <h2>4. Why the textbook estimator broke</h2>
   <p>When units adopt treatment at different dates, the static TWFE coefficient is a weighted average of every possible 2&times;2 comparison in the data (Goodman-Bacon 2021). Some of those comparisons use <b>already-treated units as controls</b>. If treatment effects grow or differ across cohorts, those &ldquo;forbidden comparisons&rdquo; subtract earlier effects from later ones; the weights can be negative, and the TWFE estimate can even have the opposite sign to every underlying effect (de Chaisemartin &amp; D&rsquo;Haultf&oelig;uille 2020). Event-study leads and lags are contaminated in the same way (Sun &amp; Abraham 2021), so flat pre-trends from a TWFE event study are not reliable evidence.</p>
   <p>TWFE is still fine when there is a single treatment date, or when effects are homogeneous across cohorts and time. Otherwise, use one of the heterogeneity-robust estimators below. They all share one idea: <b>only compare treated units to not-yet-treated or never-treated units</b>, then aggregate with sensible weights.</p>
 </section>
 
 <!-- ====================== VERSIONS ====================== -->
 <section id="versions">
-  <h2>4. The versions</h2>
+  <h2>5. The versions</h2>
   <p class="lead">Grouped by the problem each one solves. Commands marked <span class="tag">built-in</span> ship with Stata 17+; the rest are community-contributed.</p>
 
   <h3 style="margin-top:22px">A. Classic designs</h3>
@@ -145,6 +210,7 @@ estat ptrends
 estat trendplots
 estat granger</code></pre>
       <p class="ref">Card &amp; Krueger (1994); Angrist &amp; Pischke (2009)</p>
+      <a class="anim-link" href="#anim-classic">Watch the animation</a>
     </div>
     <div class="card">
       <span class="tag">reghdfe</span><span class="tag">TWFE</span>
@@ -155,6 +221,7 @@ estat granger</code></pre>
 reghdfe y lead5-lead2 lag0-lag5, ///
     absorb(id year) vce(cluster id)</code></pre>
       <p class="ref">Correia (2017); Miller (2023); plotting: <code>eventdd</code> (Clarke &amp; Tapia-Schythe 2021), <code>xtevent</code> (Freyaldenhoven et al. 2019)</p>
+      <a class="anim-link" href="#anim-event">Watch the animation</a>
     </div>
     <div class="card">
       <span class="tag">built-in</span><span class="tag">DDD</span>
@@ -165,6 +232,7 @@ reghdfe y lead5-lead2 lag0-lag5, ///
 reghdfe y D, absorb(state#year state#agegrp ///
     agegrp#year) vce(cluster state)</code></pre>
       <p class="ref">Gruber (1994); Olden &amp; M&oslash;en (2022); Ortiz-Villavicencio &amp; Sant&rsquo;Anna (2025)</p>
+      <a class="anim-link" href="#anim-ddd">Watch the animation</a>
     </div>
     <div class="card">
       <span class="tag">drdid</span><span class="tag">covariates</span>
@@ -172,6 +240,7 @@ reghdfe y D, absorb(state#year state#agegrp ///
       <p>Parallel trends holds only after conditioning on covariates. Outcome regression, inverse-probability weighting, or doubly robust combinations.</p>
       <pre><code>drdid y x1 x2, ivar(id) time(year) tr(treat) all</code></pre>
       <p class="ref">Heckman, Ichimura &amp; Todd (1997); Abadie (2005); Sant&rsquo;Anna &amp; Zhao (2020)</p>
+      <a class="anim-link" href="#anim-drdid">Watch the animation</a>
     </div>
   </div>
 
@@ -184,6 +253,7 @@ reghdfe y D, absorb(state#year state#agegrp ///
       <pre><code>xtset id year
 bacondecomp y D, ddetail</code></pre>
       <p class="ref">Goodman-Bacon (2021)</p>
+      <a class="anim-link" href="#anim-bacon">Watch the animation</a>
     </div>
     <div class="card">
       <span class="tag">twowayfeweights</span>
@@ -191,6 +261,7 @@ bacondecomp y D, ddetail</code></pre>
       <p>Counts how many ATTs receive negative weight in the TWFE regression and how sensitive the estimate is to heterogeneity.</p>
       <pre><code>twowayfeweights y id year D, type(feTR)</code></pre>
       <p class="ref">de Chaisemartin &amp; D&rsquo;Haultf&oelig;uille (2020)</p>
+      <a class="anim-link" href="#anim-bacon">Watch the animation</a>
     </div>
   </div>
 
@@ -209,6 +280,7 @@ csdid_plot
 xthdidregress aipw (y x) (D), group(id)
 estat aggregation, dynamic graph</code></pre>
       <p class="ref">Callaway &amp; Sant&rsquo;Anna (2021)</p>
+      <a class="anim-link" href="#anim-csdid">Watch the animation</a>
     </div>
     <div class="card">
       <span class="tag">eventstudyinteract</span>
@@ -218,6 +290,7 @@ estat aggregation, dynamic graph</code></pre>
     cohort(g) control_cohort(never) ///
     absorb(i.id i.year) vce(cluster id)</code></pre>
       <p class="ref">Sun &amp; Abraham (2021)</p>
+      <a class="anim-link" href="#anim-sunab">Watch the animation</a>
     </div>
     <div class="card">
       <span class="tag">did_imputation</span>
@@ -228,6 +301,7 @@ did_imputation y id year Ei, ///
     horizons(0/5) pretrends(4) autosample
 event_plot, default_look</code></pre>
       <p class="ref">Borusyak, Jaravel &amp; Spiess (2024)</p>
+      <a class="anim-link" href="#anim-imputation">Watch the animation</a>
     </div>
     <div class="card">
       <span class="tag">did2s</span>
@@ -236,6 +310,7 @@ event_plot, default_look</code></pre>
       <pre><code>did2s y, first_stage(i.id i.year) ///
     second_stage(i.D) treatment(D) cluster(id)</code></pre>
       <p class="ref">Gardner (2021); Butts &amp; Gardner (2022)</p>
+      <a class="anim-link" href="#anim-imputation">Watch the animation</a>
     </div>
     <div class="card">
       <span class="tag">jwdid</span>
@@ -247,6 +322,7 @@ estat event
 * nonlinear
 jwdid y, ivar(id) tvar(year) gvar(g) method(poisson)</code></pre>
       <p class="ref">Wooldridge (2021, 2023)</p>
+      <a class="anim-link" href="#anim-imputation">Watch the animation</a>
     </div>
     <div class="card">
       <span class="tag">stackedev</span>
@@ -255,6 +331,7 @@ jwdid y, ivar(id) tvar(year) gvar(g) method(poisson)</code></pre>
       <pre><code>stackedev y lead* lag*, cohort(g) time(year) ///
     never_treat(never) unit_fe(id) clust_unit(id)</code></pre>
       <p class="ref">Cengiz, Dube, Lindner &amp; Zipperer (2019); Wing, Freedman &amp; Hollingsworth (2024)</p>
+      <a class="anim-link" href="#anim-stacked">Watch the animation</a>
     </div>
     <div class="card">
       <span class="tag">lpdid</span>
@@ -281,6 +358,7 @@ jwdid y, ivar(id) tvar(year) gvar(g) method(poisson)</code></pre>
       <pre><code>did_multiplegt_dyn y id year D, ///
     effects(5) placebo(3) cluster(id)</code></pre>
       <p class="ref">de Chaisemartin &amp; D&rsquo;Haultf&oelig;uille (2020, 2024)</p>
+      <a class="anim-link" href="#anim-dcdh">Watch the animation</a>
     </div>
     <div class="card">
       <span class="tag">did_had</span><span class="tag">dose</span>
@@ -288,6 +366,7 @@ jwdid y, ivar(id) tvar(year) gvar(g) method(poisson)</code></pre>
       <p>With a continuous dose, parallel trends alone does not identify a dose-response curve; a stronger assumption is needed. <code>did_had</code> covers designs where everyone gets some dose.</p>
       <pre><code>did_had y id year D, effects(3) placebo(2)</code></pre>
       <p class="ref">Callaway, Goodman-Bacon &amp; Sant&rsquo;Anna (2024); de Chaisemartin et al. (2024)</p>
+      <a class="anim-link" href="#anim-dcdh">Watch the animation</a>
     </div>
     <div class="card">
       <span class="tag">fuzzydid</span>
@@ -302,6 +381,7 @@ jwdid y, ivar(id) tvar(year) gvar(g) method(poisson)</code></pre>
       <p>Nonlinear generalisation: identifies the whole counterfactual distribution (quantile effects), invariant to monotone transformations of the outcome.</p>
       <pre><code>cic continuous y treat post, at(10(10)90)</code></pre>
       <p class="ref">Athey &amp; Imbens (2006); Roth &amp; Sant&rsquo;Anna (2023a)</p>
+      <a class="anim-link" href="#anim-cic">Watch the animation</a>
     </div>
   </div>
 
@@ -314,6 +394,7 @@ jwdid y, ivar(id) tvar(year) gvar(g) method(poisson)</code></pre>
       <pre><code>* after an event-study regression
 honestdid, pre(1/5) post(6/10) mvec(0(0.5)2)</code></pre>
       <p class="ref">Rambachan &amp; Roth (2023)</p>
+      <a class="anim-link" href="#anim-honest">Watch the animation</a>
     </div>
     <div class="card">
       <span class="tag">pretrends</span>
@@ -321,6 +402,7 @@ honestdid, pre(1/5) post(6/10) mvec(0(0.5)2)</code></pre>
       <p>Pre-tests have low power and conditioning on passing them distorts inference. Computes the trend your pre-test would detect with given power.</p>
       <pre><code>pretrends power 0.5, pre(1/5) post(6/10)</code></pre>
       <p class="ref">Roth (2022)</p>
+      <a class="anim-link" href="#anim-honest">Watch the animation</a>
     </div>
     <div class="card">
       <span class="tag">sdid</span><span class="tag">synth</span>
@@ -329,6 +411,7 @@ honestdid, pre(1/5) post(6/10) mvec(0(0.5)2)</code></pre>
       <pre><code>sdid y id year D, vce(bootstrap) graph
 synth y y(2000) y(2005) x1, trunit(3) trperiod(2006)</code></pre>
       <p class="ref">Abadie, Diamond &amp; Hainmueller (2010); Arkhangelsky et al. (2021); Clarke et al. (2024)</p>
+      <a class="anim-link" href="#anim-sdid">Watch the animation</a>
     </div>
     <div class="card">
       <span class="tag">fect</span>
@@ -361,7 +444,7 @@ boottest D, cluster(state) reps(9999)</code></pre>
 
 <!-- ====================== STATA ====================== -->
 <section id="stata">
-  <h2>5. Stata cheat sheet</h2>
+  <h2>6. Stata cheat sheet</h2>
   <p class="lead">One row per command. A runnable simulation that calls most of them is in <a href="did_examples.do"><code>did_examples.do</code></a>.</p>
   <div class="tablewrap"><table>
     <thead><tr><th>Command</th><th>Method</th><th>Use it when</th><th>Install</th><th>Paper</th></tr></thead>
@@ -399,7 +482,7 @@ boottest D, cluster(state) reps(9999)</code></pre>
 
 <!-- ====================== WORKFLOW ====================== -->
 <section id="workflow">
-  <h2>6. A practical workflow</h2>
+  <h2>7. A practical workflow</h2>
   <ol>
     <li><b>Describe the design.</b> One treatment date or staggered? Absorbing or reversible? Binary or continuous? Are there never-treated units? Plot the rollout (<code>panelview</code>).</li>
     <li><b>Plot raw means</b> by cohort over time before running any regression.</li>
@@ -413,7 +496,7 @@ boottest D, cluster(state) reps(9999)</code></pre>
 
 <!-- ====================== REFS ====================== -->
 <section id="refs">
-  <h2>7. References</h2>
+  <h2>8. References</h2>
 
   <h3 style="margin-top:16px">Surveys and textbooks (start here)</h3>
   <ol class="refs">
@@ -508,5 +591,8 @@ boottest D, cluster(state) reps(9999)</code></pre>
   Compiled as a reading and coding companion. Corrections welcome via the repository&rsquo;s issue tracker.
 </footer>
 </main>
+<script src="anim/engine.js"></script>
+<script src="anim/scenes.js"></script>
+<script>document.querySelectorAll('.anim-player').forEach(function (el) { DIDAnim.mount(el); });</script>
 </body>
 </html>
