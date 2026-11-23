@@ -149,6 +149,23 @@ header.hero .wrap{position:relative}
 .sim-note{font-size:.84rem;color:var(--muted);margin:6px 0 0}
 @media (max-width:780px){.sim{grid-template-columns:1fr}}
 @media (max-width:480px){.sim-num b{font-size:1.2rem}}
+.guide{display:grid;grid-template-columns:minmax(260px,360px) minmax(0,1fr);gap:20px;margin-top:18px;align-items:start}
+.guide-q fieldset{border:1px solid var(--line);border-radius:8px;padding:8px 14px 10px;margin:0 0 10px;background:var(--card)}
+.guide-q legend{font-weight:600;font-size:.92rem;padding:0 4px}
+.guide-q label{display:flex;gap:8px;align-items:flex-start;font-size:.88rem;line-height:1.4;padding:3px 0;cursor:pointer}
+.guide-q input{accent-color:var(--accent);margin-top:3px;flex:none}
+.guide-reset{font:inherit;font-size:.85rem;background:none;border:1px solid var(--line);border-radius:999px;padding:5px 12px;color:var(--muted);cursor:pointer}
+.guide-reset:hover{border-color:var(--accent);color:var(--accent)}
+.guide-out{min-width:0;position:sticky;top:64px}
+.guide-out h4{margin:0 0 8px;font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.guide-list{list-style:none;padding:0;margin:0 0 18px;display:grid;gap:10px}
+.guide-list li{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:12px 14px;min-width:0}
+.guide-list.is-main li{border-left:4px solid var(--accent)}
+.guide-list b{font-size:1rem}
+.guide-list p{margin:4px 0 0;font-size:.9rem}
+.guide-list pre{margin-top:8px}
+.guide-list .anim-link{margin-top:8px}
+@media (max-width:780px){.guide{grid-template-columns:1fr}.guide-out{position:static}}
 a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 @media (max-width:640px){.lang-switch{position:static;width:fit-content;margin:0 0 18px}.anim-time{display:none}nav.toc .wrap{flex-wrap:nowrap;overflow-x:auto;white-space:nowrap;scrollbar-width:none}nav.toc .wrap::-webkit-scrollbar{display:none}}
 </style>
@@ -173,6 +190,7 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(-
   <a href="#story">发展历程</a>
   <a href="#problem">TWFE 的问题</a>
   <a href="#versions">各种版本</a>
+  <a href="#guide">选哪个估计量？</a>
   <a href="#stata">Stata 速查表</a>
   <a href="#workflow">实证流程</a>
   <a href="#refs">参考文献</a>
@@ -492,9 +510,18 @@ boottest D, cluster(state) reps(9999)</code></pre>
   </div>
 </section>
 
+<!-- ====================== GUIDE ====================== -->
+<section id="guide">
+  <h2>7. 我该用哪个估计量？</h2>
+  <p class="lead">回答几个关于研究设计的问题，推荐的方法和 Stata 代码会随之更新。</p>
+  <div class="guide" id="did-guide">
+    <noscript><p>这个向导需要 JavaScript。上面的卡片和下面的速查表包含同样的内容。</p></noscript>
+  </div>
+</section>
+
 <!-- ====================== STATA ====================== -->
 <section id="stata">
-  <h2>7. Stata 速查表</h2>
+  <h2>8. Stata 速查表</h2>
   <p class="lead">每行一个命令。<a href="../../did/did_examples.do"><code>did_examples.do</code></a> 是一个可直接运行的模拟示例，调用了其中大部分命令。</p>
   <div class="tablewrap"><table>
     <thead><tr><th>命令</th><th>方法</th><th>适用情形</th><th>安装</th><th>文献</th></tr></thead>
@@ -532,7 +559,7 @@ boottest D, cluster(state) reps(9999)</code></pre>
 
 <!-- ====================== WORKFLOW ====================== -->
 <section id="workflow">
-  <h2>8. 实证流程</h2>
+  <h2>9. 实证流程</h2>
   <ol>
     <li><b>描述研究设计。</b>单一处理时点还是交错处理？吸收型还是可逆？二元还是连续？是否有从未处理的个体？画出处理的推进过程（<code>panelview</code>）。</li>
     <li>在做任何回归之前，先<b>画出各批次随时间变化的原始均值</b>。</li>
@@ -546,7 +573,7 @@ boottest D, cluster(state) reps(9999)</code></pre>
 
 <!-- ====================== REFS ====================== -->
 <section id="refs">
-  <h2>9. 参考文献</h2>
+  <h2>10. 参考文献</h2>
 
   <h3 style="margin-top:16px">综述与教材（建议从这里开始）</h3>
   <ol class="refs">
@@ -644,6 +671,7 @@ boottest D, cluster(state) reps(9999)</code></pre>
 <script src="../../did/anim/engine.js"></script>
 <script src="../../did/anim/scenes.js"></script>
 <script src="../../did/sim/sim.js"></script>
-<script>document.querySelectorAll('.anim-player').forEach(function (el) { DIDAnim.mount(el); }); DIDSim.mount(document.getElementById('did-sim'));</script>
+<script src="../../did/guide/guide.js"></script>
+<script>document.querySelectorAll('.anim-player').forEach(function (el) { DIDAnim.mount(el); }); DIDSim.mount(document.getElementById('did-sim')); DIDGuide.mount(document.getElementById('did-guide'));</script>
 </body>
 </html>

@@ -46,6 +46,7 @@ MARKUP = [
     ('<script src="anim/engine.js"></script>', '<script src="../../did/anim/engine.js"></script>'),
     ('<script src="anim/scenes.js"></script>', '<script src="../../did/anim/scenes.js"></script>'),
     ('<script src="sim/sim.js"></script>', '<script src="../../did/sim/sim.js"></script>'),
+    ('<script src="guide/guide.js"></script>', '<script src="../../did/guide/guide.js"></script>'),
     ('<span class="tag">built-in</span>', '<span class="tag">Stata 内置</span>'),
     ('<span class="tag">built-in: xthdidregress</span>', '<span class="tag">内置：xthdidregress</span>'),
     ('<span class="tag">covariates</span>', '<span class="tag">协变量</span>'),
@@ -65,9 +66,11 @@ TEXT = [
     ('Watch the animated guides', '观看动画讲解'),
     ('What it is', '基本原理'),
     ('Animations', '动画讲解'),
+    ('Story', '发展历程'),
     ('The story', '发展历程'),
-    ('The TWFE problem', 'TWFE 的问题'),
+    ('TWFE problem', 'TWFE 的问题'),
     ('Versions', '各种版本'),
+    ('Stata', 'Stata 速查表'),
     ('Stata cheat sheet', 'Stata 速查表'),
     ('Workflow', '实证流程'),
     ('References', '参考文献'),
@@ -104,6 +107,11 @@ TEXT = [
     ('Prefer a file? Each animation has an MP4 link under the player, or download <a href="videos/en/all.mp4">all 13 as one video</a> (about 9 minutes).',
      '想下载视频？播放器下方有每个动画的 MP4 链接，也可以下载<a href="../../did/videos/zh/all.mp4">全部 13 个动画的合集</a>（约 9 分钟）。'),
 
+    # estimator guide
+    ('Which estimator?', '选哪个估计量？'),
+    ('Which estimator should I use?', '我该用哪个估计量？'),
+    ('Answer a few questions about your design. The recommendation and the Stata code update as you go.', '回答几个关于研究设计的问题，推荐的方法和 Stata 代码会随之更新。'),
+    ('The guide needs JavaScript. The cards above and the cheat sheet below cover the same ground.', '这个向导需要 JavaScript。上面的卡片和下面的速查表包含同样的内容。'),
     # simulator
     ('Simulator', '模拟器'),
     ('Try it: a DiD simulator', '动手试试：双重差分模拟器'),

@@ -151,6 +151,23 @@ header.hero .wrap{position:relative}
 .sim-note{font-size:.84rem;color:var(--muted);margin:6px 0 0}
 @media (max-width:780px){.sim{grid-template-columns:1fr}}
 @media (max-width:480px){.sim-num b{font-size:1.2rem}}
+.guide{display:grid;grid-template-columns:minmax(260px,360px) minmax(0,1fr);gap:20px;margin-top:18px;align-items:start}
+.guide-q fieldset{border:1px solid var(--line);border-radius:8px;padding:8px 14px 10px;margin:0 0 10px;background:var(--card)}
+.guide-q legend{font-weight:600;font-size:.92rem;padding:0 4px}
+.guide-q label{display:flex;gap:8px;align-items:flex-start;font-size:.88rem;line-height:1.4;padding:3px 0;cursor:pointer}
+.guide-q input{accent-color:var(--accent);margin-top:3px;flex:none}
+.guide-reset{font:inherit;font-size:.85rem;background:none;border:1px solid var(--line);border-radius:999px;padding:5px 12px;color:var(--muted);cursor:pointer}
+.guide-reset:hover{border-color:var(--accent);color:var(--accent)}
+.guide-out{min-width:0;position:sticky;top:64px}
+.guide-out h4{margin:0 0 8px;font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.guide-list{list-style:none;padding:0;margin:0 0 18px;display:grid;gap:10px}
+.guide-list li{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:12px 14px;min-width:0}
+.guide-list.is-main li{border-left:4px solid var(--accent)}
+.guide-list b{font-size:1rem}
+.guide-list p{margin:4px 0 0;font-size:.9rem}
+.guide-list pre{margin-top:8px}
+.guide-list .anim-link{margin-top:8px}
+@media (max-width:780px){.guide{grid-template-columns:1fr}.guide-out{position:static}}
 a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 @media (max-width:640px){.lang-switch{position:static;width:fit-content;margin:0 0 18px}.anim-time{display:none}nav.toc .wrap{flex-wrap:nowrap;overflow-x:auto;white-space:nowrap;scrollbar-width:none}nav.toc .wrap::-webkit-scrollbar{display:none}}
 </style>
@@ -172,10 +189,11 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(-
   <a href="#what">What it is</a>
   <a href="#animations">Animations</a>
   <a href="#simulator">Simulator</a>
-  <a href="#story">The story</a>
-  <a href="#problem">The TWFE problem</a>
+  <a href="#story">Story</a>
+  <a href="#problem">TWFE problem</a>
   <a href="#versions">Versions</a>
-  <a href="#stata">Stata cheat sheet</a>
+  <a href="#guide">Which estimator?</a>
+  <a href="#stata">Stata</a>
   <a href="#workflow">Workflow</a>
   <a href="#refs">References</a>
 </div></nav>
@@ -494,9 +512,18 @@ boottest D, cluster(state) reps(9999)</code></pre>
   </div>
 </section>
 
+<!-- ====================== GUIDE ====================== -->
+<section id="guide">
+  <h2>7. Which estimator should I use?</h2>
+  <p class="lead">Answer a few questions about your design. The recommendation and the Stata code update as you go.</p>
+  <div class="guide" id="did-guide">
+    <noscript><p>The guide needs JavaScript. The cards above and the cheat sheet below cover the same ground.</p></noscript>
+  </div>
+</section>
+
 <!-- ====================== STATA ====================== -->
 <section id="stata">
-  <h2>7. Stata cheat sheet</h2>
+  <h2>8. Stata cheat sheet</h2>
   <p class="lead">One row per command. A runnable simulation that calls most of them is in <a href="did_examples.do"><code>did_examples.do</code></a>.</p>
   <div class="tablewrap"><table>
     <thead><tr><th>Command</th><th>Method</th><th>Use it when</th><th>Install</th><th>Paper</th></tr></thead>
@@ -534,7 +561,7 @@ boottest D, cluster(state) reps(9999)</code></pre>
 
 <!-- ====================== WORKFLOW ====================== -->
 <section id="workflow">
-  <h2>8. A practical workflow</h2>
+  <h2>9. A practical workflow</h2>
   <ol>
     <li><b>Describe the design.</b> One treatment date or staggered? Absorbing or reversible? Binary or continuous? Are there never-treated units? Plot the rollout (<code>panelview</code>).</li>
     <li><b>Plot raw means</b> by cohort over time before running any regression.</li>
@@ -548,7 +575,7 @@ boottest D, cluster(state) reps(9999)</code></pre>
 
 <!-- ====================== REFS ====================== -->
 <section id="refs">
-  <h2>9. References</h2>
+  <h2>10. References</h2>
 
   <h3 style="margin-top:16px">Surveys and textbooks (start here)</h3>
   <ol class="refs">
@@ -646,6 +673,7 @@ boottest D, cluster(state) reps(9999)</code></pre>
 <script src="anim/engine.js"></script>
 <script src="anim/scenes.js"></script>
 <script src="sim/sim.js"></script>
-<script>document.querySelectorAll('.anim-player').forEach(function (el) { DIDAnim.mount(el); }); DIDSim.mount(document.getElementById('did-sim'));</script>
+<script src="guide/guide.js"></script>
+<script>document.querySelectorAll('.anim-player').forEach(function (el) { DIDAnim.mount(el); }); DIDSim.mount(document.getElementById('did-sim')); DIDGuide.mount(document.getElementById('did-guide'));</script>
 </body>
 </html>
