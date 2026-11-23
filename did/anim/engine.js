@@ -318,7 +318,7 @@
   }
 
   // ---------- render API (used by the MP4 renderer) ----------
-  function setLang(l) { LANG = l === 'zh' ? 'zh' : 'en'; }
+  function setLang(l) { LANG = /^zh/i.test(l || '') ? 'zh' : 'en'; }
   function find(id) { for (var i = 0; i < SCENES.length; i++) if (SCENES[i].id === id) return SCENES[i]; return null; }
   function renderFrame(canvas, id, t, lang) {
     if (lang) setLang(lang);

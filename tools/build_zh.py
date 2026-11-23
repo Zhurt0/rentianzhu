@@ -156,9 +156,9 @@ PER_PAGE = {
         ('<p>A field guide to economics published with Danish administrative data: summaries of Top 5, AEJ, <em>Review of Economics and Statistics</em>, <em>Economic Journal</em>, <em>Journal of Labor Economics</em> and <em>Journal of Public Economics</em> papers built on Danish registers, the same papers grouped by theme, and a variable map of the registers at the individual and firm level.</p>',
          '<p>一份面向经济学研究者的丹麦行政登记数据指南：汇总了发表在五大顶刊、AEJ、<em>Review of Economics and Statistics</em>、<em>Economic Journal</em>、<em>Journal of Labor Economics</em> 和 <em>Journal of Public Economics</em> 上、基于丹麦登记数据的论文，并按主题分类，另附个人层面与企业层面登记数据的变量地图（网站为英文）。</p>'),
         ('<h3>Econometrics</h3>', '<h3>计量经济学</h3>'),
-        ('Difference-in-Differences: The Story of the Economists&rsquo; Workhorse</a>', '双重差分法（Difference-in-Differences）：经济学家的主力方法</a>'),
-        ('<p>A collection on difference-in-differences: what it is, where it came from, its modern versions for staggered, continuous and fuzzy designs, the Stata command for each, and the papers behind them. Comes with a do-file that simulates a staggered panel and runs the main estimators.</p>',
-         '<p>双重差分法资料合集：基本原理、发展历程、适用于交错处理、连续处理和模糊设计的各种新版本、对应的 Stata 命令以及相关文献。附带一个 do 文件，模拟交错处理面板并运行主要估计量（网站为英文）。</p>'),
+        ('<a href="did/">Difference-in-Differences: The Story of the Economists&rsquo; Workhorse</a>', '<a href="did/">双重差分法（Difference-in-Differences）：经济学家的主力方法</a>'),
+        ('<p>A collection on difference-in-differences: what it is, where it came from, its modern versions for staggered, continuous and fuzzy designs, the Stata command for each, and the papers behind them. Includes 13 animated guides (also as MP4 videos, in English and Chinese) and a do-file that simulates a staggered panel and runs the main estimators.</p>',
+         '<p>双重差分法资料合集：基本原理、发展历程、适用于交错处理、连续处理和模糊设计的各种新版本、对应的 Stata 命令以及相关文献。包含 13 个中英文动画讲解（也提供 MP4 视频），以及一个模拟交错处理面板并运行主要估计量的 do 文件。</p>'),
         ('<h4>Search your do-files for a string</h4>', '<h4>在 do 文件中搜索字符串</h4>'),
         ('<h3>Talks and Slides</h3>', '<h3>报告与幻灯片</h3>'),
         ('<p>This presentation was delivered at the Economics and Innovation of AI Network Workshop, as part of the "Applying LLMs and GenAI in Innovation Economics" Methods Fair.</p>',
@@ -253,3 +253,6 @@ def build(page):
 if __name__ == "__main__":
     for p in PAGES:
         print("wrote", build(p).relative_to(ROOT))
+    # the difference-in-differences collection has its own translation table
+    import build_did_zh
+    print("wrote", build_did_zh.build().relative_to(ROOT))
