@@ -1,0 +1,23 @@
+1
+00:00:00,000 --> 00:00:02,550
+Continuous treatment — When units get different doses
+
+2
+00:00:02,600 --> 00:00:08,950
+With a continuous treatment, units receive different doses: here 0, 1, 2 or 3. Bars show each dose group’s change in the outcome.
+
+3
+00:00:09,000 --> 00:00:16,950
+Under ordinary parallel trends, each dose group’s change minus the untreated group’s change identifies the effect of that dose on the units that received it.
+
+4
+00:00:17,000 --> 00:00:24,950
+Comparing across doses is harder. The jump from dose 2 to dose 3 (0.9) also reflects differences between the units that ended up with those doses.
+
+5
+00:00:25,000 --> 00:00:32,950
+For the dose-3 units themselves the marginal gain is only 0.6. Reading the curve as a causal dose-response needs “strong” parallel trends (Callaway, Goodman-Bacon & Sant’Anna 2024).
+
+6
+00:00:33,000 --> 00:00:38,950
+If every unit gets some dose there is no untreated group at all; did_had uses units with small doses instead (de Chaisemartin et al. 2024).

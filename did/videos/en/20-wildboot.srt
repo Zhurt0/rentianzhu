@@ -1,0 +1,23 @@
+1
+00:00:00,000 --> 00:00:02,550
+Few clusters: the wild cluster bootstrap — When even clustered standard errors are too small
+
+2
+00:00:02,600 --> 00:00:08,950
+With few clusters, or few treated clusters, even clustered standard errors are too small. Here: 12 states, 3 of them treated.
+
+3
+00:00:09,000 --> 00:00:16,450
+The wild cluster bootstrap redraws the data many times. Each state’s residuals are kept or flipped in sign as one block.
+
+4
+00:00:16,500 --> 00:00:23,950
+Take one placebo dataset where the two tests disagree: the clustered t-statistic is −2.24, “significant” by the usual rule, but the share of bootstrap t-statistics at least as extreme gives p = 0.055.
+
+5
+00:00:24,000 --> 00:00:31,950
+Across 300 simulated placebo laws, clustered standard errors reject 8.3% of the time instead of 5%; the wild cluster bootstrap rejects 5%.
+
+6
+00:00:32,000 --> 00:00:39,950
+Stata: boottest right after your regression (Roodman et al. 2019). See Cameron, Gelbach & Miller (2008) and MacKinnon & Webb (2017).

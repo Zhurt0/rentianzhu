@@ -1,0 +1,27 @@
+1
+00:00:00,000 --> 00:00:02,550
+Stacked DiD — One clean experiment per adoption date
+
+2
+00:00:02,600 --> 00:00:07,950
+Stacked DiD builds one clean experiment for each adoption date, then pools them. Coloured cells are treated years.
+
+3
+00:00:08,000 --> 00:00:12,950
+Take the year-4 cohort and a window from 2 years before to 2 years after adoption.
+
+4
+00:00:13,000 --> 00:00:19,950
+Add controls that stay untreated throughout that window: the year-8 cohort and the never treated. The year-6 cohort is dropped.
+
+5
+00:00:20,000 --> 00:00:26,950
+Do the same for the year-6 and year-8 cohorts, each with its own clean controls.
+
+6
+00:00:27,000 --> 00:00:32,950
+Align the stacks on event time and pile them into one dataset.
+
+7
+00:00:33,000 --> 00:00:41,950
+Estimate one regression with stack-specific unit and time fixed effects (Cengiz et al. 2019). Wing, Freedman & Hollingsworth (2024) add weights so it targets a clear average.

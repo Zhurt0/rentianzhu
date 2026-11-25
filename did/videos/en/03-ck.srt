@@ -1,0 +1,23 @@
+1
+00:00:00,000 --> 00:00:02,550
+Card & Krueger (1994): real data — New Jersey’s minimum wage and fast-food jobs
+
+2
+00:00:02,600 --> 00:00:08,950
+April 1992: New Jersey raised its minimum wage from $4.25 to $5.05 an hour. Neighbouring eastern Pennsylvania did not.
+
+3
+00:00:09,000 --> 00:00:15,950
+Card & Krueger surveyed 410 fast-food restaurants before (February–March) and after (November–December). Starting wages rose only in New Jersey.
+
+4
+00:00:16,000 --> 00:00:22,950
+Full-time-equivalent employment per store: Pennsylvania fell from 23.33 to 21.17, New Jersey rose from 20.44 to 21.03.
+
+5
+00:00:23,000 --> 00:00:30,450
+DiD: (21.03 − 20.44) − (21.17 − 23.33) = +2.75 workers per store (store-clustered standard error 1.31). No sign of job losses.
+
+6
+00:00:30,500 --> 00:00:37,950
+These numbers are recomputed here from the original survey data. The finding started a long debate (Neumark & Wascher 2000; Card & Krueger 2000).

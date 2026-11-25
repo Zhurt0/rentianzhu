@@ -1,0 +1,23 @@
+1
+00:00:00,000 --> 00:00:02,550
+Treatments that switch on, off or change — de Chaisemartin & D’Haultfœuille
+
+2
+00:00:02,600 --> 00:00:09,450
+Many treatments are not one-time, on-forever switches. They can turn off, or change in intensity. Each row is a unit, each column a year.
+
+3
+00:00:09,500 --> 00:00:15,950
+de Chaisemartin & D’Haultfœuille compare switchers with units that had the same treatment at the start and have not switched yet.
+
+4
+00:00:16,000 --> 00:00:23,950
+Example: unit 1 switches on in year 4. Its controls are the units still at its starting level, 0: units 2, 3, 5 and 6. Unit 4 started treated, so it is excluded.
+
+5
+00:00:24,000 --> 00:00:31,950
+Effects are traced ℓ = 1, 2, … periods after the first switch, as long as not-yet-switched controls remain. The control set shrinks as units switch.
+
+6
+00:00:32,000 --> 00:00:39,950
+Placebos compare the same groups before the switch. Stata: did_multiplegt_dyn; for designs where everyone gets some dose, did_had.

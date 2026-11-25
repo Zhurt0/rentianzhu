@@ -24,16 +24,18 @@ MARKUP = [
     ('<html lang="en">', '<html lang="zh-Hans">'),
     ("<title>Difference-in-Differences: The Story of the Economists' Workhorse</title>",
      "<title>双重差分法：经济学家的主力方法</title>"),
-    ('<meta name="description" content="A collection on difference-in-differences: what it is, its modern variants, the Stata command for each, the papers behind them, and 13 animated guides.">',
-     '<meta name="description" content="双重差分法（DiD）资料合集：基本原理、各种新版本、对应的 Stata 命令、相关文献，以及 13 个动画讲解。">'),
+    ('<meta name="description" content="A collection on difference-in-differences: what it is, its modern variants, the Stata command for each, the papers behind them, and 21 animated guides.">',
+     '<meta name="description" content="双重差分法（DiD）资料合集：基本原理、各种新版本、对应的 Stata 命令、相关文献，以及 21 个动画讲解。">'),
     ('<link rel="canonical" href="https://zhurt0.github.io/rentianzhu/did/">',
      '<link rel="canonical" href="https://zhurt0.github.io/rentianzhu/zh/did/">'),
     ("<meta property=\"og:title\" content=\"Difference-in-Differences: The Story of the Economists' Workhorse\">",
      '<meta property="og:title" content="双重差分法：经济学家的主力方法">'),
-    ('<meta property="og:description" content="What difference-in-differences is, its modern versions, the Stata command for each, and 13 animated guides.">',
-     '<meta property="og:description" content="双重差分法的基本原理、各种新版本、对应的 Stata 命令，以及 13 个动画讲解。">'),
+    ('<meta property="og:description" content="What difference-in-differences is, its modern versions, the Stata command for each, and 21 animated guides.">',
+     '<meta property="og:description" content="双重差分法的基本原理、各种新版本、对应的 Stata 命令，以及 21 个动画讲解。">'),
     ('<meta property="og:url" content="https://zhurt0.github.io/rentianzhu/did/">',
      '<meta property="og:url" content="https://zhurt0.github.io/rentianzhu/zh/did/">'),
+    ('<meta property="og:image" content="https://zhurt0.github.io/rentianzhu/did/og-en.png">', '<meta property="og:image" content="https://zhurt0.github.io/rentianzhu/did/og-zh.png">'),
+    ('<meta name="twitter:image" content="https://zhurt0.github.io/rentianzhu/did/og-en.png">', '<meta name="twitter:image" content="https://zhurt0.github.io/rentianzhu/did/og-zh.png">'),
     # self-hosted Lora instead of Google Fonts, as on the other Chinese pages
     ('<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n', ''),
     ('<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">',
@@ -43,8 +45,17 @@ MARKUP = [
     ('<div class="lang-switch"><span>EN</span><a href="../zh/did/" lang="zh-Hans" hreflang="zh-Hans">中文</a></div>',
      '<div class="lang-switch"><a href="../../did/" lang="en" hreflang="en">EN</a><span>中文</span></div>'),
     ('<div class="anim-player" data-mp4="videos/en/">', '<div class="anim-player" data-mp4="../../did/videos/zh/">'),
+    ('<a class="hero-alt" href="cheatsheet-en.pdf">Cheat sheet (PDF)</a>', '<a class="hero-alt" href="../../did/cheatsheet-zh.pdf">速查表（PDF）</a>'),
     ('<script src="anim/engine.js"></script>', '<script src="../../did/anim/engine.js"></script>'),
+    ('aria-label="Event study: Callaway and Sant\'Anna estimates of the effect of castle-doctrine laws on log homicides, five years before to five years after adoption, with 95% confidence intervals"',
+     'aria-label="事件研究：Callaway 和 Sant\'Anna 对城堡法影响凶杀率（对数）的估计，从通过前五年到通过后五年，含 95% 置信区间"'),
     ('<script src="anim/scenes.js"></script>', '<script src="../../did/anim/scenes.js"></script>'),
+    ('<script src="sim/sim.js"></script>', '<script src="../../did/sim/sim.js"></script>'),
+    ('<script src="guide/guide.js"></script>', '<script src="../../did/guide/guide.js"></script>'),
+    ('<script src="learn/learn.js"></script>', '<script src="../../did/learn/learn.js"></script>'),
+    ('aria-label="Card and Krueger results"', 'aria-label="Card 与 Krueger 结果"'),
+    ('aria-label="Castle-doctrine results"', 'aria-label="城堡法结果"'),
+    ('aria-label="Stata cheat sheet"', 'aria-label="Stata 速查表"'),
     ('<span class="tag">built-in</span>', '<span class="tag">Stata 内置</span>'),
     ('<span class="tag">built-in: xthdidregress</span>', '<span class="tag">内置：xthdidregress</span>'),
     ('<span class="tag">covariates</span>', '<span class="tag">协变量</span>'),
@@ -57,22 +68,24 @@ TEXT = [
     # hero and menu
     ('Difference-in-Differences', '双重差分法'),
     ('The Story of the Economists&rsquo; Workhorse', '经济学家的主力方法'),
-    ('What it is &middot; every major version &middot; the Stata command for each &middot; the papers behind them &middot; 13 animated guides',
-     '基本原理 &middot; 各种主要版本 &middot; 对应的 Stata 命令 &middot; 相关文献 &middot; 13 个动画讲解'),
+    ('What it is &middot; every major version &middot; the Stata command for each &middot; the papers behind them &middot; 21 animated guides',
+     '基本原理 &middot; 各种主要版本 &middot; 对应的 Stata 命令 &middot; 相关文献 &middot; 21 个动画讲解'),
     ('Compiled by <a href="https://zhurt0.github.io/rentianzhu/">Rentian Zhu</a> &middot; <a href="https://github.com/Zhurt0/rentianzhu/tree/main/did">Source on GitHub</a>',
      '整理：<a href="https://zhurt0.github.io/rentianzhu/zh/">朱任天</a> &middot; <a href="https://github.com/Zhurt0/rentianzhu/tree/main/did">GitHub 源代码</a>'),
     ('Watch the animated guides', '观看动画讲解'),
     ('What it is', '基本原理'),
     ('Animations', '动画讲解'),
+    ('Story', '发展历程'),
     ('The story', '发展历程'),
-    ('The TWFE problem', 'TWFE 的问题'),
+    ('TWFE problem', 'TWFE 的问题'),
     ('Versions', '各种版本'),
+    ('Stata', 'Stata 速查表'),
     ('Stata cheat sheet', 'Stata 速查表'),
     ('Workflow', '实证流程'),
     ('References', '参考文献'),
 
     # 1
-    ('1. What is difference-in-differences?', '1. 什么是双重差分法？'),
+    ('What is difference-in-differences?', '什么是双重差分法？'),
     ('Compare the change over time in a treated group with the change over time in an untreated group. The second difference removes whatever both groups share.',
      '把处理组随时间的变化与未处理组随时间的变化相比较。第二次差分去掉了两组共同经历的一切。'),
     ('In the canonical 2&times;2 design there are two groups (treated, control) and two periods (before, after). The estimator is',
@@ -95,20 +108,74 @@ TEXT = [
     ('event study, G<sub>i</sub> = first treated period', '事件研究，G<sub>i</sub> = 首次接受处理的时期'),
 
     # 2
-    ('2. Animated guides', '2. 动画讲解'),
-    ('Thirteen short animations, one for each idea, built on simulated data. In the TWFE and Sun &amp; Abraham scenes the estimates come from actual regressions on the simulated panels, so the bias you see there is real.',
-     '十三个短动画，每个讲一个方法，使用模拟数据。TWFE 和 Sun &amp; Abraham 两节中的估计值来自对模拟面板的真实回归，所以其中看到的偏误是真实存在的。'),
-    ('The animations need JavaScript. You can watch them as videos instead: <a href="videos/en/all.mp4">all 13 in one MP4</a>.',
-     '动画需要 JavaScript。也可以直接观看视频：<a href="../../did/videos/zh/all.mp4">13 个动画合集（MP4）</a>。'),
-    ('Prefer a file? Each animation has an MP4 link under the player, or download <a href="videos/en/all.mp4">all 13 as one video</a> (about 9 minutes).',
-     '想下载视频？播放器下方有每个动画的 MP4 链接，也可以下载<a href="../../did/videos/zh/all.mp4">全部 13 个动画的合集</a>（约 9 分钟）。'),
+    ('Animated guides', '动画讲解'),
+    ('Twenty-one short animations, from John Snow&rsquo;s cholera study and two real-data examples to inference with few clusters. The TWFE, Sun &amp; Abraham and inference scenes compute their estimates and rejection rates from regressions on simulated panels, so what you see there is real.',
+     '二十一个短动画，从约翰·斯诺的霍乱研究和两个真实数据案例，讲到聚类数较少时的统计推断。TWFE、Sun &amp; Abraham 以及统计推断几节中的估计值和拒绝率，都来自对模拟面板的真实回归和模拟，所以其中看到的结果是真实的。'),
+    ('The animations need JavaScript. You can watch them as videos instead: <a href="videos/en/all.mp4">all 21 in one MP4</a>.',
+     '动画需要 JavaScript。也可以直接观看视频：<a href="../../did/videos/zh/all.mp4">21 个动画合集（MP4）</a>。'),
+    ('Prefer a file? Each animation has an MP4 link under the player, or download <a href="videos/en/all.mp4">all 21 as one video</a> (about 14 minutes), with <a href="videos/en/all.srt">subtitles (SRT)</a>.',
+     '想下载视频？播放器下方有每个动画的 MP4 链接，也可以下载<a href="../../did/videos/zh/all.mp4">全部 21 个动画的合集</a>（约 14 分钟）及<a href="../../did/videos/zh/all.srt">字幕文件（SRT）</a>。'),
+
+    # real example
+    ('Real example', '真实案例'),
+    ('A real example: New Jersey&rsquo;s minimum wage', '真实案例：新泽西州的最低工资'),
+    ('Card &amp; Krueger (1994), recomputed from their original survey of 410 fast-food restaurants.', 'Card &amp; Krueger（1994），根据他们对 410 家快餐店的原始调查数据重新计算。'),
+    ('In April 1992 New Jersey raised its minimum wage from $4.25 to $5.05 an hour; neighbouring eastern Pennsylvania did not. Card and Krueger surveyed fast-food restaurants in both states before (February&ndash;March) and after (November&ndash;December) the increase. Average starting wages rose from $4.61 to $5.08 in New Jersey and stayed at $4.62&ndash;4.63 in Pennsylvania.',
+     '1992 年 4 月，新泽西州把最低工资从每小时 4.25 美元提高到 5.05 美元，相邻的宾夕法尼亚州东部没有调整。Card 和 Krueger 在提高前（2&ndash;3 月）和提高后（11&ndash;12 月）调查了两州的快餐店。新泽西州的平均起薪从 4.61 美元升到 5.08 美元，宾夕法尼亚州则保持在 4.62&ndash;4.63 美元。'),
+    ('FTE employment per store', '每店全职等效就业'),
+    ('Feb&ndash;Mar 1992', '1992 年 2&ndash;3 月'),
+    ('Nov&ndash;Dec 1992', '1992 年 11&ndash;12 月'),
+    ('Change', '变化'),
+    ('Pennsylvania', '宾夕法尼亚州'),
+    ('New Jersey', '新泽西州'),
+    ('<b>Difference in differences</b>', '<b>双重差分</b>'),
+    ('Full-time-equivalent (FTE) employment counts full-time workers and managers plus half of part-time workers. The standard error in brackets is clustered by store. Instead of the job losses a simple competitive model predicts, employment in New Jersey rose relative to Pennsylvania. The finding started a long debate about data and methods (Neumark &amp; Wascher 2000; Card &amp; Krueger 2000).',
+     '全职等效（FTE）就业人数等于全职员工和经理人数加上兼职员工人数的一半。括号中为按门店聚类的标准误。简单竞争模型预测会出现就业减少，但新泽西州的就业相对于宾夕法尼亚州反而上升了。这一发现引发了关于数据和方法的长期争论（Neumark &amp; Wascher 2000；Card &amp; Krueger 2000）。'),
+    ('The full script, with the table of means, <code>didregress</code> and chain fixed effects, is in <a href="card_krueger.do"><code>card_krueger.do</code></a>. <a class="anim-link" href="#anim-ck">Watch the animation</a>',
+     '完整脚本（包括均值表、<code>didregress</code> 以及连锁品牌固定效应）见 <a href="../../did/card_krueger.do"><code>card_krueger.do</code></a>。<a class="anim-link" href="#anim-ck">观看动画</a>'),
+    # staggered real example
+    ('Staggered example', '交错处理案例'),
+    ('A staggered example: castle-doctrine laws', '交错处理案例：城堡法'),
+    ('Cheng &amp; Hoekstra (2013) asked whether &ldquo;stand your ground&rdquo; laws deter crime or escalate violence. Twenty-one states adopted them between 2005 and 2009; 29 did not.',
+     'Cheng &amp; Hoekstra（2013）研究“不退让”（城堡法）法律究竟会威慑犯罪，还是会加剧暴力。2005 至 2009 年间有 21 个州通过了这类法律，另有 29 个州没有。'),
+    ('Log homicides per 100,000, 2000&ndash;2010', '每十万人凶杀率（对数），2000&ndash;2010'),
+    ('Estimate', '估计值'),
+    ('Std. error', '标准误'),
+    ('Static TWFE', '静态 TWFE'),
+    ('Callaway &amp; Sant&rsquo;Anna, never-treated controls', 'Callaway &amp; Sant&rsquo;Anna，以从未处理州为对照'),
+    ('Years relative to adoption', '相对于通过法律的年份'),
+    ('Both estimators point to roughly 8&ndash;11% more homicides after adoption, in line with Cheng &amp; Hoekstra. Here the gap between them is modest: with 29 never-treated states, none of the 95 treated state-years gets a negative TWFE weight. The event study (Callaway &amp; Sant&rsquo;Anna, base year g&minus;1, 95% intervals) shows no clear pre-trend. Computed here from the Mixtape copy of the data: unweighted, no covariates, treatment from the year a law took effect, standard errors from 999 bootstrap draws of states. The paper&rsquo;s preferred specifications differ.',
+     '两种估计量都显示，法律通过后凶杀案大约增加 8&ndash;11%，与 Cheng &amp; Hoekstra 的结论一致。这里两者差距不大：由于有 29 个从未处理的州，95 个已处理的州-年份中没有一个在 TWFE 中权重为负。事件研究图（Callaway &amp; Sant&rsquo;Anna，基期为 g&minus;1，95% 置信区间）没有明显的处理前趋势。结果由本页根据 Mixtape 收录的数据计算：不加权、不含协变量、从法律生效当年起视为处理，标准误来自对州进行 999 次自助抽样。原论文的主要设定与此不同。'),
+    ('Tested companions reproduce these numbers: <a href="did_examples.py"><code>did_examples.py</code></a> (Python, <code>pyfixest</code>) adds two-stage DiD (+0.080) and local-projections DiD (+0.093); <a href="did_examples.R"><code>did_examples.R</code></a> (R, <code>did</code> and <code>fixest</code>) adds Sun &amp; Abraham (+0.110). <a class="anim-link" href="#anim-castle">Watch the animation</a>',
+     '经过实际运行的配套脚本复现了上述结果：<a href="../../did/did_examples.py"><code>did_examples.py</code></a>（Python，<code>pyfixest</code>）另给出两阶段双重差分（+0.080）和局部投影双重差分（+0.093）；<a href="../../did/did_examples.R"><code>did_examples.R</code></a>（R，<code>did</code> 和 <code>fixest</code>）另给出 Sun &amp; Abraham 估计（+0.110）。<a class="anim-link" href="#anim-castle">观看动画</a>'),
+    # quiz and glossary
+    ('Quiz', '小测验'),
+    ('Glossary', '术语表'),
+    ('Test yourself', '自我检测'),
+    ('Twelve questions. Pick an answer to see whether it is right and why.', '十二道题。选择答案后会显示是否正确及其原因。'),
+    ('The quiz needs JavaScript.', '小测验需要 JavaScript。'),
+    ('The main terms in English and Chinese, each with a one-line definition and a link to the animation that shows it.', '主要术语的中英文对照，每个术语附一句话解释，以及演示它的动画链接。'),
+    ('The glossary needs JavaScript.', '术语表需要 JavaScript。'),
+    # estimator guide
+    ('Which estimator?', '选哪个估计量？'),
+    ('Which estimator should I use?', '我该用哪个估计量？'),
+    ('Answer a few questions about your design. The recommendation and the Stata code update as you go.', '回答几个关于研究设计的问题，推荐的方法和 Stata 代码会随之更新。'),
+    ('The guide needs JavaScript. The cards above and the cheat sheet below cover the same ground.', '这个向导需要 JavaScript。上面的卡片和下面的速查表包含同样的内容。'),
+    # simulator
+    ('Simulator', '模拟器'),
+    ('Try it: a DiD simulator', '动手试试：双重差分模拟器'),
+    ('Choose when cohorts adopt and how effects behave. The panel has no noise and parallel trends hold exactly, so any gap between an estimate and the truth is pure bias.',
+     '选择各批次的处理时间和效应的变化方式。模拟面板没有噪声，平行趋势严格成立，所以估计值与真实值之间的任何差距都纯粹是偏误。'),
+    ('The simulator needs JavaScript.', '模拟器需要 JavaScript。'),
+    ('The weights follow de Chaisemartin &amp; D&rsquo;Haultf&oelig;uille (2020): static TWFE equals the weighted sum of the true effects in the cells above. Callaway &amp; Sant&rsquo;Anna uses not-yet-treated units (including the never treated) as controls.',
+     '权重的算法来自 de Chaisemartin &amp; D&rsquo;Haultf&oelig;uille（2020）：静态 TWFE 等于上面各格真实效应的加权和。Callaway &amp; Sant&rsquo;Anna 以尚未处理的个体（包括从未处理的个体）作为对照。'),
 
     # 3
-    ('3. The story', '3. 发展历程'),
+    ('The story', '发展历程'),
     ('From a London water pump to the &ldquo;credibility revolution&rdquo; and the post-2018 rewrite of the textbook.',
      '从伦敦的一台水泵，到“可信性革命”，再到 2018 年后教科书的改写。'),
-    ('<b class="y">1855</b>John Snow compares cholera deaths across London households served by two water companies before and after one moved its intake upstream &mdash; DiD logic before the name existed.',
-     '<b class="y">1855</b>约翰·斯诺比较了伦敦由两家自来水公司供水的家庭在其中一家把取水口迁往上游前后的霍乱死亡人数。这名字出现之前，双重差分的思路就已经有了。'),
+    ('<b class="y">1855</b>John Snow compares cholera deaths across London households served by two water companies before and after one moved its intake upstream &mdash; DiD logic before the name existed. <a class="anim-link" href="#anim-snow">Watch the animation</a>',
+     '<b class="y">1855</b>约翰·斯诺比较了伦敦由两家自来水公司供水的家庭在其中一家把取水口迁往上游前后的霍乱死亡人数。这名字出现之前，双重差分的思路就已经有了。<a class="anim-link" href="#anim-snow">观看动画</a>'),
     ('<b class="y">1915</b>Obenauer and von der Nienburg study Oregon&rsquo;s minimum wage for women by comparing affected and unaffected groups before and after, an early use in labour economics.',
      '<b class="y">1915</b>Obenauer 和 von der Nienburg 比较了受影响与不受影响群体在政策前后的变化，研究俄勒冈州的女性最低工资，这是劳动经济学中的早期应用。'),
     ('<b class="y">1978&ndash;85</b>Ashenfelter, then Ashenfelter &amp; Card, evaluate training programmes with before/after comparisons against a comparison group, and find the &ldquo;Ashenfelter dip&rdquo;.',
@@ -125,14 +192,14 @@ TEXT = [
      '<b class="y">2022&ndash;</b>研究重点转向平行趋势本身的可信度（Roth；Rambachan &amp; Roth）、连续和非吸收型处理，以及与合成控制法的结合。'),
 
     # 4
-    ('4. Why the textbook estimator broke', '4. 教科书估计量为何失灵'),
+    ('Why the textbook estimator broke', '教科书估计量为何失灵'),
     ('When units adopt treatment at different dates, the static TWFE coefficient is a weighted average of every possible 2&times;2 comparison in the data (Goodman-Bacon 2021). Some of those comparisons use <b>already-treated units as controls</b>. If treatment effects grow or differ across cohorts, those &ldquo;forbidden comparisons&rdquo; subtract earlier effects from later ones; the weights can be negative, and the TWFE estimate can even have the opposite sign to every underlying effect (de Chaisemartin &amp; D&rsquo;Haultf&oelig;uille 2020). Event-study leads and lags are contaminated in the same way (Sun &amp; Abraham 2021), so flat pre-trends from a TWFE event study are not reliable evidence.',
      '当个体在不同时间接受处理时，静态 TWFE 系数是数据中所有可能的 2&times;2 比较的加权平均（Goodman-Bacon 2021）。其中一些比较把<b>已经接受处理的个体当作对照</b>。如果处理效应随时间增长或在批次之间不同，这些“禁止的比较”会用后期效应减去早期效应；权重可能为负，TWFE 估计值甚至可能与每一个真实效应符号相反（de Chaisemartin &amp; D&rsquo;Haultf&oelig;uille 2020）。事件研究的前导项和滞后项也会以同样方式被污染（Sun &amp; Abraham 2021），因此 TWFE 事件研究中平坦的处理前趋势并不是可靠的证据。'),
     ('TWFE is still fine when there is a single treatment date, or when effects are homogeneous across cohorts and time. Otherwise, use one of the heterogeneity-robust estimators below. They all share one idea: <b>only compare treated units to not-yet-treated or never-treated units</b>, then aggregate with sensible weights.',
      '当只有一个处理时点，或效应在批次和时间上同质时，TWFE 仍然适用。否则应使用下面这些对异质性稳健的估计量。它们的共同思路是：<b>只把处理个体与尚未处理或从未处理的个体相比较</b>，再用合理的权重加总。'),
 
     # 5
-    ('5. The versions', '5. 各种版本'),
+    ('The versions', '各种版本'),
     # the tag inside was already translated by MARKUP
     ('Grouped by the problem each one solves. Commands marked <span class="tag">Stata 内置</span> ship with Stata 17+; the rest are community-contributed.',
      '按所解决的问题分类。标有<span class="tag">Stata 内置</span>的命令随 Stata 17 及以上版本提供，其余为用户编写的命令。'),
@@ -217,7 +284,7 @@ TEXT = [
      '当聚类数少于约 40 个，或处理组的聚类很少时，应使用野聚类自助法或随机化推断。'),
 
     # 6
-    ('6. Stata cheat sheet', '6. Stata 速查表'),
+    ('Stata cheat sheet', 'Stata 速查表'),
     ('One row per command. A runnable simulation that calls most of them is in <a href="did_examples.do"><code>did_examples.do</code></a>.',
      '每行一个命令。<a href="../../did/did_examples.do"><code>did_examples.do</code></a> 是一个可直接运行的模拟示例，调用了其中大部分命令。'),
     ('Command', '命令'),
@@ -225,6 +292,7 @@ TEXT = [
     ('Use it when', '适用情形'),
     ('Install', '安装'),
     ('Paper', '文献'),
+    ('R &middot; Python', 'R &middot; Python'),
     ('Single treatment date', '单一处理时点'),
     ('Group-time ATTs (RA, IPW, AIPW, TWFE)', '分组-时期 ATT（RA、IPW、AIPW、TWFE）'),
     ('Staggered, official command', '交错处理，官方命令'),
@@ -271,11 +339,11 @@ TEXT = [
     ('Latent factors, treatment reversals', '潜在因子，处理可逆'),
     ('Wild cluster bootstrap', '野聚类自助法'),
     ('Few clusters', '聚类数较少'),
-    ('Option names in community-contributed packages change between versions. Check <code>help &lt;command&gt;</code> after installing; coding of never-treated units in particular differs (0 for <code>csdid</code> and <code>jwdid</code>, missing for <code>did_imputation</code> and <code>eventstudyinteract</code>).',
-     '用户编写命令的选项名称会随版本变化。安装后请查看 <code>help &lt;命令名&gt;</code>；尤其要注意从未处理个体的编码方式不同（<code>csdid</code> 和 <code>jwdid</code> 用 0，<code>did_imputation</code> 和 <code>eventstudyinteract</code> 用缺失值）。'),
+    ('R and Python names are the packages or functions that implement the same method; a dash means there is no well-established equivalent we know of. Option names in community-contributed packages change between versions. Check <code>help &lt;command&gt;</code> after installing; coding of never-treated units in particular differs (0 for <code>csdid</code> and <code>jwdid</code>, missing for <code>did_imputation</code> and <code>eventstudyinteract</code>).',
+     'R 和 Python 一栏列出实现同一方法的软件包或函数；短横线表示我们不知道有成熟的对应实现。用户编写命令的选项名称会随版本变化。安装后请查看 <code>help &lt;命令名&gt;</code>；尤其要注意从未处理个体的编码方式不同（<code>csdid</code> 和 <code>jwdid</code> 用 0，<code>did_imputation</code> 和 <code>eventstudyinteract</code> 用缺失值）。'),
 
     # 7
-    ('7. A practical workflow', '7. 实证流程'),
+    ('A practical workflow', '实证流程'),
     ('<b>Describe the design.</b> One treatment date or staggered? Absorbing or reversible? Binary or continuous? Are there never-treated units? Plot the rollout (<code>panelview</code>).',
      '<b>描述研究设计。</b>单一处理时点还是交错处理？吸收型还是可逆？二元还是连续？是否有从未处理的个体？画出处理的推进过程（<code>panelview</code>）。'),
     ('<b>Plot raw means</b> by cohort over time before running any regression.', '在做任何回归之前，先<b>画出各批次随时间变化的原始均值</b>。'),
@@ -291,7 +359,7 @@ TEXT = [
      '在处理分配的层级<b>聚类</b>；聚类数较少时使用 <code>boottest</code>。'),
 
     # 8
-    ('8. References', '8. 参考文献'),
+    ('References', '参考文献'),
     ('Surveys and textbooks (start here)', '综述与教材（建议从这里开始）'),
     ('Origins and classics', '起源与经典'),
     ('Covariates, nonlinear and fuzzy designs', '协变量、非线性与模糊设计'),
@@ -317,8 +385,8 @@ def build():
         if old in seen:
             continue
         seen.add(old)
-        pat = re.compile(r'(?<=>)' + re.escape(old) + r'(?=<)')
-        s, n = pat.subn(lambda m: new, s)
+        pat = re.compile(r'(?<=>)(\d+\. )?' + re.escape(old) + r'(?=<)')
+        s, n = pat.subn(lambda m: (m.group(1) or '') + new, s)
         if n == 0:
             missing.append(old)
     if FOOTER[0] not in s:

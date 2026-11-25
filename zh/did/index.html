@@ -4,25 +4,30 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>双重差分法：经济学家的主力方法</title>
-<meta name="description" content="双重差分法（DiD）资料合集：基本原理、各种新版本、对应的 Stata 命令、相关文献，以及 13 个动画讲解。">
+<meta name="description" content="双重差分法（DiD）资料合集：基本原理、各种新版本、对应的 Stata 命令、相关文献，以及 21 个动画讲解。">
 <link rel="canonical" href="https://zhurt0.github.io/rentianzhu/zh/did/">
 <link rel="alternate" hreflang="en" href="https://zhurt0.github.io/rentianzhu/did/">
 <link rel="alternate" hreflang="zh-Hans" href="https://zhurt0.github.io/rentianzhu/zh/did/">
 <link rel="alternate" hreflang="x-default" href="https://zhurt0.github.io/rentianzhu/did/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="双重差分法：经济学家的主力方法">
-<meta property="og:description" content="双重差分法的基本原理、各种新版本、对应的 Stata 命令，以及 13 个动画讲解。">
+<meta property="og:description" content="双重差分法的基本原理、各种新版本、对应的 Stata 命令，以及 21 个动画讲解。">
 <meta property="og:url" content="https://zhurt0.github.io/rentianzhu/zh/did/">
+<meta property="og:image" content="https://zhurt0.github.io/rentianzhu/did/og-zh.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://zhurt0.github.io/rentianzhu/did/og-zh.png">
 <link rel="stylesheet" href="../../css/fonts-local.css">
 <style>
 :root{
   --navy:#1a2340; --navy-2:#243056; --ink:#1f2937; --muted:#5b6475; --line:#e2e5ec;
-  --bg:#faf9f6; --card:#ffffff; --accent:#b4552d; --accent-soft:#f6ece6; --link:#1f4e9c;
-  --code-bg:#f3f4f8; --cream:#f5f1e6; --sub:#c3cde6;
+  --bg:#faf9f6; --card:#ffffff; --accent:#a34b26; --accent-soft:#f6ece6; --link:#1f4e9c;
+  --code-bg:#f3f4f8; --cream:#f5f1e6; --sub:#c3cde6; --sim-gold:#c08a12; --good:#2f8a55; --bad:#c43c3c;
 }
 @media (prefers-color-scheme: dark){
   :root{ --ink:#e6e8ee; --muted:#a2abbd; --line:#2c3550; --bg:#121829; --card:#1a2238;
-    --accent:#e89a72; --accent-soft:#2a2433; --link:#8fb4f5; --code-bg:#0f1424; }
+    --accent:#e89a72; --accent-soft:#2a2433; --link:#8fb4f5; --code-bg:#0f1424; --sim-gold:#ffd166; --good:#7bd389; --bad:#ef6f6c; }
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -35,8 +40,9 @@ header.hero{background:var(--navy);color:var(--cream);padding:56px 0 44px}
 .hero p.by{margin:22px 0 0;font-size:.95rem;color:var(--sub);opacity:.85}
 .hero p.by a{color:var(--cream)}
 nav.toc{background:var(--navy-2);position:sticky;top:0;z-index:5}
-nav.toc .wrap{display:flex;gap:4px 20px;flex-wrap:wrap;padding-top:10px;padding-bottom:10px}
-nav.toc a{color:var(--cream);text-decoration:none;font-size:.92rem;opacity:.9}
+nav.toc .wrap{display:flex;gap:4px 18px;flex-wrap:nowrap;overflow-x:auto;white-space:nowrap;scrollbar-width:none;padding-top:10px;padding-bottom:10px}
+nav.toc .wrap::-webkit-scrollbar{display:none}
+nav.toc a{color:var(--cream);text-decoration:none;font-size:.9rem;opacity:.9;flex:none}
 nav.toc a:hover{opacity:1;text-decoration:underline}
 section{padding:42px 0 6px;scroll-margin-top:60px}
 h2{font-size:1.75rem;margin:0 0 6px;line-height:1.25}
@@ -58,7 +64,8 @@ pre code{background:none;padding:0}
 .tl li::before{content:"";position:absolute;left:-6px;top:9px;width:10px;height:10px;border-radius:50%;background:var(--accent)}
 .tl b.y{font-family:"JetBrains Mono",monospace;font-size:.85rem;color:var(--accent);margin-right:8px}
 .tablewrap{overflow-x:auto;margin-top:16px;border:1px solid var(--line);border-radius:8px;background:var(--card)}
-table{border-collapse:collapse;width:100%;font-size:.9rem;min-width:760px}
+table{border-collapse:collapse;width:100%;font-size:.9rem;min-width:900px}
+td.rpy{font-size:.82rem;line-height:1.7;white-space:nowrap}
 th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
 th{background:var(--navy);color:var(--cream);font-weight:600;position:sticky;top:0}
 tr:last-child td{border-bottom:none}
@@ -74,6 +81,8 @@ header.hero .wrap{position:relative}
 .lang-switch span{background:var(--cream);color:var(--navy)}
 .hero-cta{display:inline-flex;align-items:center;gap:10px;margin-top:24px;padding:10px 18px 10px 14px;border-radius:999px;background:#f08a5d;color:#141c33;font-weight:600;text-decoration:none;font-size:.98rem}
 .hero-cta:hover{background:#f5a27c}
+.hero-alt{display:inline-flex;align-items:center;margin:24px 0 0 10px;padding:9px 16px;border-radius:999px;border:1px solid rgba(195,205,230,.45);color:var(--cream);text-decoration:none;font-size:.95rem}
+.hero-alt:hover{background:rgba(255,255,255,.08)}
 .hero-cta::before{content:"";width:0;height:0;border-left:11px solid currentColor;border-top:7px solid transparent;border-bottom:7px solid transparent}
 .anim-player{margin-top:20px;position:relative;scroll-margin-top:64px}
 .anim-stage{position:relative;background:#141c33;border-radius:10px;overflow:hidden;box-shadow:0 10px 30px rgba(10,15,35,.22)}
@@ -105,9 +114,102 @@ header.hero .wrap{position:relative}
 .anim-cap{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;margin:0}
 @media (max-width:700px){.anim-cap{position:static;width:auto;height:auto;overflow:visible;clip:auto;white-space:normal;margin:10px 0 0;padding:10px 14px;background:var(--card);border:1px solid var(--line);border-radius:8px;font-size:.95rem;min-height:4.6em}.anim-big{width:60px;height:60px}.anim-big svg{width:28px;height:28px}}
 .anim-all{margin-top:14px;font-size:.92rem;color:var(--muted)}
+.anim-transcript{margin-top:12px;border:1px solid var(--line);border-radius:8px;background:var(--card);padding:0 14px}
+.anim-transcript summary{cursor:pointer;padding:10px 0;font-weight:600;font-size:.92rem}
+.anim-transcript ol{list-style:none;padding:0 0 10px;margin:0;display:grid;gap:6px}
+.anim-transcript li{display:flex;gap:10px;align-items:baseline;font-size:.92rem;line-height:1.5}
+.anim-ts{font:600 .76rem "JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;color:var(--accent);background:var(--accent-soft);border:none;border-radius:4px;padding:2px 6px;cursor:pointer;flex:none}
+.anim-ts:hover{text-decoration:underline}
 .anim-link{display:inline-flex;align-items:center;gap:7px;margin-top:10px;font-size:.88rem;font-weight:600;color:var(--accent);text-decoration:none}
 .anim-link:hover{text-decoration:underline}
 .anim-link::before{content:"";width:0;height:0;border-left:8px solid currentColor;border-top:5px solid transparent;border-bottom:5px solid transparent}
+.sim{display:grid;grid-template-columns:minmax(250px,310px) minmax(0,1fr);gap:20px;margin-top:18px;align-items:start}
+.sim-controls fieldset{border:1px solid var(--line);border-radius:8px;padding:10px 14px 12px;margin:0 0 12px;background:var(--card)}
+.sim-controls legend{font-weight:600;font-size:.95rem;padding:0 4px}
+.sim-row{display:grid;gap:2px;margin:6px 0 10px}
+.sim-check{display:flex;align-items:center;gap:8px;font-size:.92rem;cursor:pointer}
+.sim-never{margin-top:4px}
+.sim-sw{width:12px;height:12px;border-radius:3px;display:inline-block;flex:none}
+.sim-slide{display:grid;gap:2px;font-size:.84rem;color:var(--muted);margin:6px 0}
+.sim-slide b{color:var(--ink);font-family:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;font-weight:600}
+.sim input[type=range]{width:100%;accent-color:var(--accent)}
+.sim input[type=checkbox]{accent-color:var(--accent);width:16px;height:16px}
+.sim-presets{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:.84rem;color:var(--muted)}
+.sim-presets span{width:100%}
+.sim-presets button{font:inherit;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:999px;padding:5px 11px;cursor:pointer}
+.sim-presets button:hover{border-color:var(--accent);color:var(--accent)}
+.sim-out{min-width:0;display:grid;gap:14px}
+.sim-nums{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.sim-nums .sim-note{grid-column:1/-1;margin:0}
+.sim-num{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:10px 12px;display:grid;gap:2px;min-width:0}
+.sim-num span{font-size:.8rem;color:var(--muted)}
+.sim-num b{font-family:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;font-size:1.55rem;font-variant-numeric:tabular-nums}
+.sim-num small{font-size:.76rem;color:var(--muted);line-height:1.35}
+.sim-num.is-bad b{color:var(--bad)}
+.sim-num.is-ok b{color:var(--good)}
+.sim-num:first-child b{color:var(--sim-gold)}
+.sim-panel{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:12px 14px;min-width:0}
+.sim-panel h3{margin:0 0 6px;font-size:.95rem}
+.sim-svg{width:100%;height:auto;display:block}
+.sim-grid{stroke:var(--line)}
+.sim-axis{stroke:var(--muted);stroke-width:1}
+.sim-zero{stroke:var(--muted);stroke-dasharray:4 4}
+.sim-tick{fill:var(--muted);font:12px "JetBrains Mono",ui-monospace,Menlo,Consolas,monospace}
+.sim-lab{fill:var(--muted);font-size:12px;font-style:italic}
+.sim-cell-pre{fill:none;stroke:var(--line);stroke-dasharray:3 3}
+.sim-cell-txt{fill:var(--ink);font:11px "JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;pointer-events:none}
+.sim-legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:.82rem;color:var(--muted);margin-top:4px}
+.sim-legend i{display:inline-block;width:18px;height:4px;border-radius:2px;vertical-align:middle;margin-right:6px}
+.sim-legend i.o{width:9px;height:9px;border-radius:50%;border:2px solid;background:none}
+.sim-note{font-size:.84rem;color:var(--muted);margin:6px 0 0}
+.sim-export{margin-top:14px}
+.sim-csv{font:inherit;font-size:.88rem;font-weight:600;color:var(--accent);background:var(--accent-soft);border:1px solid var(--accent);border-radius:999px;padding:7px 14px;cursor:pointer}
+.sim-csv:hover{background:var(--card)}
+.sim-export details{margin-top:8px;font-size:.88rem}
+.sim-export summary{cursor:pointer;color:var(--muted)}
+@media (max-width:780px){.sim{grid-template-columns:1fr}}
+@media (max-width:480px){.sim-num b{font-size:1.2rem}}
+.guide{display:grid;grid-template-columns:minmax(260px,360px) minmax(0,1fr);gap:20px;margin-top:18px;align-items:start}
+.guide-q fieldset{border:1px solid var(--line);border-radius:8px;padding:8px 14px 10px;margin:0 0 10px;background:var(--card)}
+.guide-q legend{font-weight:600;font-size:.92rem;padding:0 4px}
+.guide-q label{display:flex;gap:8px;align-items:flex-start;font-size:.88rem;line-height:1.4;padding:3px 0;cursor:pointer}
+.guide-q input{accent-color:var(--accent);margin-top:3px;flex:none}
+.guide-reset{font:inherit;font-size:.85rem;background:none;border:1px solid var(--line);border-radius:999px;padding:5px 12px;color:var(--muted);cursor:pointer}
+.guide-reset:hover{border-color:var(--accent);color:var(--accent)}
+.guide-out{min-width:0;position:sticky;top:64px}
+.guide-out h3{margin:0 0 8px;font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.guide-list{list-style:none;padding:0;margin:0 0 18px;display:grid;gap:10px}
+.guide-list li{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:12px 14px;min-width:0}
+.guide-list.is-main li{border-left:4px solid var(--accent)}
+.guide-list b{font-size:1rem}
+.guide-list p{margin:4px 0 0;font-size:.9rem}
+.guide-list pre{margin-top:8px}
+.guide-list .anim-link{margin-top:8px}
+@media (max-width:780px){.guide{grid-template-columns:1fr}.guide-out{position:static}}
+.qz{list-style:none;padding:0;margin:14px 0 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:12px;counter-reset:qz}
+.qz-q{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:12px 14px;min-width:0;counter-increment:qz}
+.qz-q fieldset{border:none;margin:0;padding:0}
+.qz-q legend{font-weight:600;font-size:.95rem;line-height:1.45;margin-bottom:6px;padding:0}
+.qz-q legend::before{content:counter(qz) ". ";color:var(--accent);font-family:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;font-size:.85rem}
+.qz-q label{display:flex;gap:8px;align-items:flex-start;font-size:.9rem;line-height:1.4;padding:4px 6px;border-radius:6px;cursor:pointer}
+.qz-q input{accent-color:var(--accent);margin-top:3px;flex:none}
+.qz-q.is-right{border-color:var(--good)}
+.qz-q.is-wrong{border-color:var(--bad)}
+.qz-q.is-right label.is-answer,.qz-q.is-wrong label.is-answer{background:color-mix(in srgb,var(--good) 16%,transparent)}
+.qz-fb{font-size:.88rem;margin:8px 0 0;line-height:1.5}
+.qz-q.is-right .qz-fb b{color:var(--good)}
+.qz-q.is-wrong .qz-fb b{color:var(--bad)}
+.qz-score{font-family:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;font-size:.85rem;color:var(--muted);margin:10px 0 0}
+.qz-reset{margin-top:12px}
+.gl-search{display:flex;gap:10px;align-items:center;margin-top:14px;font-size:.88rem;color:var(--muted)}
+.gl-search input{font:inherit;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:6px;padding:6px 10px;min-width:0;flex:1;max-width:320px}
+table.gl{min-width:640px}
+table.gl th[scope=row]{font-weight:600;background:none;color:var(--ink);position:static;white-space:nowrap}
+table.gl td:nth-child(2){white-space:nowrap;color:var(--muted)}
+.ck td:not(:first-child),.ck th:not(:first-child){text-align:right;font-variant-numeric:tabular-nums}
+table.ck{min-width:520px}
+.castle-chart{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin-top:14px;max-width:720px}
+.gl-anim{text-decoration:none;color:var(--accent);font-size:.8rem;margin-left:4px}
 a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 @media (max-width:640px){.lang-switch{position:static;width:fit-content;margin:0 0 18px}.anim-time{display:none}nav.toc .wrap{flex-wrap:nowrap;overflow-x:auto;white-space:nowrap;scrollbar-width:none}nav.toc .wrap::-webkit-scrollbar{display:none}}
 </style>
@@ -119,20 +221,27 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(-
     <div class="lang-switch"><a href="../../did/" lang="en" hreflang="en">EN</a><span>中文</span></div>
     <h1>双重差分法</h1>
     <p class="sub">经济学家的主力方法</p>
-    <p class="by">基本原理 &middot; 各种主要版本 &middot; 对应的 Stata 命令 &middot; 相关文献 &middot; 13 个动画讲解</p>
+    <p class="by">基本原理 &middot; 各种主要版本 &middot; 对应的 Stata 命令 &middot; 相关文献 &middot; 21 个动画讲解</p>
     <p class="by">整理：<a href="https://zhurt0.github.io/rentianzhu/zh/">朱任天</a> &middot; <a href="https://github.com/Zhurt0/rentianzhu/tree/main/did">GitHub 源代码</a></p>
     <a class="hero-cta" href="#animations">观看动画讲解</a>
+    <a class="hero-alt" href="../../did/cheatsheet-zh.pdf">速查表（PDF）</a>
   </div>
 </header>
 
 <nav class="toc"><div class="wrap">
   <a href="#what">基本原理</a>
   <a href="#animations">动画讲解</a>
+  <a href="#simulator">模拟器</a>
+  <a href="#example">真实案例</a>
+  <a href="#castle">交错处理案例</a>
   <a href="#story">发展历程</a>
   <a href="#problem">TWFE 的问题</a>
   <a href="#versions">各种版本</a>
+  <a href="#guide">选哪个估计量？</a>
   <a href="#stata">Stata 速查表</a>
   <a href="#workflow">实证流程</a>
+  <a href="#quiz">小测验</a>
+  <a href="#glossary">术语表</a>
   <a href="#refs">参考文献</a>
 </div></nav>
 
@@ -161,19 +270,76 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(-
 <!-- ====================== ANIMATIONS ====================== -->
 <section id="animations">
   <h2>2. 动画讲解</h2>
-  <p class="lead">十三个短动画，每个讲一个方法，使用模拟数据。TWFE 和 Sun &amp; Abraham 两节中的估计值来自对模拟面板的真实回归，所以其中看到的偏误是真实存在的。</p>
+  <p class="lead">二十一个短动画，从约翰·斯诺的霍乱研究和两个真实数据案例，讲到聚类数较少时的统计推断。TWFE、Sun &amp; Abraham 以及统计推断几节中的估计值和拒绝率，都来自对模拟面板的真实回归和模拟，所以其中看到的结果是真实的。</p>
   <div class="anim-player" data-mp4="../../did/videos/zh/">
-    <noscript><p>动画需要 JavaScript。也可以直接观看视频：<a href="../../did/videos/zh/all.mp4">13 个动画合集（MP4）</a>。</p></noscript>
+    <noscript><p>动画需要 JavaScript。也可以直接观看视频：<a href="../../did/videos/zh/all.mp4">21 个动画合集（MP4）</a>。</p></noscript>
   </div>
-  <p class="anim-all">想下载视频？播放器下方有每个动画的 MP4 链接，也可以下载<a href="../../did/videos/zh/all.mp4">全部 13 个动画的合集</a>（约 9 分钟）。</p>
+  <p class="anim-all">想下载视频？播放器下方有每个动画的 MP4 链接，也可以下载<a href="../../did/videos/zh/all.mp4">全部 21 个动画的合集</a>（约 14 分钟）及<a href="../../did/videos/zh/all.srt">字幕文件（SRT）</a>。</p>
+</section>
+
+<!-- ====================== SIMULATOR ====================== -->
+<section id="simulator">
+  <h2>3. 动手试试：双重差分模拟器</h2>
+  <p class="lead">选择各批次的处理时间和效应的变化方式。模拟面板没有噪声，平行趋势严格成立，所以估计值与真实值之间的任何差距都纯粹是偏误。</p>
+  <div class="sim" id="did-sim">
+    <noscript><p>模拟器需要 JavaScript。</p></noscript>
+  </div>
+  <p class="sim-note">权重的算法来自 de Chaisemartin &amp; D&rsquo;Haultf&oelig;uille（2020）：静态 TWFE 等于上面各格真实效应的加权和。Callaway &amp; Sant&rsquo;Anna 以尚未处理的个体（包括从未处理的个体）作为对照。</p>
+</section>
+
+<!-- ====================== REAL EXAMPLE ====================== -->
+<section id="example">
+  <h2>4. 真实案例：新泽西州的最低工资</h2>
+  <p class="lead">Card &amp; Krueger（1994），根据他们对 410 家快餐店的原始调查数据重新计算。</p>
+  <p>1992 年 4 月，新泽西州把最低工资从每小时 4.25 美元提高到 5.05 美元，相邻的宾夕法尼亚州东部没有调整。Card 和 Krueger 在提高前（2&ndash;3 月）和提高后（11&ndash;12 月）调查了两州的快餐店。新泽西州的平均起薪从 4.61 美元升到 5.08 美元，宾夕法尼亚州则保持在 4.62&ndash;4.63 美元。</p>
+  <div class="tablewrap" tabindex="0" role="region" aria-label="Card 与 Krueger 结果"><table class="ck">
+    <thead><tr><th>每店全职等效就业</th><th>1992 年 2&ndash;3 月</th><th>1992 年 11&ndash;12 月</th><th>变化</th></tr></thead>
+    <tbody>
+      <tr><td>宾夕法尼亚州</td><td>23.33</td><td>21.17</td><td>&minus;2.16</td></tr>
+      <tr><td>新泽西州</td><td>20.44</td><td>21.03</td><td>+0.59</td></tr>
+      <tr><td><b>双重差分</b></td><td></td><td></td><td><b>+2.75</b> (1.31)</td></tr>
+    </tbody>
+  </table></div>
+  <p>全职等效（FTE）就业人数等于全职员工和经理人数加上兼职员工人数的一半。括号中为按门店聚类的标准误。简单竞争模型预测会出现就业减少，但新泽西州的就业相对于宾夕法尼亚州反而上升了。这一发现引发了关于数据和方法的长期争论（Neumark &amp; Wascher 2000；Card &amp; Krueger 2000）。</p>
+  <pre tabindex="0"><code>* data: davidcard.berkeley.edu/data_sets/njmin.zip (public.dat)
+infix sheet 1-3 state 9 empft 26-30 emppt 32-36 nmgrs 38-42 ///
+      empft2 122-126 emppt2 128-132 nmgrs2 134-138 using public.dat, clear
+gen fte1 = empft  + nmgrs  + 0.5*emppt
+gen fte2 = empft2 + nmgrs2 + 0.5*emppt2
+reshape long fte, i(sheet) j(wave)
+regress fte i.state##i.wave, vce(cluster sheet)</code></pre>
+  <p>完整脚本（包括均值表、<code>didregress</code> 以及连锁品牌固定效应）见 <a href="../../did/card_krueger.do"><code>card_krueger.do</code></a>。<a class="anim-link" href="#anim-ck">观看动画</a></p>
+</section>
+
+<!-- ====================== STAGGERED EXAMPLE ====================== -->
+<section id="castle">
+  <h2>5. 交错处理案例：城堡法</h2>
+  <p class="lead">Cheng &amp; Hoekstra（2013）研究“不退让”（城堡法）法律究竟会威慑犯罪，还是会加剧暴力。2005 至 2009 年间有 21 个州通过了这类法律，另有 29 个州没有。</p>
+  <div class="tablewrap" tabindex="0" role="region" aria-label="城堡法结果"><table class="ck">
+    <thead><tr><th>每十万人凶杀率（对数），2000&ndash;2010</th><th>估计值</th><th>标准误</th></tr></thead>
+    <tbody>
+      <tr><td>静态 TWFE</td><td>+0.082</td><td>(0.055)</td></tr>
+      <tr><td>Callaway &amp; Sant&rsquo;Anna，以从未处理州为对照</td><td>+0.110</td><td>(0.038)</td></tr>
+    </tbody>
+  </table></div>
+  <div class="castle-chart"><svg class="sim-svg castle-es" viewBox="0 0 640 280" role="img" aria-label="事件研究：Callaway 和 Sant'Anna 对城堡法影响凶杀率（对数）的估计，从通过前五年到通过后五年，含 95% 置信区间"><line class="sim-grid" x1="52" x2="624" y1="211.3" y2="211.3"/><text class="sim-tick" x="44" y="215.3" text-anchor="end">&minus;0.1</text><line class="sim-grid" x1="52" x2="624" y1="162.0" y2="162.0"/><text class="sim-tick" x="44" y="166.0" text-anchor="end">0.0</text><line class="sim-grid" x1="52" x2="624" y1="112.7" y2="112.7"/><text class="sim-tick" x="44" y="116.7" text-anchor="end">+0.1</text><line class="sim-grid" x1="52" x2="624" y1="63.3" y2="63.3"/><text class="sim-tick" x="44" y="67.3" text-anchor="end">+0.2</text><line class="sim-grid" x1="52" x2="624" y1="14.0" y2="14.0"/><text class="sim-tick" x="44" y="18.0" text-anchor="end">+0.3</text><line class="sim-zero" x1="52" x2="624" y1="162.0" y2="162.0"/><line class="sim-zero" x1="312.0" x2="312.0" y1="14" y2="236"/><line class="sim-axis" x1="52" x2="52" y1="14" y2="236"/><line class="sim-axis" x1="52" x2="624" y1="236" y2="236"/><line x1="78.0" x2="78.0" y1="204.2" y2="88.2" stroke="var(--muted)" stroke-width="2"/><circle cx="78.0" cy="146.2" r="4.5" fill="var(--muted)" stroke="var(--muted)" stroke-width="2"/><text class="sim-tick" x="78.0" y="254" text-anchor="middle">&minus;5</text><line x1="130.0" x2="130.0" y1="216.2" y2="115.7" stroke="var(--muted)" stroke-width="2"/><circle cx="130.0" cy="165.9" r="4.5" fill="var(--muted)" stroke="var(--muted)" stroke-width="2"/><text class="sim-tick" x="130.0" y="254" text-anchor="middle">&minus;4</text><line x1="182.0" x2="182.0" y1="178.4" y2="89.4" stroke="var(--muted)" stroke-width="2"/><circle cx="182.0" cy="133.9" r="4.5" fill="var(--muted)" stroke="var(--muted)" stroke-width="2"/><text class="sim-tick" x="182.0" y="254" text-anchor="middle">&minus;3</text><line x1="234.0" x2="234.0" y1="175.9" y2="90.8" stroke="var(--muted)" stroke-width="2"/><circle cx="234.0" cy="133.4" r="4.5" fill="var(--muted)" stroke="var(--muted)" stroke-width="2"/><text class="sim-tick" x="234.0" y="254" text-anchor="middle">&minus;2</text><circle cx="286.0" cy="162.0" r="4" fill="var(--card)" stroke="var(--muted)" stroke-width="2"/><text class="sim-tick" x="286.0" y="254" text-anchor="middle">&minus;1</text><line x1="338.0" x2="338.0" y1="151.9" y2="76.4" stroke="var(--accent)" stroke-width="2"/><circle cx="338.0" cy="114.1" r="4.5" fill="var(--accent)" stroke="var(--accent)" stroke-width="2"/><text class="sim-tick" x="338.0" y="254" text-anchor="middle">0</text><line x1="390.0" x2="390.0" y1="154.1" y2="59.4" stroke="var(--accent)" stroke-width="2"/><circle cx="390.0" cy="106.7" r="4.5" fill="var(--accent)" stroke="var(--accent)" stroke-width="2"/><text class="sim-tick" x="390.0" y="254" text-anchor="middle">1</text><line x1="442.0" x2="442.0" y1="164.8" y2="48.7" stroke="var(--accent)" stroke-width="2"/><circle cx="442.0" cy="106.7" r="4.5" fill="var(--accent)" stroke="var(--accent)" stroke-width="2"/><text class="sim-tick" x="442.0" y="254" text-anchor="middle">2</text><line x1="494.0" x2="494.0" y1="149.5" y2="39.3" stroke="var(--accent)" stroke-width="2"/><circle cx="494.0" cy="94.4" r="4.5" fill="var(--accent)" stroke="var(--accent)" stroke-width="2"/><text class="sim-tick" x="494.0" y="254" text-anchor="middle">3</text><line x1="546.0" x2="546.0" y1="168.3" y2="63.9" stroke="var(--accent)" stroke-width="2"/><circle cx="546.0" cy="116.1" r="4.5" fill="var(--accent)" stroke="var(--accent)" stroke-width="2"/><text class="sim-tick" x="546.0" y="254" text-anchor="middle">4</text><line x1="598.0" x2="598.0" y1="156.1" y2="57.4" stroke="var(--accent)" stroke-width="2"/><circle cx="598.0" cy="106.7" r="4.5" fill="var(--accent)" stroke="var(--accent)" stroke-width="2"/><text class="sim-tick" x="598.0" y="254" text-anchor="middle">5</text><text class="sim-lab" x="338" y="274" text-anchor="middle">相对于通过法律的年份</text></svg></div>
+  <p>两种估计量都显示，法律通过后凶杀案大约增加 8&ndash;11%，与 Cheng &amp; Hoekstra 的结论一致。这里两者差距不大：由于有 29 个从未处理的州，95 个已处理的州-年份中没有一个在 TWFE 中权重为负。事件研究图（Callaway &amp; Sant&rsquo;Anna，基期为 g&minus;1，95% 置信区间）没有明显的处理前趋势。结果由本页根据 Mixtape 收录的数据计算：不加权、不含协变量、从法律生效当年起视为处理，标准误来自对州进行 999 次自助抽样。原论文的主要设定与此不同。</p>
+  <pre><code>use "https://raw.githubusercontent.com/scunning1975/mixtape/master/castle.dta", clear
+gen g = cond(missing(effyear), 0, effyear)     // adoption year, 0 = never
+gen D = g &gt; 0 &amp; year &gt;= g
+reghdfe l_homicide D, absorb(sid year) vce(cluster sid)
+csdid l_homicide, ivar(sid) time(year) gvar(g) long2
+estat simple
+estat event, window(-5 5)</code></pre>
+<p>经过实际运行的配套脚本复现了上述结果：<a href="../../did/did_examples.py"><code>did_examples.py</code></a>（Python，<code>pyfixest</code>）另给出两阶段双重差分（+0.080）和局部投影双重差分（+0.093）；<a href="../../did/did_examples.R"><code>did_examples.R</code></a>（R，<code>did</code> 和 <code>fixest</code>）另给出 Sun &amp; Abraham 估计（+0.110）。<a class="anim-link" href="#anim-castle">观看动画</a></p>
 </section>
 
 <!-- ====================== STORY ====================== -->
 <section id="story">
-  <h2>3. 发展历程</h2>
+  <h2>6. 发展历程</h2>
   <p class="lead">从伦敦的一台水泵，到“可信性革命”，再到 2018 年后教科书的改写。</p>
   <ul class="tl">
-    <li><b class="y">1855</b>约翰·斯诺比较了伦敦由两家自来水公司供水的家庭在其中一家把取水口迁往上游前后的霍乱死亡人数。这名字出现之前，双重差分的思路就已经有了。</li>
+    <li><b class="y">1855</b>约翰·斯诺比较了伦敦由两家自来水公司供水的家庭在其中一家把取水口迁往上游前后的霍乱死亡人数。这名字出现之前，双重差分的思路就已经有了。<a class="anim-link" href="#anim-snow">观看动画</a></li>
     <li><b class="y">1915</b>Obenauer 和 von der Nienburg 比较了受影响与不受影响群体在政策前后的变化，研究俄勒冈州的女性最低工资，这是劳动经济学中的早期应用。</li>
     <li><b class="y">1978&ndash;85</b>Ashenfelter 以及后来的 Ashenfelter &amp; Card 用与对照组的前后比较评估职业培训项目，并发现了“Ashenfelter 下沉”现象。</li>
     <li><b class="y">1990&ndash;94</b>Card 关于马里埃尔偷渡潮的研究，以及 Card &amp; Krueger 关于新泽西州与宾夕法尼亚州最低工资的研究，使双重差分成为可信性革命的标志性设计。Gruber（1994）提出了三重差分。</li>
@@ -186,14 +352,14 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(-
 
 <!-- ====================== PROBLEM ====================== -->
 <section id="problem">
-  <h2>4. 教科书估计量为何失灵</h2>
+  <h2>7. 教科书估计量为何失灵</h2>
   <p>当个体在不同时间接受处理时，静态 TWFE 系数是数据中所有可能的 2&times;2 比较的加权平均（Goodman-Bacon 2021）。其中一些比较把<b>已经接受处理的个体当作对照</b>。如果处理效应随时间增长或在批次之间不同，这些“禁止的比较”会用后期效应减去早期效应；权重可能为负，TWFE 估计值甚至可能与每一个真实效应符号相反（de Chaisemartin &amp; D&rsquo;Haultf&oelig;uille 2020）。事件研究的前导项和滞后项也会以同样方式被污染（Sun &amp; Abraham 2021），因此 TWFE 事件研究中平坦的处理前趋势并不是可靠的证据。</p>
   <p>当只有一个处理时点，或效应在批次和时间上同质时，TWFE 仍然适用。否则应使用下面这些对异质性稳健的估计量。它们的共同思路是：<b>只把处理个体与尚未处理或从未处理的个体相比较</b>，再用合理的权重加总。</p>
 </section>
 
 <!-- ====================== VERSIONS ====================== -->
 <section id="versions">
-  <h2>5. 各种版本</h2>
+  <h2>8. 各种版本</h2>
   <p class="lead">按所解决的问题分类。标有<span class="tag">Stata 内置</span>的命令随 Stata 17 及以上版本提供，其余为用户编写的命令。</p>
 
   <h3 style="margin-top:22px">A. 经典设计</h3>
@@ -202,7 +368,7 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(-
       <span class="tag">Stata 内置</span><span class="tag">2&times;2</span>
       <h3>经典双重差分</h3>
       <p>两组两期，或只有一个处理时点。</p>
-      <pre><code>didregress (y x) (D), group(state) time(year)
+      <pre tabindex="0"><code>didregress (y x) (D), group(state) time(year)
 xtdidregress (y x) (D), group(state) time(year)
 estat ptrends
 estat trendplots
@@ -214,7 +380,7 @@ estat granger</code></pre>
       <span class="tag">reghdfe</span><span class="tag">TWFE</span>
       <h3>双向固定效应与事件研究</h3>
       <p>传统的主力方法。只有一个处理时点或效应同质时可以放心使用。</p>
-      <pre><code>reghdfe y D, absorb(id year) vce(cluster id)
+      <pre tabindex="0"><code>reghdfe y D, absorb(id year) vce(cluster id)
 * event study, t = -1 omitted
 reghdfe y lead5-lead2 lag0-lag5, ///
     absorb(id year) vce(cluster id)</code></pre>
@@ -225,7 +391,7 @@ reghdfe y lead5-lead2 lag0-lag5, ///
       <span class="tag">Stata 内置</span><span class="tag">DDD</span>
       <h3>三重差分</h3>
       <p>加入组内不受影响的子群体，以差分掉组别特有的冲击。只要求趋势的<i>差距</i>保持平行。</p>
-      <pre><code>didregress (y) (D), group(state agegrp) time(year)
+      <pre tabindex="0"><code>didregress (y) (D), group(state agegrp) time(year)
 * or by hand
 reghdfe y D, absorb(state#year state#agegrp ///
     agegrp#year) vce(cluster state)</code></pre>
@@ -236,7 +402,7 @@ reghdfe y D, absorb(state#year state#agegrp ///
       <span class="tag">drdid</span><span class="tag">协变量</span>
       <h3>条件平行趋势</h3>
       <p>平行趋势只在控制协变量后成立。可用结果回归、逆概率加权，或两者结合的双重稳健方法。</p>
-      <pre><code>drdid y x1 x2, ivar(id) time(year) tr(treat) all</code></pre>
+      <pre tabindex="0"><code>drdid y x1 x2, ivar(id) time(year) tr(treat) all</code></pre>
       <p class="ref">Heckman, Ichimura &amp; Todd (1997); Abadie (2005); Sant&rsquo;Anna &amp; Zhao (2020)</p>
       <a class="anim-link" href="#anim-drdid">观看动画</a>
     </div>
@@ -248,7 +414,7 @@ reghdfe y D, absorb(state#year state#agegrp ///
       <span class="tag">bacondecomp</span>
       <h3>Goodman-Bacon 分解</h3>
       <p>把 TWFE 系数拆分为所有 2&times;2 比较及其权重，显示有多少来自“晚处理组对比已处理组”的比较。</p>
-      <pre><code>xtset id year
+      <pre tabindex="0"><code>xtset id year
 bacondecomp y D, ddetail</code></pre>
       <p class="ref">Goodman-Bacon (2021)</p>
       <a class="anim-link" href="#anim-bacon">观看动画</a>
@@ -257,7 +423,7 @@ bacondecomp y D, ddetail</code></pre>
       <span class="tag">twowayfeweights</span>
       <h3>负权重检验</h3>
       <p>统计 TWFE 回归中有多少个 ATT 被赋予负权重，以及估计值对异质性有多敏感。</p>
-      <pre><code>twowayfeweights y id year D, type(feTR)</code></pre>
+      <pre tabindex="0"><code>twowayfeweights y id year D, type(feTR)</code></pre>
       <p class="ref">de Chaisemartin &amp; D&rsquo;Haultf&oelig;uille (2020)</p>
       <a class="anim-link" href="#anim-bacon">观看动画</a>
     </div>
@@ -269,7 +435,7 @@ bacondecomp y D, ddetail</code></pre>
       <span class="tag">csdid</span><span class="tag">内置：xthdidregress</span>
       <h3>Callaway &amp; Sant&rsquo;Anna</h3>
       <p>以从未处理或尚未处理的个体为对照，为每个批次和时期估计 ATT(g,t)，再加总。可以纳入协变量（双重稳健）。</p>
-      <pre><code>* gvar = first treated year, 0 if never treated
+      <pre tabindex="0"><code>* gvar = first treated year, 0 if never treated
 csdid y x, ivar(id) time(year) gvar(g) method(dripw)
 estat simple
 estat event
@@ -284,7 +450,7 @@ estat aggregation, dynamic graph</code></pre>
       <span class="tag">eventstudyinteract</span>
       <h3>Sun &amp; Abraham</h3>
       <p>交互加权事件研究：分批次估计前导项和滞后项，再按批次占比加权平均。与常用的回归形式最接近。</p>
-      <pre><code>eventstudyinteract y lead* lag*, ///
+      <pre tabindex="0"><code>eventstudyinteract y lead* lag*, ///
     cohort(g) control_cohort(never) ///
     absorb(i.id i.year) vce(cluster id)</code></pre>
       <p class="ref">Sun &amp; Abraham (2021)</p>
@@ -294,7 +460,7 @@ estat aggregation, dynamic graph</code></pre>
       <span class="tag">did_imputation</span>
       <h3>插补估计量</h3>
       <p>只用未处理的观测值估计个体效应和时间效应，为处理后的观测值插补 Y(0)，再对差值取平均。在同方差下是有效的。</p>
-      <pre><code>* Ei = first treated year, missing if never
+      <pre tabindex="0"><code>* Ei = first treated year, missing if never
 did_imputation y id year Ei, ///
     horizons(0/5) pretrends(4) autosample
 event_plot, default_look</code></pre>
@@ -305,7 +471,7 @@ event_plot, default_look</code></pre>
       <span class="tag">did2s</span>
       <h3>两阶段双重差分</h3>
       <p>用两步回归实现同样的插补思路：先用未处理观测值估计的固定效应求残差，再对处理变量回归。使用 GMM 标准误。</p>
-      <pre><code>did2s y, first_stage(i.id i.year) ///
+      <pre tabindex="0"><code>did2s y, first_stage(i.id i.year) ///
     second_stage(i.D) treatment(D) cluster(id)</code></pre>
       <p class="ref">Gardner (2021); Butts &amp; Gardner (2022)</p>
       <a class="anim-link" href="#anim-imputation">观看动画</a>
@@ -314,7 +480,7 @@ event_plot, default_look</code></pre>
       <span class="tag">jwdid</span>
       <h3>扩展 TWFE</h3>
       <p>Wooldridge 的观点：问题不在 TWFE 本身，而在过于受限的设定。加入完整的批次 &times; 时间交互项即可；还能自然推广到 logit 和泊松模型。</p>
-      <pre><code>jwdid y, ivar(id) tvar(year) gvar(g)
+      <pre tabindex="0"><code>jwdid y, ivar(id) tvar(year) gvar(g)
 estat simple
 estat event
 * nonlinear
@@ -326,7 +492,7 @@ jwdid y, ivar(id) tvar(year) gvar(g) method(poisson)</code></pre>
       <span class="tag">stackedev</span>
       <h3>堆叠双重差分</h3>
       <p>为每个处理事件构造一个干净的 2&times;2 数据集（处理批次加干净对照），把它们堆叠起来，用含有子数据集特定固定效应的回归一次估计。</p>
-      <pre><code>stackedev y lead* lag*, cohort(g) time(year) ///
+      <pre tabindex="0"><code>stackedev y lead* lag*, cohort(g) time(year) ///
     never_treat(never) unit_fe(id) clust_unit(id)</code></pre>
       <p class="ref">Cengiz, Dube, Lindner &amp; Zipperer (2019); Wing, Freedman &amp; Hollingsworth (2024)</p>
       <a class="anim-link" href="#anim-stacked">观看动画</a>
@@ -335,14 +501,15 @@ jwdid y, ivar(id) tvar(year) gvar(g) method(poisson)</code></pre>
       <span class="tag">lpdid</span>
       <h3>局部投影双重差分</h3>
       <p>逐期做长差分回归，样本只保留新处理的观测值和干净的对照。计算快，便于加入协变量和处理非吸收型处理。</p>
-      <pre><code>lpdid y, unit(id) time(year) treat(D) pre(5) post(10)</code></pre>
+      <pre tabindex="0"><code>lpdid y, unit(id) time(year) treat(D) pre(5) post(10)</code></pre>
       <p class="ref">Dube, Girardi, Jord&agrave; &amp; Taylor (2023)</p>
+      <a class="anim-link" href="#anim-lpdid">观看动画</a>
     </div>
     <div class="card">
       <span class="tag">staggered</span>
       <h3>随机处理时点下的有效估计量</h3>
       <p>如果处理时点（近似）随机，可以像实验中的协变量一样利用处理前结果，得到更精确的估计。</p>
-      <pre><code>staggered y, i(id) t(year) g(g) estimand(simple)</code></pre>
+      <pre tabindex="0"><code>staggered y, i(id) t(year) g(g) estimand(simple)</code></pre>
       <p class="ref">Roth &amp; Sant&rsquo;Anna (2023b); Athey &amp; Imbens (2022)</p>
     </div>
   </div>
@@ -353,7 +520,7 @@ jwdid y, ivar(id) tvar(year) gvar(g) method(poisson)</code></pre>
       <span class="tag">did_multiplegt_dyn</span>
       <h3>可开可关、任意强度的处理</h3>
       <p>把“切换者”与期初处理状态相同、尚未切换的个体相比较。适用于二元、离散或连续的非吸收型处理。</p>
-      <pre><code>did_multiplegt_dyn y id year D, ///
+      <pre tabindex="0"><code>did_multiplegt_dyn y id year D, ///
     effects(5) placebo(3) cluster(id)</code></pre>
       <p class="ref">de Chaisemartin &amp; D&rsquo;Haultf&oelig;uille (2020, 2024)</p>
       <a class="anim-link" href="#anim-dcdh">观看动画</a>
@@ -362,22 +529,23 @@ jwdid y, ivar(id) tvar(year) gvar(g) method(poisson)</code></pre>
       <span class="tag">did_had</span><span class="tag">剂量</span>
       <h3>连续处理 / 剂量</h3>
       <p>处理剂量连续时，仅靠平行趋势无法识别剂量反应曲线，需要更强的假设。<code>did_had</code> 适用于所有个体都接受一定剂量的设计。</p>
-      <pre><code>did_had y id year D, effects(3) placebo(2)</code></pre>
+      <pre tabindex="0"><code>did_had y id year D, effects(3) placebo(2)</code></pre>
       <p class="ref">Callaway, Goodman-Bacon &amp; Sant&rsquo;Anna (2024); de Chaisemartin et al. (2024)</p>
-      <a class="anim-link" href="#anim-dcdh">观看动画</a>
+      <a class="anim-link" href="#anim-dose">观看动画</a>
     </div>
     <div class="card">
       <span class="tag">fuzzydid</span>
       <h3>模糊双重差分</h3>
       <p>一组的处理比例比另一组上升得更多，但没有哪一组完全处理或完全未处理。可用 Wald-DiD、时间修正 Wald 以及变化中的变化 Wald 估计量。</p>
-      <pre><code>fuzzydid y G T D, did tc cic</code></pre>
+      <pre tabindex="0"><code>fuzzydid y G T D, did tc cic</code></pre>
       <p class="ref">de Chaisemartin &amp; D&rsquo;Haultf&oelig;uille (2018)</p>
+      <a class="anim-link" href="#anim-fuzzy">观看动画</a>
     </div>
     <div class="card">
       <span class="tag">cic</span><span class="tag">分布效应</span>
       <h3>变化中的变化</h3>
       <p>非线性推广：识别整个反事实分布（分位数效应），且对结果变量的单调变换保持不变。</p>
-      <pre><code>cic continuous y treat post, at(10(10)90)</code></pre>
+      <pre tabindex="0"><code>cic continuous y treat post, at(10(10)90)</code></pre>
       <p class="ref">Athey &amp; Imbens (2006); Roth &amp; Sant&rsquo;Anna (2023a)</p>
       <a class="anim-link" href="#anim-cic">观看动画</a>
     </div>
@@ -389,7 +557,7 @@ jwdid y, ivar(id) tvar(year) gvar(g) method(poisson)</code></pre>
       <span class="tag">honestdid</span>
       <h3>Honest DiD（敏感性分析）</h3>
       <p>报告在以下条件下仍然有效的置信集：处理后对平行趋势的偏离不超过处理前最大偏离的 M 倍，或其平滑程度有界。</p>
-      <pre><code>* after an event-study regression
+      <pre tabindex="0"><code>* after an event-study regression
 honestdid, pre(1/5) post(6/10) mvec(0(0.5)2)</code></pre>
       <p class="ref">Rambachan &amp; Roth (2023)</p>
       <a class="anim-link" href="#anim-honest">观看动画</a>
@@ -398,7 +566,7 @@ honestdid, pre(1/5) post(6/10) mvec(0(0.5)2)</code></pre>
       <span class="tag">pretrends</span>
       <h3>预趋势检验的统计功效</h3>
       <p>预检验的功效往往很低，而以通过预检验为条件会扭曲推断。该方法计算在给定功效下预检验能发现多大的趋势。</p>
-      <pre><code>pretrends power 0.5, pre(1/5) post(6/10)</code></pre>
+      <pre tabindex="0"><code>pretrends power 0.5, pre(1/5) post(6/10)</code></pre>
       <p class="ref">Roth (2022)</p>
       <a class="anim-link" href="#anim-honest">观看动画</a>
     </div>
@@ -406,7 +574,7 @@ honestdid, pre(1/5) post(6/10) mvec(0(0.5)2)</code></pre>
       <span class="tag">sdid</span><span class="tag">synth</span>
       <h3>合成控制与合成双重差分</h3>
       <p>对对照个体（在 SDID 中还包括处理前各期）重新加权，使对照组与处理组的处理前趋势相匹配，再做差分。</p>
-      <pre><code>sdid y id year D, vce(bootstrap) graph
+      <pre tabindex="0"><code>sdid y id year D, vce(bootstrap) graph
 synth y y(2000) y(2005) x1, trunit(3) trperiod(2006)</code></pre>
       <p class="ref">Abadie, Diamond &amp; Hainmueller (2010); Arkhangelsky et al. (2021); Clarke et al. (2024)</p>
       <a class="anim-link" href="#anim-sdid">观看动画</a>
@@ -415,7 +583,7 @@ synth y y(2000) y(2005) x1, trunit(3) trperiod(2006)</code></pre>
       <span class="tag">fect</span>
       <h3>因子模型 / 矩阵补全</h3>
       <p>用交互固定效应（潜在因子）替代可加的个体和时间效应，允许不同个体对共同冲击有不同反应。</p>
-      <pre><code>fect y, treat(D) unit(id) time(year) ///
+      <pre tabindex="0"><code>fect y, treat(D) unit(id) time(year) ///
     method("ife") r(2) se</code></pre>
       <p class="ref">Xu (2017); Athey et al. (2021); Liu, Wang &amp; Xu (2024)</p>
     </div>
@@ -428,59 +596,70 @@ synth y y(2000) y(2005) x1, trunit(3) trperiod(2006)</code></pre>
       <h3>在处理层级聚类</h3>
       <p>同一个体的结果存在序列相关，因此应按处理分配的单位（州、企业）聚类，而不是按个体-年份聚类。</p>
       <p class="ref">Bertrand, Duflo &amp; Mullainathan (2004); Abadie et al. (2023)</p>
+      <a class="anim-link" href="#anim-cluster">观看动画</a>
     </div>
     <div class="card">
       <span class="tag">boottest</span>
       <h3>聚类数较少</h3>
       <p>当聚类数少于约 40 个，或处理组的聚类很少时，应使用野聚类自助法或随机化推断。</p>
-      <pre><code>reghdfe y D, absorb(id year) vce(cluster state)
+      <pre tabindex="0"><code>reghdfe y D, absorb(id year) vce(cluster state)
 boottest D, cluster(state) reps(9999)</code></pre>
       <p class="ref">Cameron, Gelbach &amp; Miller (2008); Conley &amp; Taber (2011); Roodman et al. (2019)</p>
+      <a class="anim-link" href="#anim-wildboot">观看动画</a>
     </div>
+  </div>
+</section>
+
+<!-- ====================== GUIDE ====================== -->
+<section id="guide">
+  <h2>9. 我该用哪个估计量？</h2>
+  <p class="lead">回答几个关于研究设计的问题，推荐的方法和 Stata 代码会随之更新。</p>
+  <div class="guide" id="did-guide">
+    <noscript><p>这个向导需要 JavaScript。上面的卡片和下面的速查表包含同样的内容。</p></noscript>
   </div>
 </section>
 
 <!-- ====================== STATA ====================== -->
 <section id="stata">
-  <h2>6. Stata 速查表</h2>
+  <h2>10. Stata 速查表</h2>
   <p class="lead">每行一个命令。<a href="../../did/did_examples.do"><code>did_examples.do</code></a> 是一个可直接运行的模拟示例，调用了其中大部分命令。</p>
-  <div class="tablewrap"><table>
-    <thead><tr><th>命令</th><th>方法</th><th>适用情形</th><th>安装</th><th>文献</th></tr></thead>
+  <div class="tablewrap" tabindex="0" role="region" aria-label="Stata 速查表"><table>
+    <thead><tr><th>命令</th><th>方法</th><th>适用情形</th><th>安装</th><th>R &middot; Python</th><th>文献</th></tr></thead>
     <tbody>
-    <tr><td><code>didregress</code> / <code>xtdidregress</code></td><td>2&times;2, TWFE, DDD</td><td>单一处理时点</td><td>Stata 17+</td><td>&mdash;</td></tr>
-    <tr><td><code>hdidregress</code> / <code>xthdidregress</code></td><td>分组-时期 ATT（RA、IPW、AIPW、TWFE）</td><td>交错处理，官方命令</td><td>Stata 18+</td><td>Callaway &amp; Sant&rsquo;Anna (2021); Wooldridge (2021)</td></tr>
-    <tr><td><code>reghdfe</code></td><td>含大量固定效应的 TWFE</td><td>基准模型和自定义设定</td><td><code>ssc install reghdfe</code></td><td>Correia (2017)</td></tr>
-    <tr><td><code>diff</code></td><td>2&times;2，可结合核匹配、分位数双重差分</td><td>快速估计经典双重差分</td><td><code>ssc install diff</code></td><td>Villa (2016)</td></tr>
-    <tr><td><code>drdid</code></td><td>双重稳健 2&times;2</td><td>以协变量为条件的平行趋势</td><td><code>ssc install drdid</code></td><td>Sant&rsquo;Anna &amp; Zhao (2020)</td></tr>
-    <tr><td><code>bacondecomp</code></td><td>TWFE 分解</td><td>诊断交错处理下的 TWFE</td><td><code>ssc install bacondecomp</code></td><td>Goodman-Bacon (2021)</td></tr>
-    <tr><td><code>twowayfeweights</code></td><td>TWFE 权重</td><td>检查负权重</td><td><code>ssc install twowayfeweights</code></td><td>de Chaisemartin &amp; D&rsquo;Haultf&oelig;uille (2020)</td></tr>
-    <tr><td><code>csdid</code></td><td>分组-时期 ATT</td><td>交错处理，可加协变量，从未/尚未处理对照</td><td><code>ssc install csdid</code></td><td>Callaway &amp; Sant&rsquo;Anna (2021)</td></tr>
-    <tr><td><code>eventstudyinteract</code></td><td>交互加权事件研究</td><td>交错处理，回归形式</td><td><code>ssc install eventstudyinteract</code></td><td>Sun &amp; Abraham (2021)</td></tr>
-    <tr><td><code>did_imputation</code></td><td>插补</td><td>交错处理，有效性，长面板</td><td><code>ssc install did_imputation</code></td><td>Borusyak, Jaravel &amp; Spiess (2024)</td></tr>
-    <tr><td><code>did2s</code></td><td>两阶段双重差分</td><td>交错处理，易于解释</td><td><code>ssc install did2s</code></td><td>Gardner (2021)</td></tr>
-    <tr><td><code>jwdid</code></td><td>扩展 TWFE</td><td>交错处理，非线性结果变量</td><td><code>ssc install jwdid</code></td><td>Wooldridge (2021, 2023)</td></tr>
-    <tr><td><code>stackedev</code></td><td>堆叠事件研究</td><td>交错处理，使用干净对照窗口</td><td><code>ssc install stackedev</code></td><td>Cengiz et al. (2019)</td></tr>
-    <tr><td><code>lpdid</code></td><td>局部投影双重差分</td><td>交错处理，大数据，非吸收型处理</td><td><code>ssc install lpdid</code></td><td>Dube et al. (2023)</td></tr>
-    <tr><td><code>staggered</code></td><td>有效估计量</td><td>处理时点随机</td><td>GitHub: mcaceresb/stata-staggered</td><td>Roth &amp; Sant&rsquo;Anna (2023b)</td></tr>
-    <tr><td><code>did_multiplegt_dyn</code></td><td>切换者对比尚未切换者</td><td>非二元或可逆的处理</td><td><code>ssc install did_multiplegt_dyn</code></td><td>de Chaisemartin &amp; D&rsquo;Haultf&oelig;uille (2024)</td></tr>
-    <tr><td><code>did_had</code></td><td>异质采纳设计</td><td>所有个体都接受处理，剂量不同</td><td><code>ssc install did_had</code></td><td>de Chaisemartin et al. (2024)</td></tr>
-    <tr><td><code>fuzzydid</code></td><td>Wald-DiD, Wald-TC, Wald-CiC</td><td>模糊设计</td><td><code>ssc install fuzzydid</code></td><td>de Chaisemartin &amp; D&rsquo;Haultf&oelig;uille (2018)</td></tr>
-    <tr><td><code>cic</code></td><td>变化中的变化</td><td>分布效应</td><td><code>ssc install cic</code></td><td>Athey &amp; Imbens (2006)</td></tr>
-    <tr><td><code>eventdd</code>, <code>xtevent</code>, <code>event_plot</code></td><td>事件研究估计与作图</td><td>作图，组合多个估计量</td><td>分别 <code>ssc install</code></td><td>Clarke &amp; Tapia-Schythe (2021); Freyaldenhoven et al. (2019)</td></tr>
-    <tr><td><code>honestdid</code></td><td>对平行趋势偏离的敏感性</td><td>任何事件研究之后</td><td><code>ssc install honestdid</code></td><td>Rambachan &amp; Roth (2023)</td></tr>
-    <tr><td><code>pretrends</code></td><td>预趋势检验的统计功效</td><td>解读平坦的处理前趋势</td><td>GitHub: mcaceresb/stata-pretrends</td><td>Roth (2022)</td></tr>
-    <tr><td><code>sdid</code>, <code>sdid_event</code></td><td>合成双重差分</td><td>处理个体少，处理前趋势拟合差</td><td><code>ssc install sdid</code></td><td>Arkhangelsky et al. (2021)</td></tr>
-    <tr><td><code>synth</code>, <code>synth_runner</code></td><td>合成控制</td><td>一个或少数几个处理个体</td><td><code>ssc install synth</code></td><td>Abadie et al. (2010)</td></tr>
-    <tr><td><code>fect</code></td><td>交互固定效应，矩阵补全</td><td>潜在因子，处理可逆</td><td>GitHub: xuyiqing/fect_stata</td><td>Liu, Wang &amp; Xu (2024)</td></tr>
-    <tr><td><code>boottest</code></td><td>野聚类自助法</td><td>聚类数较少</td><td><code>ssc install boottest</code></td><td>Roodman et al. (2019)</td></tr>
+    <tr><td><code>didregress</code> / <code>xtdidregress</code></td><td>2&times;2, TWFE, DDD</td><td>单一处理时点</td><td>Stata 17+</td><td class="rpy">R <code>fixest::feols</code><br>Py <code>pyfixest.feols</code></td><td>&mdash;</td></tr>
+    <tr><td><code>hdidregress</code> / <code>xthdidregress</code></td><td>分组-时期 ATT（RA、IPW、AIPW、TWFE）</td><td>交错处理，官方命令</td><td>Stata 18+</td><td class="rpy">R <code>did::att_gt</code></td><td>Callaway &amp; Sant&rsquo;Anna (2021); Wooldridge (2021)</td></tr>
+    <tr><td><code>reghdfe</code></td><td>含大量固定效应的 TWFE</td><td>基准模型和自定义设定</td><td><code>ssc install reghdfe</code></td><td class="rpy">R <code>fixest::feols</code><br>Py <code>pyfixest.feols</code></td><td>Correia (2017)</td></tr>
+    <tr><td><code>diff</code></td><td>2&times;2，可结合核匹配、分位数双重差分</td><td>快速估计经典双重差分</td><td><code>ssc install diff</code></td><td class="rpy">&mdash;</td><td>Villa (2016)</td></tr>
+    <tr><td><code>drdid</code></td><td>双重稳健 2&times;2</td><td>以协变量为条件的平行趋势</td><td><code>ssc install drdid</code></td><td class="rpy">R <code>DRDID::drdid</code></td><td>Sant&rsquo;Anna &amp; Zhao (2020)</td></tr>
+    <tr><td><code>bacondecomp</code></td><td>TWFE 分解</td><td>诊断交错处理下的 TWFE</td><td><code>ssc install bacondecomp</code></td><td class="rpy">R <code>bacondecomp::bacon</code></td><td>Goodman-Bacon (2021)</td></tr>
+    <tr><td><code>twowayfeweights</code></td><td>TWFE 权重</td><td>检查负权重</td><td><code>ssc install twowayfeweights</code></td><td class="rpy">R <code>TwoWayFEWeights</code></td><td>de Chaisemartin &amp; D&rsquo;Haultf&oelig;uille (2020)</td></tr>
+    <tr><td><code>csdid</code></td><td>分组-时期 ATT</td><td>交错处理，可加协变量，从未/尚未处理对照</td><td><code>ssc install csdid</code></td><td class="rpy">R <code>did::att_gt</code><br>Py <code>differences</code></td><td>Callaway &amp; Sant&rsquo;Anna (2021)</td></tr>
+    <tr><td><code>eventstudyinteract</code></td><td>交互加权事件研究</td><td>交错处理，回归形式</td><td><code>ssc install eventstudyinteract</code></td><td class="rpy">R <code>fixest::sunab</code></td><td>Sun &amp; Abraham (2021)</td></tr>
+    <tr><td><code>did_imputation</code></td><td>插补</td><td>交错处理，有效性，长面板</td><td><code>ssc install did_imputation</code></td><td class="rpy">R <code>didimputation</code></td><td>Borusyak, Jaravel &amp; Spiess (2024)</td></tr>
+    <tr><td><code>did2s</code></td><td>两阶段双重差分</td><td>交错处理，易于解释</td><td><code>ssc install did2s</code></td><td class="rpy">R <code>did2s::did2s</code><br>Py <code>pyfixest.did2s</code></td><td>Gardner (2021)</td></tr>
+    <tr><td><code>jwdid</code></td><td>扩展 TWFE</td><td>交错处理，非线性结果变量</td><td><code>ssc install jwdid</code></td><td class="rpy">R <code>etwfe::etwfe</code></td><td>Wooldridge (2021, 2023)</td></tr>
+    <tr><td><code>stackedev</code></td><td>堆叠事件研究</td><td>交错处理，使用干净对照窗口</td><td><code>ssc install stackedev</code></td><td class="rpy">&mdash;</td><td>Cengiz et al. (2019)</td></tr>
+    <tr><td><code>lpdid</code></td><td>局部投影双重差分</td><td>交错处理，大数据，非吸收型处理</td><td><code>ssc install lpdid</code></td><td class="rpy">Py <code>pyfixest.lpdid</code></td><td>Dube et al. (2023)</td></tr>
+    <tr><td><code>staggered</code></td><td>有效估计量</td><td>处理时点随机</td><td>GitHub: mcaceresb/stata-staggered</td><td class="rpy">R <code>staggered</code></td><td>Roth &amp; Sant&rsquo;Anna (2023b)</td></tr>
+    <tr><td><code>did_multiplegt_dyn</code></td><td>切换者对比尚未切换者</td><td>非二元或可逆的处理</td><td><code>ssc install did_multiplegt_dyn</code></td><td class="rpy">R <code>DIDmultiplegtDYN</code></td><td>de Chaisemartin &amp; D&rsquo;Haultf&oelig;uille (2024)</td></tr>
+    <tr><td><code>did_had</code></td><td>异质采纳设计</td><td>所有个体都接受处理，剂量不同</td><td><code>ssc install did_had</code></td><td class="rpy">&mdash;</td><td>de Chaisemartin et al. (2024)</td></tr>
+    <tr><td><code>fuzzydid</code></td><td>Wald-DiD, Wald-TC, Wald-CiC</td><td>模糊设计</td><td><code>ssc install fuzzydid</code></td><td class="rpy">&mdash;</td><td>de Chaisemartin &amp; D&rsquo;Haultf&oelig;uille (2018)</td></tr>
+    <tr><td><code>cic</code></td><td>变化中的变化</td><td>分布效应</td><td><code>ssc install cic</code></td><td class="rpy">R <code>qte::CiC</code></td><td>Athey &amp; Imbens (2006)</td></tr>
+    <tr><td><code>eventdd</code>, <code>xtevent</code>, <code>event_plot</code></td><td>事件研究估计与作图</td><td>作图，组合多个估计量</td><td>分别 <code>ssc install</code></td><td class="rpy">R <code>fixest::iplot</code></td><td>Clarke &amp; Tapia-Schythe (2021); Freyaldenhoven et al. (2019)</td></tr>
+    <tr><td><code>honestdid</code></td><td>对平行趋势偏离的敏感性</td><td>任何事件研究之后</td><td><code>ssc install honestdid</code></td><td class="rpy">R <code>HonestDiD</code></td><td>Rambachan &amp; Roth (2023)</td></tr>
+    <tr><td><code>pretrends</code></td><td>预趋势检验的统计功效</td><td>解读平坦的处理前趋势</td><td>GitHub: mcaceresb/stata-pretrends</td><td class="rpy">R <code>pretrends</code> (GitHub)</td><td>Roth (2022)</td></tr>
+    <tr><td><code>sdid</code>, <code>sdid_event</code></td><td>合成双重差分</td><td>处理个体少，处理前趋势拟合差</td><td><code>ssc install sdid</code></td><td class="rpy">R <code>synthdid</code> (GitHub)</td><td>Arkhangelsky et al. (2021)</td></tr>
+    <tr><td><code>synth</code>, <code>synth_runner</code></td><td>合成控制</td><td>一个或少数几个处理个体</td><td><code>ssc install synth</code></td><td class="rpy">R <code>Synth</code></td><td>Abadie et al. (2010)</td></tr>
+    <tr><td><code>fect</code></td><td>交互固定效应，矩阵补全</td><td>潜在因子，处理可逆</td><td>GitHub: xuyiqing/fect_stata</td><td class="rpy">R <code>fect</code></td><td>Liu, Wang &amp; Xu (2024)</td></tr>
+    <tr><td><code>boottest</code></td><td>野聚类自助法</td><td>聚类数较少</td><td><code>ssc install boottest</code></td><td class="rpy">R <code>fwildclusterboot</code> (archived from CRAN)<br>Py <code>wildboottest</code></td><td>Roodman et al. (2019)</td></tr>
     </tbody>
   </table></div>
-  <div class="note">用户编写命令的选项名称会随版本变化。安装后请查看 <code>help &lt;命令名&gt;</code>；尤其要注意从未处理个体的编码方式不同（<code>csdid</code> 和 <code>jwdid</code> 用 0，<code>did_imputation</code> 和 <code>eventstudyinteract</code> 用缺失值）。</div>
+  <div class="note">R 和 Python 一栏列出实现同一方法的软件包或函数；短横线表示我们不知道有成熟的对应实现。用户编写命令的选项名称会随版本变化。安装后请查看 <code>help &lt;命令名&gt;</code>；尤其要注意从未处理个体的编码方式不同（<code>csdid</code> 和 <code>jwdid</code> 用 0，<code>did_imputation</code> 和 <code>eventstudyinteract</code> 用缺失值）。</div>
 </section>
 
 <!-- ====================== WORKFLOW ====================== -->
 <section id="workflow">
-  <h2>7. 实证流程</h2>
+  <h2>11. 实证流程</h2>
   <ol>
     <li><b>描述研究设计。</b>单一处理时点还是交错处理？吸收型还是可逆？二元还是连续？是否有从未处理的个体？画出处理的推进过程（<code>panelview</code>）。</li>
     <li>在做任何回归之前，先<b>画出各批次随时间变化的原始均值</b>。</li>
@@ -492,9 +671,23 @@ boottest D, cluster(state) reps(9999)</code></pre>
   </ol>
 </section>
 
+<!-- ====================== QUIZ ====================== -->
+<section id="quiz">
+  <h2>12. 自我检测</h2>
+  <p class="lead">十二道题。选择答案后会显示是否正确及其原因。</p>
+  <div id="did-quiz"><noscript><p>小测验需要 JavaScript。</p></noscript></div>
+</section>
+
+<!-- ====================== GLOSSARY ====================== -->
+<section id="glossary">
+  <h2>13. 术语表</h2>
+  <p class="lead">主要术语的中英文对照，每个术语附一句话解释，以及演示它的动画链接。</p>
+  <div id="did-glossary"><noscript><p>术语表需要 JavaScript。</p></noscript></div>
+</section>
+
 <!-- ====================== REFS ====================== -->
 <section id="refs">
-  <h2>8. 参考文献</h2>
+  <h2>14. 参考文献</h2>
 
   <h3 style="margin-top:16px">综述与教材（建议从这里开始）</h3>
   <ol class="refs">
@@ -518,6 +711,9 @@ boottest D, cluster(state) reps(9999)</code></pre>
     <li>Card, D. (1990). The impact of the Mariel boatlift on the Miami labor market. <i>ILR Review</i>, 43(2), 245&ndash;257.</li>
     <li>Card, D., &amp; Krueger, A. B. (1994). Minimum wages and employment: A case study of the fast-food industry in New Jersey and Pennsylvania. <i>American Economic Review</i>, 84(4), 772&ndash;793.</li>
     <li>Gruber, J. (1994). The incidence of mandated maternity benefits. <i>American Economic Review</i>, 84(3), 622&ndash;641.</li>
+    <li>Neumark, D., &amp; Wascher, W. (2000). Minimum wages and employment: A case study of the fast-food industry in New Jersey and Pennsylvania: Comment. <i>American Economic Review</i>, 90(5), 1362&ndash;1396.</li>
+    <li>Card, D., &amp; Krueger, A. B. (2000). Minimum wages and employment: A case study of the fast-food industry in New Jersey and Pennsylvania: Reply. <i>American Economic Review</i>, 90(5), 1397&ndash;1420.</li>
+    <li>Cheng, C., &amp; Hoekstra, M. (2013). Does strengthening self-defense law deter crime or escalate violence? Evidence from expansions to castle doctrine. <i>Journal of Human Resources</i>, 48(3), 821&ndash;854.</li>
     <li>Meyer, B. D. (1995). Natural and quasi-experiments in economics. <i>Journal of Business &amp; Economic Statistics</i>, 13(2), 151&ndash;161.</li>
     <li>Heckman, J. J., Ichimura, H., &amp; Todd, P. E. (1997). Matching as an econometric evaluation estimator: Evidence from evaluating a job training programme. <i>Review of Economic Studies</i>, 64(4), 605&ndash;654.</li>
   </ol>
@@ -591,6 +787,9 @@ boottest D, cluster(state) reps(9999)</code></pre>
 </main>
 <script src="../../did/anim/engine.js"></script>
 <script src="../../did/anim/scenes.js"></script>
-<script>document.querySelectorAll('.anim-player').forEach(function (el) { DIDAnim.mount(el); });</script>
+<script src="../../did/sim/sim.js"></script>
+<script src="../../did/guide/guide.js"></script>
+<script src="../../did/learn/learn.js"></script>
+<script>document.querySelectorAll('.anim-player').forEach(function (el) { DIDAnim.mount(el); }); DIDSim.mount(document.getElementById('did-sim')); DIDGuide.mount(document.getElementById('did-guide')); DIDLearn.mountQuiz(document.getElementById('did-quiz')); DIDLearn.mountGlossary(document.getElementById('did-glossary'));</script>
 </body>
 </html>

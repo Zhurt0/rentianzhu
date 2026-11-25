@@ -118,19 +118,39 @@ lpdid y, unit(id) time(year) treat(D) pre(5) post(5)
 did_multiplegt_dyn y id year D, effects(5) placebo(4) cluster(id)
 
 *------------------------------------------------------------------------------
-* 5. Sensitivity and inference
+* 5. Covariates: parallel trends only after conditioning on x
+*------------------------------------------------------------------------------
+* x shifts the trend, and treated cohorts have higher x on average, so the
+* unconditional comparison is biased while the conditional one is not.
+preserve
+    bysort id: gen x = cond(g > 0, rnormal(1, 1), rnormal(0, 1)) if _n == 1
+    bysort id: replace x = x[1]
+    replace y = y + 0.3 * x * (year - 2000)
+
+    * 5a. Callaway & Sant'Anna with doubly robust covariate adjustment
+    csdid y x, ivar(id) time(year) gvar(g) method(dripw)
+    estat simple
+
+    * 5b. Doubly robust 2x2 (Sant'Anna & Zhao 2020) for the 2005 cohort vs never treated
+    keep if inlist(g, 0, 2005) & inlist(year, 2004, 2006)
+    gen treat = g == 2005
+    drdid y x, ivar(id) time(year) tr(treat) dripw
+restore
+
+*------------------------------------------------------------------------------
+* 6. Sensitivity and inference
 *------------------------------------------------------------------------------
 
-* 5a. Honest DiD, Rambachan & Roth (2023): run after an event-study regression.
+* 6a. Honest DiD, Rambachan & Roth (2023): run after an event-study regression.
 *     pre() and post() are the positions of the pre- and post-treatment
 *     coefficients in e(b).
 reghdfe y lead5 lead4 lead3 lead2 lag0 lag1 lag2 lag3 lag4 lag5 ///
     if inrange(rel, -5, 5) | never, absorb(id year) vce(cluster id)
 cap noi honestdid, pre(1/4) post(5/10) mvec(0(0.5)2)
 
-* 5b. Wild cluster bootstrap, Roodman et al. (2019): useful with few clusters
+* 6b. Wild cluster bootstrap, Roodman et al. (2019): useful with few clusters
 reghdfe y D, absorb(id year) vce(cluster id)
 cap noi boottest D, cluster(id) reps(999) nograph
 
-* 5c. Synthetic DiD, Arkhangelsky et al. (2021): needs a balanced panel
+* 6c. Synthetic DiD, Arkhangelsky et al. (2021): needs a balanced panel
 cap noi sdid y id year D, vce(bootstrap) reps(50)
